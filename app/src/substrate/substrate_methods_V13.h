@@ -269,6 +269,40 @@ typedef struct {
     pd_bool_t allow_burn;
 } pd_assets_refund_V13_t;
 
+#define PD_CALL_PROXY_ADD_PROXY_V13 1
+typedef struct {
+    pd_AccountId_V13_t delegate;
+    pd_ProxyType_V13_t proxy_type;
+    pd_BlockNumber_t delay;
+} pd_proxy_add_proxy_V13_t;
+
+#define PD_CALL_PROXY_REMOVE_PROXY_V13 2
+typedef struct {
+    pd_AccountId_V13_t delegate;
+    pd_ProxyType_V13_t proxy_type;
+    pd_BlockNumber_t delay;
+} pd_proxy_remove_proxy_V13_t;
+
+#define PD_CALL_PROXY_REMOVE_PROXIES_V13 3
+typedef struct {
+} pd_proxy_remove_proxies_V13_t;
+
+#define PD_CALL_PROXY_ANONYMOUS_V13 4
+typedef struct {
+    pd_ProxyType_V13_t proxy_type;
+    pd_BlockNumber_t delay;
+    pd_u16_t index;
+} pd_proxy_anonymous_V13_t;
+
+#define PD_CALL_PROXY_KILL_ANONYMOUS_V13 5
+typedef struct {
+    pd_AccountId_V13_t spawner;
+    pd_ProxyType_V13_t proxy_type;
+    pd_u16_t index;
+    pd_Compactu32_t height;
+    pd_Compactu32_t ext_index;
+} pd_proxy_kill_anonymous_V13_t;
+
 #define PD_CALL_PROXY_ANNOUNCE_V13 6
 typedef struct {
     pd_AccountId_V13_t real;
@@ -286,6 +320,14 @@ typedef struct {
     pd_AccountId_V13_t delegate;
     pd_CallHashOf_V13_t call_hash;
 } pd_proxy_reject_announcement_V13_t;
+
+#define PD_CALL_PROXY_PROXY_ANNOUNCED_V13 9
+typedef struct {
+    pd_AccountId_V13_t delegate;
+    pd_AccountId_V13_t real;
+    pd_OptionProxyType_V13_t force_proxy_type;
+    pd_Call_t call;
+} pd_proxy_proxy_announced_V13_t;
 
 #define PD_CALL_IDENTITY_ADD_REGISTRAR_V13 0
 typedef struct {
@@ -1047,9 +1089,15 @@ typedef union {
     pd_assets_transfer_approved_V13_t assets_transfer_approved_V13;
     pd_assets_touch_V13_t assets_touch_V13;
     pd_assets_refund_V13_t assets_refund_V13;
+    pd_proxy_add_proxy_V13_t proxy_add_proxy_V13;
+    pd_proxy_remove_proxy_V13_t proxy_remove_proxy_V13;
+    pd_proxy_remove_proxies_V13_t proxy_remove_proxies_V13;
+    pd_proxy_anonymous_V13_t proxy_anonymous_V13;
+    pd_proxy_kill_anonymous_V13_t proxy_kill_anonymous_V13;
     pd_proxy_announce_V13_t proxy_announce_V13;
     pd_proxy_remove_announcement_V13_t proxy_remove_announcement_V13;
     pd_proxy_reject_announcement_V13_t proxy_reject_announcement_V13;
+    pd_proxy_proxy_announced_V13_t proxy_proxy_announced_V13;
     pd_identity_add_registrar_V13_t identity_add_registrar_V13;
     pd_identity_clear_identity_V13_t identity_clear_identity_V13;
     pd_identity_request_judgement_V13_t identity_request_judgement_V13;
@@ -1280,6 +1328,13 @@ typedef struct {
     pd_CompactBalance_t new_reserved;
 } pd_balances_set_balance_V13_t;
 
+#define PD_CALL_PROXY_PROXY_V13 0
+typedef struct {
+    pd_AccountId_V13_t real;
+    pd_OptionProxyType_V13_t force_proxy_type;
+    pd_Call_t call;
+} pd_proxy_proxy_V13_t;
+
 #endif
 
 typedef union {
@@ -1298,6 +1353,7 @@ typedef union {
     pd_multisig_approve_as_multi_V13_t multisig_approve_as_multi_V13;
     pd_multisig_cancel_as_multi_V13_t multisig_cancel_as_multi_V13;
     pd_balances_set_balance_V13_t balances_set_balance_V13;
+    pd_proxy_proxy_V13_t proxy_proxy_V13;
 #endif
 } pd_MethodNested_V13_t;
 

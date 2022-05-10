@@ -409,6 +409,59 @@ __Z_INLINE parser_error_t _readMethod_assets_refund_V13(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_proxy_proxy_V13(
+    parser_context_t* c, pd_proxy_proxy_V13_t* m)
+{
+    CHECK_ERROR(_readAccountId_V13(c, &m->real))
+    CHECK_ERROR(_readOptionProxyType_V13(c, &m->force_proxy_type))
+    CHECK_ERROR(_readCall(c, &m->call))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_proxy_add_proxy_V13(
+    parser_context_t* c, pd_proxy_add_proxy_V13_t* m)
+{
+    CHECK_ERROR(_readAccountId_V13(c, &m->delegate))
+    CHECK_ERROR(_readProxyType_V13(c, &m->proxy_type))
+    CHECK_ERROR(_readBlockNumber(c, &m->delay))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_proxy_remove_proxy_V13(
+    parser_context_t* c, pd_proxy_remove_proxy_V13_t* m)
+{
+    CHECK_ERROR(_readAccountId_V13(c, &m->delegate))
+    CHECK_ERROR(_readProxyType_V13(c, &m->proxy_type))
+    CHECK_ERROR(_readBlockNumber(c, &m->delay))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_proxy_remove_proxies_V13(
+    parser_context_t* c, pd_proxy_remove_proxies_V13_t* m)
+{
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_proxy_anonymous_V13(
+    parser_context_t* c, pd_proxy_anonymous_V13_t* m)
+{
+    CHECK_ERROR(_readProxyType_V13(c, &m->proxy_type))
+    CHECK_ERROR(_readBlockNumber(c, &m->delay))
+    CHECK_ERROR(_readu16(c, &m->index))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_proxy_kill_anonymous_V13(
+    parser_context_t* c, pd_proxy_kill_anonymous_V13_t* m)
+{
+    CHECK_ERROR(_readAccountId_V13(c, &m->spawner))
+    CHECK_ERROR(_readProxyType_V13(c, &m->proxy_type))
+    CHECK_ERROR(_readu16(c, &m->index))
+    CHECK_ERROR(_readCompactu32(c, &m->height))
+    CHECK_ERROR(_readCompactu32(c, &m->ext_index))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_proxy_announce_V13(
     parser_context_t* c, pd_proxy_announce_V13_t* m)
 {
@@ -430,6 +483,16 @@ __Z_INLINE parser_error_t _readMethod_proxy_reject_announcement_V13(
 {
     CHECK_ERROR(_readAccountId_V13(c, &m->delegate))
     CHECK_ERROR(_readCallHashOf_V13(c, &m->call_hash))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_proxy_proxy_announced_V13(
+    parser_context_t* c, pd_proxy_proxy_announced_V13_t* m)
+{
+    CHECK_ERROR(_readAccountId_V13(c, &m->delegate))
+    CHECK_ERROR(_readAccountId_V13(c, &m->real))
+    CHECK_ERROR(_readOptionProxyType_V13(c, &m->force_proxy_type))
+    CHECK_ERROR(_readCall(c, &m->call))
     return parser_ok;
 }
 
@@ -1583,6 +1646,24 @@ parser_error_t _readMethod_V13(
     case 1560: /* module 6 call 24 */
         CHECK_ERROR(_readMethod_assets_refund_V13(c, &method->basic.assets_refund_V13))
         break;
+    case 1792: /* module 7 call 0 */
+        CHECK_ERROR(_readMethod_proxy_proxy_V13(c, &method->nested.proxy_proxy_V13))
+        break;
+    case 1793: /* module 7 call 1 */
+        CHECK_ERROR(_readMethod_proxy_add_proxy_V13(c, &method->basic.proxy_add_proxy_V13))
+        break;
+    case 1794: /* module 7 call 2 */
+        CHECK_ERROR(_readMethod_proxy_remove_proxy_V13(c, &method->basic.proxy_remove_proxy_V13))
+        break;
+    case 1795: /* module 7 call 3 */
+        CHECK_ERROR(_readMethod_proxy_remove_proxies_V13(c, &method->basic.proxy_remove_proxies_V13))
+        break;
+    case 1796: /* module 7 call 4 */
+        CHECK_ERROR(_readMethod_proxy_anonymous_V13(c, &method->basic.proxy_anonymous_V13))
+        break;
+    case 1797: /* module 7 call 5 */
+        CHECK_ERROR(_readMethod_proxy_kill_anonymous_V13(c, &method->basic.proxy_kill_anonymous_V13))
+        break;
     case 1798: /* module 7 call 6 */
         CHECK_ERROR(_readMethod_proxy_announce_V13(c, &method->basic.proxy_announce_V13))
         break;
@@ -1591,6 +1672,9 @@ parser_error_t _readMethod_V13(
         break;
     case 1800: /* module 7 call 8 */
         CHECK_ERROR(_readMethod_proxy_reject_announcement_V13(c, &method->basic.proxy_reject_announcement_V13))
+        break;
+    case 1801: /* module 7 call 9 */
+        CHECK_ERROR(_readMethod_proxy_proxy_announced_V13(c, &method->basic.proxy_proxy_announced_V13))
         break;
     case 2048: /* module 8 call 0 */
         CHECK_ERROR(_readMethod_identity_add_registrar_V13(c, &method->basic.identity_add_registrar_V13))
@@ -2200,12 +2284,26 @@ const char* _getMethod_Name_V13_ParserFull(uint16_t callPrivIdx)
         return STR_ME_TOUCH;
     case 1560: /* module 6 call 24 */
         return STR_ME_REFUND;
+    case 1792: /* module 7 call 0 */
+        return STR_ME_PROXY;
+    case 1793: /* module 7 call 1 */
+        return STR_ME_ADD_PROXY;
+    case 1794: /* module 7 call 2 */
+        return STR_ME_REMOVE_PROXY;
+    case 1795: /* module 7 call 3 */
+        return STR_ME_REMOVE_PROXIES;
+    case 1796: /* module 7 call 4 */
+        return STR_ME_ANONYMOUS;
+    case 1797: /* module 7 call 5 */
+        return STR_ME_KILL_ANONYMOUS;
     case 1798: /* module 7 call 6 */
         return STR_ME_ANNOUNCE;
     case 1799: /* module 7 call 7 */
         return STR_ME_REMOVE_ANNOUNCEMENT;
     case 1800: /* module 7 call 8 */
         return STR_ME_REJECT_ANNOUNCEMENT;
+    case 1801: /* module 7 call 9 */
+        return STR_ME_PROXY_ANNOUNCED;
     case 2048: /* module 8 call 0 */
         return STR_ME_ADD_REGISTRAR;
     case 2051: /* module 8 call 3 */
@@ -2586,12 +2684,26 @@ uint8_t _getMethod_NumItems_V13(uint8_t moduleIdx, uint8_t callIdx)
         return 1;
     case 1560: /* module 6 call 24 */
         return 2;
+    case 1792: /* module 7 call 0 */
+        return 3;
+    case 1793: /* module 7 call 1 */
+        return 3;
+    case 1794: /* module 7 call 2 */
+        return 3;
+    case 1795: /* module 7 call 3 */
+        return 0;
+    case 1796: /* module 7 call 4 */
+        return 3;
+    case 1797: /* module 7 call 5 */
+        return 5;
     case 1798: /* module 7 call 6 */
         return 2;
     case 1799: /* module 7 call 7 */
         return 2;
     case 1800: /* module 7 call 8 */
         return 2;
+    case 1801: /* module 7 call 9 */
+        return 4;
     case 2048: /* module 8 call 0 */
         return 1;
     case 2051: /* module 8 call 3 */
@@ -3336,6 +3448,70 @@ const char* _getMethod_ItemName_V13(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         default:
             return NULL;
         }
+    case 1792: /* module 7 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_real;
+        case 1:
+            return STR_IT_force_proxy_type;
+        case 2:
+            return STR_IT_call;
+        default:
+            return NULL;
+        }
+    case 1793: /* module 7 call 1 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_delegate;
+        case 1:
+            return STR_IT_proxy_type;
+        case 2:
+            return STR_IT_delay;
+        default:
+            return NULL;
+        }
+    case 1794: /* module 7 call 2 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_delegate;
+        case 1:
+            return STR_IT_proxy_type;
+        case 2:
+            return STR_IT_delay;
+        default:
+            return NULL;
+        }
+    case 1795: /* module 7 call 3 */
+        switch (itemIdx) {
+        default:
+            return NULL;
+        }
+    case 1796: /* module 7 call 4 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_proxy_type;
+        case 1:
+            return STR_IT_delay;
+        case 2:
+            return STR_IT_index;
+        default:
+            return NULL;
+        }
+    case 1797: /* module 7 call 5 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_spawner;
+        case 1:
+            return STR_IT_proxy_type;
+        case 2:
+            return STR_IT_index;
+        case 3:
+            return STR_IT_height;
+        case 4:
+            return STR_IT_ext_index;
+        default:
+            return NULL;
+        }
     case 1798: /* module 7 call 6 */
         switch (itemIdx) {
         case 0:
@@ -3360,6 +3536,19 @@ const char* _getMethod_ItemName_V13(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
             return STR_IT_delegate;
         case 1:
             return STR_IT_call_hash;
+        default:
+            return NULL;
+        }
+    case 1801: /* module 7 call 9 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_delegate;
+        case 1:
+            return STR_IT_real;
+        case 2:
+            return STR_IT_force_proxy_type;
+        case 3:
+            return STR_IT_call;
         default:
             return NULL;
         }
@@ -5213,6 +5402,121 @@ parser_error_t _getMethod_ItemValue_V13(
         default:
             return parser_no_data;
         }
+    case 1792: /* module 7 call 0 */
+        switch (itemIdx) {
+        case 0: /* proxy_proxy_V13 - real */;
+            return _toStringAccountId_V13(
+                &m->nested.proxy_proxy_V13.real,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* proxy_proxy_V13 - force_proxy_type */;
+            return _toStringOptionProxyType_V13(
+                &m->nested.proxy_proxy_V13.force_proxy_type,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* proxy_proxy_V13 - call */;
+            return _toStringCall(
+                &m->nested.proxy_proxy_V13.call,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 1793: /* module 7 call 1 */
+        switch (itemIdx) {
+        case 0: /* proxy_add_proxy_V13 - delegate */;
+            return _toStringAccountId_V13(
+                &m->basic.proxy_add_proxy_V13.delegate,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* proxy_add_proxy_V13 - proxy_type */;
+            return _toStringProxyType_V13(
+                &m->basic.proxy_add_proxy_V13.proxy_type,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* proxy_add_proxy_V13 - delay */;
+            return _toStringBlockNumber(
+                &m->basic.proxy_add_proxy_V13.delay,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 1794: /* module 7 call 2 */
+        switch (itemIdx) {
+        case 0: /* proxy_remove_proxy_V13 - delegate */;
+            return _toStringAccountId_V13(
+                &m->basic.proxy_remove_proxy_V13.delegate,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* proxy_remove_proxy_V13 - proxy_type */;
+            return _toStringProxyType_V13(
+                &m->basic.proxy_remove_proxy_V13.proxy_type,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* proxy_remove_proxy_V13 - delay */;
+            return _toStringBlockNumber(
+                &m->basic.proxy_remove_proxy_V13.delay,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 1795: /* module 7 call 3 */
+        switch (itemIdx) {
+        default:
+            return parser_no_data;
+        }
+    case 1796: /* module 7 call 4 */
+        switch (itemIdx) {
+        case 0: /* proxy_anonymous_V13 - proxy_type */;
+            return _toStringProxyType_V13(
+                &m->basic.proxy_anonymous_V13.proxy_type,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* proxy_anonymous_V13 - delay */;
+            return _toStringBlockNumber(
+                &m->basic.proxy_anonymous_V13.delay,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* proxy_anonymous_V13 - index */;
+            return _toStringu16(
+                &m->basic.proxy_anonymous_V13.index,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 1797: /* module 7 call 5 */
+        switch (itemIdx) {
+        case 0: /* proxy_kill_anonymous_V13 - spawner */;
+            return _toStringAccountId_V13(
+                &m->basic.proxy_kill_anonymous_V13.spawner,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* proxy_kill_anonymous_V13 - proxy_type */;
+            return _toStringProxyType_V13(
+                &m->basic.proxy_kill_anonymous_V13.proxy_type,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* proxy_kill_anonymous_V13 - index */;
+            return _toStringu16(
+                &m->basic.proxy_kill_anonymous_V13.index,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* proxy_kill_anonymous_V13 - height */;
+            return _toStringCompactu32(
+                &m->basic.proxy_kill_anonymous_V13.height,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* proxy_kill_anonymous_V13 - ext_index */;
+            return _toStringCompactu32(
+                &m->basic.proxy_kill_anonymous_V13.ext_index,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 1798: /* module 7 call 6 */
         switch (itemIdx) {
         case 0: /* proxy_announce_V13 - real */;
@@ -5253,6 +5557,31 @@ parser_error_t _getMethod_ItemValue_V13(
         case 1: /* proxy_reject_announcement_V13 - call_hash */;
             return _toStringCallHashOf_V13(
                 &m->basic.proxy_reject_announcement_V13.call_hash,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 1801: /* module 7 call 9 */
+        switch (itemIdx) {
+        case 0: /* proxy_proxy_announced_V13 - delegate */;
+            return _toStringAccountId_V13(
+                &m->basic.proxy_proxy_announced_V13.delegate,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* proxy_proxy_announced_V13 - real */;
+            return _toStringAccountId_V13(
+                &m->basic.proxy_proxy_announced_V13.real,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* proxy_proxy_announced_V13 - force_proxy_type */;
+            return _toStringOptionProxyType_V13(
+                &m->basic.proxy_proxy_announced_V13.force_proxy_type,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* proxy_proxy_announced_V13 - call */;
+            return _toStringCall(
+                &m->basic.proxy_proxy_announced_V13.call,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -6877,9 +7206,15 @@ bool _getMethod_IsNestingSupported_V13(uint8_t moduleIdx, uint8_t callIdx)
     case 1558: // Assets:Transfer approved
     case 1559: // Assets:Touch
     case 1560: // Assets:Refund
+    case 1793: // Proxy:Add proxy
+    case 1794: // Proxy:Remove proxy
+    case 1795: // Proxy:Remove proxies
+    case 1796: // Proxy:Anonymous
+    case 1797: // Proxy:Kill anonymous
     case 1798: // Proxy:Announce
     case 1799: // Proxy:Remove announcement
     case 1800: // Proxy:Reject announcement
+    case 1801: // Proxy:Proxy announced
     case 2048: // Identity:Add registrar
     case 2051: // Identity:Clear identity
     case 2052: // Identity:Request judgement
