@@ -15,7 +15,7 @@
  ******************************************************************************* */
 
 import Zemu, { DEFAULT_START_OPTIONS } from '@zondax/zemu'
-import { newParallelApp } from '@zondax/ledger-substrate'
+import { newParallelFiApp } from '@zondax/ledger-substrate'
 import { APP_SEED, models } from './common'
 
 const defaultOptions = {
@@ -61,7 +61,7 @@ describe('Standard', function () {
     const sim = new Zemu(m.path)
     try {
       await sim.start({ ...defaultOptions, model: m.name })
-      const app = newParallelApp(sim.getTransport())
+      const app = newParallelFiApp(sim.getTransport())
 
       const kusama_expected_address = 'JMdbWK5cy3Bm4oCyhWNLQJoC4cczNgJsyk7nLZHMqFT7z7R'
       const kusama_expected_pk = 'ffbc10f71d63e0da1b9e7ee2eb4037466551dc32b9d4641aafd73a65970fae42'
