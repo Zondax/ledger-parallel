@@ -14,7 +14,7 @@
 #*  limitations under the License.
 #********************************************************************************
 cmake_minimum_required(VERSION 3.0)
-project(ledger-kusama VERSION 0.0.0)
+project(ledger-parallel-fi VERSION 0.0.0)
 enable_testing()
 
 cmake_policy(SET CMP0025 NEW)
