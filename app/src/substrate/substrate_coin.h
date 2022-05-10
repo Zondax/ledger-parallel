@@ -58,15 +58,15 @@ typedef enum {
 #define COIN_AMOUNT_DECIMAL_PLACES 12
 
 #define COIN_GENESIS_HASH "e61a41c53f5dcd0beb09df93b34402aada44cb05117b71059cce40a2723a4e97"
-#define COIN_NAME "Parallel"
+#define COIN_NAME "Parallel-fi"
 #define COIN_TICKER "PARA "
 
 #define COIN_SECRET_REQUIRED_CLICKS 0
 
-#define MENU_MAIN_APP_LINE1 "Parallel"
+#define MENU_MAIN_APP_LINE1 "Parallel-fi"
 #define MENU_MAIN_APP_LINE2 "Ready"
 #define MENU_MAIN_APP_LINE2_SECRET "PARA RECOVERY"
-#define APPVERSION_LINE1 "Parallel"
+#define APPVERSION_LINE1 "Parallel-fi"
 #define APPVERSION_LINE2 "v" APPVERSION
 
 #ifdef __cplusplus

@@ -75,13 +75,13 @@ DEFINES += APP_STANDARD
 ifneq ($(TARGET_NAME),TARGET_NANOS)
 DEFINES += SUBSTRATE_PARSER_FULL
 endif
-APPNAME = "Parallel"
+APPNAME = "Parallel-fi"
 APPPATH = "44'/354'"
 
 else ifeq ($(COIN),PARA_XL)
 # XL app configuration
 DEFINES += APP_STANDARD SUBSTRATE_PARSER_FULL
-APPNAME = "Parallel XL"
+APPNAME = "Parallel-fi XL"
 APPPATH = "44'/354'"
 
 else
