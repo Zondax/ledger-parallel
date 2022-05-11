@@ -402,6 +402,13 @@ parser_error_t _readCurrencyId_V13(parser_context_t* c, pd_CurrencyId_V13_t* v)
     return parser_ok;
 }
 
+parser_error_t _readCurveModel_V13(parser_context_t* c, pd_CurveModel_V13_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readRate_V13(c, &v->baseRate))
+    return parser_ok;
+}
+
 parser_error_t _readDerivativeIndex_V13(parser_context_t* c, pd_DerivativeIndex_V13_t* v)
 {
     CHECK_INPUT()
@@ -469,12 +476,34 @@ parser_error_t _readIdentityFields_V13(parser_context_t* c, pd_IdentityFields_V1
 
 parser_error_t _readInterestRateModel_V13(parser_context_t* c, pd_InterestRateModel_V13_t* v)
 {
-    return parser_not_supported;
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    switch (v->value) {
+    case 0:
+        CHECK_ERROR(_readJumpModel_V13(c, &v->jump))
+        break;
+    case 1:
+        CHECK_ERROR(_readCurveModel_V13(c, &v->curve))
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
 }
 
 parser_error_t _readJudgementBalanceOfT_V13(parser_context_t* c, pd_JudgementBalanceOfT_V13_t* v)
 {
     return parser_not_supported;
+}
+
+parser_error_t _readJumpModel_V13(parser_context_t* c, pd_JumpModel_V13_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readRate_V13(c, &v->baseRate))
+    CHECK_ERROR(_readRate_V13(c, &v->jumpRate))
+    CHECK_ERROR(_readRate_V13(c, &v->fullRate))
+    CHECK_ERROR(_readRatio_V13(c, &v->jumpUtilization))
+    return parser_ok;
 }
 
 parser_error_t _readJunctionX1_V13(parser_context_t* c, pd_JunctionX1_V13_t* v)
@@ -683,7 +712,29 @@ parser_error_t _readLookupasStaticLookupSource_V13(parser_context_t* c, pd_Looku
 
 parser_error_t _readMarketBalanceOfT_V13(parser_context_t* c, pd_MarketBalanceOfT_V13_t* v)
 {
-    return parser_not_supported;
+    CHECK_INPUT()
+    CHECK_ERROR(_readRatio_V13(c, &v->collateralFactor))
+    CHECK_ERROR(_readRatio_V13(c, &v->liquidationThreshold))
+    CHECK_ERROR(_readRatio_V13(c, &v->reserveFactor))
+    CHECK_ERROR(_readRatio_V13(c, &v->closeFactor))
+    CHECK_ERROR(_readRate_V13(c, &v->liquidateIncentive))
+    CHECK_ERROR(_readRatio_V13(c, &v->liquidateIncentiveReservedFactor))
+    CHECK_ERROR(_readInterestRateModel_V13(c, &v->rateModel))
+    CHECK_ERROR(_readMarketState_V13(c, &v->state))
+    CHECK_ERROR(_readBalance(c, &v->supplyCap))
+    CHECK_ERROR(_readBalance(c, &v->borrowCap))
+    CHECK_ERROR(_readCurrencyId_V13(c, &v->ptokenId))
+    return parser_ok;
+}
+
+parser_error_t _readMarketState_V13(parser_context_t* c, pd_MarketState_V13_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    if (v->value > 3) {
+        return parser_unexpected_value;
+    }
+    return parser_ok;
 }
 
 parser_error_t _readMemberCount_V13(parser_context_t* c, pd_MemberCount_V13_t* v)
@@ -833,7 +884,9 @@ parser_error_t _readQueryId_V13(parser_context_t* c, pd_QueryId_V13_t* v)
 
 parser_error_t _readRate_V13(parser_context_t* c, pd_Rate_V13_t* v)
 {
-    return parser_not_supported;
+    CHECK_INPUT()
+    CHECK_ERROR(_readu128(c, &v->value))
+    return parser_ok;
 }
 
 parser_error_t _readRatio_V13(parser_context_t* c, pd_Ratio_V13_t* v)
@@ -2023,6 +2076,18 @@ parser_error_t _toStringCurrencyId_V13(
     return _toStringu32(&v->value, outValue, outValueLen, pageIdx, pageCount);
 }
 
+parser_error_t _toStringCurveModel_V13(
+    const pd_CurveModel_V13_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    CHECK_ERROR(_toStringRate_V13(&v->baseRate, outValue, outValueLen, pageIdx, pageCount))
+    return parser_ok;
+}
+
 parser_error_t _toStringDerivativeIndex_V13(
     const pd_DerivativeIndex_V13_t* v,
     char* outValue,
@@ -2206,7 +2271,17 @@ parser_error_t _toStringInterestRateModel_V13(
     uint8_t* pageCount)
 {
     CLEAN_AND_CHECK()
-    return parser_print_not_supported;
+    switch (v->value) {
+    case 0:
+        CHECK_ERROR(_toStringJumpModel_V13(&v->jump, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 1:
+        CHECK_ERROR(_toStringCurveModel_V13(&v->curve, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
 }
 
 parser_error_t _toStringJudgementBalanceOfT_V13(
@@ -2218,6 +2293,57 @@ parser_error_t _toStringJudgementBalanceOfT_V13(
 {
     CLEAN_AND_CHECK()
     return parser_print_not_supported;
+}
+
+parser_error_t _toStringJumpModel_V13(
+    const pd_JumpModel_V13_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    // First measure number of pages
+    uint8_t pages[4] = { 0 };
+    CHECK_ERROR(_toStringRate_V13(&v->baseRate, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringRate_V13(&v->jumpRate, outValue, outValueLen, 0, &pages[1]))
+    CHECK_ERROR(_toStringRate_V13(&v->fullRate, outValue, outValueLen, 0, &pages[2]))
+    CHECK_ERROR(_toStringRatio_V13(&v->jumpUtilization, outValue, outValueLen, 0, &pages[3]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringRate_V13(&v->baseRate, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringRate_V13(&v->jumpRate, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+    pageIdx -= pages[1];
+
+    if (pageIdx < pages[2]) {
+        CHECK_ERROR(_toStringRate_V13(&v->fullRate, outValue, outValueLen, pageIdx, &pages[2]))
+        return parser_ok;
+    }
+    pageIdx -= pages[2];
+
+    if (pageIdx < pages[3]) {
+        CHECK_ERROR(_toStringRatio_V13(&v->jumpUtilization, outValue, outValueLen, pageIdx, &pages[3]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
 }
 
 parser_error_t _toStringJunctionX1_V13(
@@ -2827,7 +2953,121 @@ parser_error_t _toStringMarketBalanceOfT_V13(
     uint8_t* pageCount)
 {
     CLEAN_AND_CHECK()
-    return parser_print_not_supported;
+
+    // First measure number of pages
+    uint8_t pages[11] = { 0 };
+    CHECK_ERROR(_toStringRatio_V13(&v->collateralFactor, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringRatio_V13(&v->liquidationThreshold, outValue, outValueLen, 0, &pages[1]))
+    CHECK_ERROR(_toStringRatio_V13(&v->reserveFactor, outValue, outValueLen, 0, &pages[2]))
+    CHECK_ERROR(_toStringRatio_V13(&v->closeFactor, outValue, outValueLen, 0, &pages[3]))
+    CHECK_ERROR(_toStringRate_V13(&v->liquidateIncentive, outValue, outValueLen, 0, &pages[4]))
+    CHECK_ERROR(_toStringRatio_V13(&v->liquidateIncentiveReservedFactor, outValue, outValueLen, 0, &pages[5]))
+    CHECK_ERROR(_toStringInterestRateModel_V13(&v->rateModel, outValue, outValueLen, 0, &pages[6]))
+    CHECK_ERROR(_toStringMarketState_V13(&v->state, outValue, outValueLen, 0, &pages[7]))
+    CHECK_ERROR(_toStringBalance(&v->supplyCap, outValue, outValueLen, 0, &pages[8]))
+    CHECK_ERROR(_toStringBalance(&v->borrowCap, outValue, outValueLen, 0, &pages[9]))
+    CHECK_ERROR(_toStringCurrencyId_V13(&v->ptokenId, outValue, outValueLen, 0, &pages[10]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringRatio_V13(&v->collateralFactor, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringRatio_V13(&v->liquidationThreshold, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+    pageIdx -= pages[1];
+
+    if (pageIdx < pages[2]) {
+        CHECK_ERROR(_toStringRatio_V13(&v->reserveFactor, outValue, outValueLen, pageIdx, &pages[2]))
+        return parser_ok;
+    }
+    pageIdx -= pages[2];
+
+    if (pageIdx < pages[3]) {
+        CHECK_ERROR(_toStringRatio_V13(&v->closeFactor, outValue, outValueLen, pageIdx, &pages[3]))
+        return parser_ok;
+    }
+    pageIdx -= pages[3];
+
+    if (pageIdx < pages[4]) {
+        CHECK_ERROR(_toStringRate_V13(&v->liquidateIncentive, outValue, outValueLen, pageIdx, &pages[4]))
+        return parser_ok;
+    }
+    pageIdx -= pages[4];
+
+    if (pageIdx < pages[5]) {
+        CHECK_ERROR(_toStringRatio_V13(&v->liquidateIncentiveReservedFactor, outValue, outValueLen, pageIdx, &pages[5]))
+        return parser_ok;
+    }
+    pageIdx -= pages[5];
+
+    if (pageIdx < pages[6]) {
+        CHECK_ERROR(_toStringInterestRateModel_V13(&v->rateModel, outValue, outValueLen, pageIdx, &pages[6]))
+        return parser_ok;
+    }
+    pageIdx -= pages[6];
+
+    if (pageIdx < pages[7]) {
+        CHECK_ERROR(_toStringMarketState_V13(&v->state, outValue, outValueLen, pageIdx, &pages[7]))
+        return parser_ok;
+    }
+    pageIdx -= pages[7];
+
+    if (pageIdx < pages[8]) {
+        CHECK_ERROR(_toStringBalance(&v->supplyCap, outValue, outValueLen, pageIdx, &pages[8]))
+        return parser_ok;
+    }
+    pageIdx -= pages[8];
+
+    if (pageIdx < pages[9]) {
+        CHECK_ERROR(_toStringBalance(&v->borrowCap, outValue, outValueLen, pageIdx, &pages[9]))
+        return parser_ok;
+    }
+    pageIdx -= pages[9];
+
+    if (pageIdx < pages[10]) {
+        CHECK_ERROR(_toStringCurrencyId_V13(&v->ptokenId, outValue, outValueLen, pageIdx, &pages[10]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
+}
+
+parser_error_t _toStringMarketState_V13(
+    const pd_MarketState_V13_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    *pageCount = 1;
+    switch (v->value) {
+    case 0:
+        snprintf(outValue, outValueLen, "Active");
+        break;
+    case 1:
+        snprintf(outValue, outValueLen, "Pending");
+        break;
+    case 2:
+        snprintf(outValue, outValueLen, "Supervision");
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
 }
 
 parser_error_t _toStringMemberCount_V13(
@@ -3165,7 +3405,8 @@ parser_error_t _toStringRate_V13(
     uint8_t* pageCount)
 {
     CLEAN_AND_CHECK()
-    return parser_print_not_supported;
+    CHECK_ERROR(_toStringu128(&v->value, outValue, outValueLen, pageIdx, pageCount))
+    return parser_ok;
 }
 
 parser_error_t _toStringRatio_V13(

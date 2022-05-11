@@ -717,6 +717,42 @@ typedef struct {
     pd_LookupasStaticLookupSource_V13_t dest;
 } pd_vesting_claim_for_V13_t;
 
+#define PD_CALL_LOANS_ADD_MARKET_V13 0
+typedef struct {
+    pd_AssetIdOfT_V13_t asset_id;
+    pd_MarketBalanceOfT_V13_t market;
+} pd_loans_add_market_V13_t;
+
+#define PD_CALL_LOANS_ACTIVATE_MARKET_V13 1
+typedef struct {
+    pd_AssetIdOfT_V13_t asset_id;
+} pd_loans_activate_market_V13_t;
+
+#define PD_CALL_LOANS_UPDATE_RATE_MODEL_V13 2
+typedef struct {
+    pd_AssetIdOfT_V13_t asset_id;
+    pd_InterestRateModel_V13_t rate_model;
+} pd_loans_update_rate_model_V13_t;
+
+#define PD_CALL_LOANS_UPDATE_MARKET_V13 3
+typedef struct {
+    pd_AssetIdOfT_V13_t asset_id;
+    pd_Ratio_V13_t collateral_factor;
+    pd_Ratio_V13_t liquidation_threshold;
+    pd_Ratio_V13_t reserve_factor;
+    pd_Ratio_V13_t close_factor;
+    pd_Ratio_V13_t liquidate_incentive_reserved_factor;
+    pd_Rate_V13_t liquidate_incentive;
+    pd_Compactu128_t supply_cap;
+    pd_Compactu128_t borrow_cap;
+} pd_loans_update_market_V13_t;
+
+#define PD_CALL_LOANS_FORCE_UPDATE_MARKET_V13 4
+typedef struct {
+    pd_AssetIdOfT_V13_t asset_id;
+    pd_MarketBalanceOfT_V13_t market;
+} pd_loans_force_update_market_V13_t;
+
 #define PD_CALL_LOANS_ADD_REWARD_V13 5
 typedef struct {
     pd_Balance_t amount;
@@ -743,6 +779,68 @@ typedef struct {
 typedef struct {
     pd_AssetIdOfT_V13_t asset_id;
 } pd_loans_claim_reward_for_market_V13_t;
+
+#define PD_CALL_LOANS_MINT_V13 10
+typedef struct {
+    pd_AssetIdOfT_V13_t asset_id;
+    pd_Compactu128_t mint_amount;
+} pd_loans_mint_V13_t;
+
+#define PD_CALL_LOANS_REDEEM_V13 11
+typedef struct {
+    pd_AssetIdOfT_V13_t asset_id;
+    pd_Compactu128_t redeem_amount;
+} pd_loans_redeem_V13_t;
+
+#define PD_CALL_LOANS_REDEEM_ALL_V13 12
+typedef struct {
+    pd_AssetIdOfT_V13_t asset_id;
+} pd_loans_redeem_all_V13_t;
+
+#define PD_CALL_LOANS_BORROW_V13 13
+typedef struct {
+    pd_AssetIdOfT_V13_t asset_id;
+    pd_Compactu128_t borrow_amount;
+} pd_loans_borrow_V13_t;
+
+#define PD_CALL_LOANS_REPAY_BORROW_V13 14
+typedef struct {
+    pd_AssetIdOfT_V13_t asset_id;
+    pd_Compactu128_t repay_amount;
+} pd_loans_repay_borrow_V13_t;
+
+#define PD_CALL_LOANS_REPAY_BORROW_ALL_V13 15
+typedef struct {
+    pd_AssetIdOfT_V13_t asset_id;
+} pd_loans_repay_borrow_all_V13_t;
+
+#define PD_CALL_LOANS_COLLATERAL_ASSET_V13 16
+typedef struct {
+    pd_AssetIdOfT_V13_t asset_id;
+    pd_bool_t enable;
+} pd_loans_collateral_asset_V13_t;
+
+#define PD_CALL_LOANS_LIQUIDATE_BORROW_V13 17
+typedef struct {
+    pd_AccountId_V13_t borrower;
+    pd_AssetIdOfT_V13_t liquidation_asset_id;
+    pd_Compactu128_t repay_amount;
+    pd_AssetIdOfT_V13_t collateral_asset_id;
+} pd_loans_liquidate_borrow_V13_t;
+
+#define PD_CALL_LOANS_ADD_RESERVES_V13 18
+typedef struct {
+    pd_LookupasStaticLookupSource_V13_t payer;
+    pd_AssetIdOfT_V13_t asset_id;
+    pd_Compactu128_t add_amount;
+} pd_loans_add_reserves_V13_t;
+
+#define PD_CALL_LOANS_REDUCE_RESERVES_V13 19
+typedef struct {
+    pd_LookupasStaticLookupSource_V13_t receiver;
+    pd_AssetIdOfT_V13_t asset_id;
+    pd_Compactu128_t reduce_amount;
+} pd_loans_reduce_reserves_V13_t;
 
 #define PD_CALL_LOANS_REDUCE_INCENTIVE_RESERVES_V13 20
 typedef struct {
@@ -1083,6 +1181,22 @@ typedef struct {
     pd_u8_t call_idx;
 } pd_emergencyshutdown_toggle_call_V13_t;
 
+#define PD_CALL_FARMING_CREATE_V13 0
+typedef struct {
+    pd_AssetIdOfT_V13_t asset;
+    pd_AssetIdOfT_V13_t reward_asset;
+    pd_BlockNumber_t lock_duration;
+    pd_BlockNumber_t cool_down_duration;
+} pd_farming_create_V13_t;
+
+#define PD_CALL_FARMING_SET_POOL_STATUS_V13 1
+typedef struct {
+    pd_AssetIdOfT_V13_t asset;
+    pd_AssetIdOfT_V13_t reward_asset;
+    pd_BlockNumber_t lock_duration;
+    pd_bool_t is_active;
+} pd_farming_set_pool_status_V13_t;
+
 #define PD_CALL_FARMING_SET_POOL_COOL_DOWN_DURATION_V13 2
 typedef struct {
     pd_AssetIdOfT_V13_t asset;
@@ -1097,6 +1211,46 @@ typedef struct {
     pd_AssetIdOfT_V13_t reward_asset;
     pd_BlockNumber_t lock_duration;
 } pd_farming_reset_pool_unlock_height_V13_t;
+
+#define PD_CALL_FARMING_DEPOSIT_V13 4
+typedef struct {
+    pd_AssetIdOfT_V13_t asset;
+    pd_AssetIdOfT_V13_t reward_asset;
+    pd_BlockNumber_t lock_duration;
+    pd_Balance_t amount;
+} pd_farming_deposit_V13_t;
+
+#define PD_CALL_FARMING_WITHDRAW_V13 5
+typedef struct {
+    pd_AssetIdOfT_V13_t asset;
+    pd_AssetIdOfT_V13_t reward_asset;
+    pd_BlockNumber_t lock_duration;
+    pd_Balance_t amount;
+} pd_farming_withdraw_V13_t;
+
+#define PD_CALL_FARMING_REDEEM_V13 6
+typedef struct {
+    pd_AssetIdOfT_V13_t asset;
+    pd_AssetIdOfT_V13_t reward_asset;
+    pd_BlockNumber_t lock_duration;
+} pd_farming_redeem_V13_t;
+
+#define PD_CALL_FARMING_CLAIM_V13 7
+typedef struct {
+    pd_AssetIdOfT_V13_t asset;
+    pd_AssetIdOfT_V13_t reward_asset;
+    pd_BlockNumber_t lock_duration;
+} pd_farming_claim_V13_t;
+
+#define PD_CALL_FARMING_DISPATCH_REWARD_V13 8
+typedef struct {
+    pd_AssetIdOfT_V13_t asset;
+    pd_AssetIdOfT_V13_t reward_asset;
+    pd_BlockNumber_t lock_duration;
+    pd_LookupasStaticLookupSource_V13_t payer;
+    pd_Balance_t amount;
+    pd_BlockNumber_t reward_duration;
+} pd_farming_dispatch_reward_V13_t;
 
 #define PD_CALL_STREAMING_SET_MINIMUM_DEPOSIT_V13 3
 typedef struct {
@@ -1231,11 +1385,26 @@ typedef union {
     pd_vesting_vested_transfer_V13_t vesting_vested_transfer_V13;
     pd_vesting_update_vesting_schedules_V13_t vesting_update_vesting_schedules_V13;
     pd_vesting_claim_for_V13_t vesting_claim_for_V13;
+    pd_loans_add_market_V13_t loans_add_market_V13;
+    pd_loans_activate_market_V13_t loans_activate_market_V13;
+    pd_loans_update_rate_model_V13_t loans_update_rate_model_V13;
+    pd_loans_update_market_V13_t loans_update_market_V13;
+    pd_loans_force_update_market_V13_t loans_force_update_market_V13;
     pd_loans_add_reward_V13_t loans_add_reward_V13;
     pd_loans_withdraw_missing_reward_V13_t loans_withdraw_missing_reward_V13;
     pd_loans_update_market_reward_speed_V13_t loans_update_market_reward_speed_V13;
     pd_loans_claim_reward_V13_t loans_claim_reward_V13;
     pd_loans_claim_reward_for_market_V13_t loans_claim_reward_for_market_V13;
+    pd_loans_mint_V13_t loans_mint_V13;
+    pd_loans_redeem_V13_t loans_redeem_V13;
+    pd_loans_redeem_all_V13_t loans_redeem_all_V13;
+    pd_loans_borrow_V13_t loans_borrow_V13;
+    pd_loans_repay_borrow_V13_t loans_repay_borrow_V13;
+    pd_loans_repay_borrow_all_V13_t loans_repay_borrow_all_V13;
+    pd_loans_collateral_asset_V13_t loans_collateral_asset_V13;
+    pd_loans_liquidate_borrow_V13_t loans_liquidate_borrow_V13;
+    pd_loans_add_reserves_V13_t loans_add_reserves_V13;
+    pd_loans_reduce_reserves_V13_t loans_reduce_reserves_V13;
     pd_loans_reduce_incentive_reserves_V13_t loans_reduce_incentive_reserves_V13;
     pd_crowdloans_set_vrf_V13_t crowdloans_set_vrf_V13;
     pd_liquidstaking_stake_V13_t liquidstaking_stake_V13;
@@ -1301,8 +1470,15 @@ typedef union {
     pd_bridge_set_bridge_token_status_V13_t bridge_set_bridge_token_status_V13;
     pd_emergencyshutdown_toggle_pallet_V13_t emergencyshutdown_toggle_pallet_V13;
     pd_emergencyshutdown_toggle_call_V13_t emergencyshutdown_toggle_call_V13;
+    pd_farming_create_V13_t farming_create_V13;
+    pd_farming_set_pool_status_V13_t farming_set_pool_status_V13;
     pd_farming_set_pool_cool_down_duration_V13_t farming_set_pool_cool_down_duration_V13;
     pd_farming_reset_pool_unlock_height_V13_t farming_reset_pool_unlock_height_V13;
+    pd_farming_deposit_V13_t farming_deposit_V13;
+    pd_farming_withdraw_V13_t farming_withdraw_V13;
+    pd_farming_redeem_V13_t farming_redeem_V13;
+    pd_farming_claim_V13_t farming_claim_V13;
+    pd_farming_dispatch_reward_V13_t farming_dispatch_reward_V13;
     pd_streaming_set_minimum_deposit_V13_t streaming_set_minimum_deposit_V13;
     pd_parachainsystem_authorize_upgrade_V13_t parachainsystem_authorize_upgrade_V13;
     pd_parachainsystem_enact_authorized_upgrade_V13_t parachainsystem_enact_authorized_upgrade_V13;

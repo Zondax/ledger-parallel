@@ -302,26 +302,26 @@
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Add market |    |   |   | `AssetIdOfT` asset_id <br/>`MarketBalanceOfT` market <br/> |
-|Activate market |    |   |   | `AssetIdOfT` asset_id <br/> |
-|Update rate model |    |   |   | `AssetIdOfT` asset_id <br/>`InterestRateModel` rate_model <br/> |
-|Update market |    |   |   | `AssetIdOfT` asset_id <br/>`Ratio` collateral_factor <br/>`Ratio` liquidation_threshold <br/>`Ratio` reserve_factor <br/>`Ratio` close_factor <br/>`Ratio` liquidate_incentive_reserved_factor <br/>`Rate` liquidate_incentive <br/>`Compactu128` supply_cap <br/>`Compactu128` borrow_cap <br/> |
-|Force update market |    |   |   | `AssetIdOfT` asset_id <br/>`MarketBalanceOfT` market <br/> |
+|Add market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`MarketBalanceOfT` market <br/> |
+|Activate market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/> |
+|Update rate model |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`InterestRateModel` rate_model <br/> |
+|Update market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Ratio` collateral_factor <br/>`Ratio` liquidation_threshold <br/>`Ratio` reserve_factor <br/>`Ratio` close_factor <br/>`Ratio` liquidate_incentive_reserved_factor <br/>`Rate` liquidate_incentive <br/>`Compactu128` supply_cap <br/>`Compactu128` borrow_cap <br/> |
+|Force update market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`MarketBalanceOfT` market <br/> |
 |Add reward |    | :heavy_check_mark: |   | `Balance` amount <br/> |
 |Withdraw missing reward |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` target_account <br/>`Balance` amount <br/> |
 |Update market reward speed |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Balance` supply_reward_per_block <br/>`Balance` borrow_reward_per_block <br/> |
 |Claim reward |    | :heavy_check_mark: |   |  |
 |Claim reward for market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/> |
-|Mint |    |   |   | `AssetIdOfT` asset_id <br/>`Compactu128` mint_amount <br/> |
-|Redeem |    |   |   | `AssetIdOfT` asset_id <br/>`Compactu128` redeem_amount <br/> |
-|Redeem all |    |   |   | `AssetIdOfT` asset_id <br/> |
-|Borrow |    |   |   | `AssetIdOfT` asset_id <br/>`Compactu128` borrow_amount <br/> |
-|Repay borrow |    |   |   | `AssetIdOfT` asset_id <br/>`Compactu128` repay_amount <br/> |
-|Repay borrow all |    |   |   | `AssetIdOfT` asset_id <br/> |
-|Collateral asset |    |   |   | `AssetIdOfT` asset_id <br/>`bool` enable <br/> |
-|Liquidate borrow |    |   |   | `AccountId` borrower <br/>`AssetIdOfT` liquidation_asset_id <br/>`Compactu128` repay_amount <br/>`AssetIdOfT` collateral_asset_id <br/> |
-|Add reserves |    |   |   | `LookupasStaticLookupSource` payer <br/>`AssetIdOfT` asset_id <br/>`Compactu128` add_amount <br/> |
-|Reduce reserves |    |   |   | `LookupasStaticLookupSource` receiver <br/>`AssetIdOfT` asset_id <br/>`Compactu128` reduce_amount <br/> |
+|Mint |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Compactu128` mint_amount <br/> |
+|Redeem |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Compactu128` redeem_amount <br/> |
+|Redeem all |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/> |
+|Borrow |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Compactu128` borrow_amount <br/> |
+|Repay borrow |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Compactu128` repay_amount <br/> |
+|Repay borrow all |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/> |
+|Collateral asset |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`bool` enable <br/> |
+|Liquidate borrow |    | :heavy_check_mark: |   | `AccountId` borrower <br/>`AssetIdOfT` liquidation_asset_id <br/>`Compactu128` repay_amount <br/>`AssetIdOfT` collateral_asset_id <br/> |
+|Add reserves |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` payer <br/>`AssetIdOfT` asset_id <br/>`Compactu128` add_amount <br/> |
+|Reduce reserves |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` receiver <br/>`AssetIdOfT` asset_id <br/>`Compactu128` reduce_amount <br/> |
 |Reduce incentive reserves |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` receiver <br/>`AssetIdOfT` asset_id <br/>`Compactu128` redeem_amount <br/> |
 
 ## Prices
@@ -499,15 +499,15 @@
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Create |    |   |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`BlockNumber` cool_down_duration <br/> |
-|Set pool status |    |   |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`bool` is_active <br/> |
+|Create |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`BlockNumber` cool_down_duration <br/> |
+|Set pool status |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`bool` is_active <br/> |
 |Set pool cool down duration |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`BlockNumber` cool_down_duration <br/> |
 |Reset pool unlock height |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/> |
-|Deposit |    |   |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`Balance` amount <br/> |
-|Withdraw |    |   |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`Balance` amount <br/> |
-|Redeem |    |   |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/> |
-|Claim |    |   |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/> |
-|Dispatch reward |    |   |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`LookupasStaticLookupSource` payer <br/>`Balance` amount <br/>`BlockNumber` reward_duration <br/> |
+|Deposit |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`Balance` amount <br/> |
+|Withdraw |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`Balance` amount <br/> |
+|Redeem |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/> |
+|Claim |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/> |
+|Dispatch reward |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`LookupasStaticLookupSource` payer <br/>`Balance` amount <br/>`BlockNumber` reward_duration <br/> |
 
 ## XcmHelper
 

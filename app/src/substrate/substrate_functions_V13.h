@@ -69,6 +69,7 @@ parser_error_t _readConcreteNonFungible_V13(parser_context_t* c, pd_ConcreteNonF
 parser_error_t _readContributionStrategy_V13(parser_context_t* c, pd_ContributionStrategy_V13_t* v);
 parser_error_t _readConviction_V13(parser_context_t* c, pd_Conviction_V13_t* v);
 parser_error_t _readCurrencyId_V13(parser_context_t* c, pd_CurrencyId_V13_t* v);
+parser_error_t _readCurveModel_V13(parser_context_t* c, pd_CurveModel_V13_t* v);
 parser_error_t _readDerivativeIndex_V13(parser_context_t* c, pd_DerivativeIndex_V13_t* v);
 parser_error_t _readDestroyWitness_V13(parser_context_t* c, pd_DestroyWitness_V13_t* v);
 parser_error_t _readDoubleEncodedTuple_V13(parser_context_t* c, pd_DoubleEncodedTuple_V13_t* v);
@@ -79,6 +80,7 @@ parser_error_t _readFungible_V13(parser_context_t* c, pd_Fungible_V13_t* v);
 parser_error_t _readIdentityFields_V13(parser_context_t* c, pd_IdentityFields_V13_t* v);
 parser_error_t _readInterestRateModel_V13(parser_context_t* c, pd_InterestRateModel_V13_t* v);
 parser_error_t _readJudgementBalanceOfT_V13(parser_context_t* c, pd_JudgementBalanceOfT_V13_t* v);
+parser_error_t _readJumpModel_V13(parser_context_t* c, pd_JumpModel_V13_t* v);
 parser_error_t _readJunctionX1_V13(parser_context_t* c, pd_JunctionX1_V13_t* v);
 parser_error_t _readJunctionX2_V13(parser_context_t* c, pd_JunctionX2_V13_t* v);
 parser_error_t _readJunctionX3_V13(parser_context_t* c, pd_JunctionX3_V13_t* v);
@@ -95,6 +97,7 @@ parser_error_t _readKeys_V13(parser_context_t* c, pd_Keys_V13_t* v);
 parser_error_t _readLeasePeriod_V13(parser_context_t* c, pd_LeasePeriod_V13_t* v);
 parser_error_t _readLookupasStaticLookupSource_V13(parser_context_t* c, pd_LookupasStaticLookupSource_V13_t* v);
 parser_error_t _readMarketBalanceOfT_V13(parser_context_t* c, pd_MarketBalanceOfT_V13_t* v);
+parser_error_t _readMarketState_V13(parser_context_t* c, pd_MarketState_V13_t* v);
 parser_error_t _readMemberCount_V13(parser_context_t* c, pd_MemberCount_V13_t* v);
 parser_error_t _readMultiAssetV0_V13(parser_context_t* c, pd_MultiAssetV0_V13_t* v);
 parser_error_t _readMultiAssetV1_V13(parser_context_t* c, pd_MultiAssetV1_V13_t* v);
@@ -462,6 +465,13 @@ parser_error_t _toStringCurrencyId_V13(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
+parser_error_t _toStringCurveModel_V13(
+    const pd_CurveModel_V13_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringDerivativeIndex_V13(
     const pd_DerivativeIndex_V13_t* v,
     char* outValue,
@@ -527,6 +537,13 @@ parser_error_t _toStringInterestRateModel_V13(
 
 parser_error_t _toStringJudgementBalanceOfT_V13(
     const pd_JudgementBalanceOfT_V13_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringJumpModel_V13(
+    const pd_JumpModel_V13_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -639,6 +656,13 @@ parser_error_t _toStringLookupasStaticLookupSource_V13(
 
 parser_error_t _toStringMarketBalanceOfT_V13(
     const pd_MarketBalanceOfT_V13_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringMarketState_V13(
+    const pd_MarketState_V13_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,

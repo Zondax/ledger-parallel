@@ -1028,6 +1028,52 @@ __Z_INLINE parser_error_t _readMethod_vesting_claim_for_V13(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_loans_add_market_V13(
+    parser_context_t* c, pd_loans_add_market_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset_id))
+    CHECK_ERROR(_readMarketBalanceOfT_V13(c, &m->market))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_loans_activate_market_V13(
+    parser_context_t* c, pd_loans_activate_market_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset_id))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_loans_update_rate_model_V13(
+    parser_context_t* c, pd_loans_update_rate_model_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset_id))
+    CHECK_ERROR(_readInterestRateModel_V13(c, &m->rate_model))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_loans_update_market_V13(
+    parser_context_t* c, pd_loans_update_market_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset_id))
+    CHECK_ERROR(_readRatio_V13(c, &m->collateral_factor))
+    CHECK_ERROR(_readRatio_V13(c, &m->liquidation_threshold))
+    CHECK_ERROR(_readRatio_V13(c, &m->reserve_factor))
+    CHECK_ERROR(_readRatio_V13(c, &m->close_factor))
+    CHECK_ERROR(_readRatio_V13(c, &m->liquidate_incentive_reserved_factor))
+    CHECK_ERROR(_readRate_V13(c, &m->liquidate_incentive))
+    CHECK_ERROR(_readCompactu128(c, &m->supply_cap))
+    CHECK_ERROR(_readCompactu128(c, &m->borrow_cap))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_loans_force_update_market_V13(
+    parser_context_t* c, pd_loans_force_update_market_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset_id))
+    CHECK_ERROR(_readMarketBalanceOfT_V13(c, &m->market))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_loans_add_reward_V13(
     parser_context_t* c, pd_loans_add_reward_V13_t* m)
 {
@@ -1062,6 +1108,88 @@ __Z_INLINE parser_error_t _readMethod_loans_claim_reward_for_market_V13(
     parser_context_t* c, pd_loans_claim_reward_for_market_V13_t* m)
 {
     CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset_id))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_loans_mint_V13(
+    parser_context_t* c, pd_loans_mint_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset_id))
+    CHECK_ERROR(_readCompactu128(c, &m->mint_amount))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_loans_redeem_V13(
+    parser_context_t* c, pd_loans_redeem_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset_id))
+    CHECK_ERROR(_readCompactu128(c, &m->redeem_amount))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_loans_redeem_all_V13(
+    parser_context_t* c, pd_loans_redeem_all_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset_id))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_loans_borrow_V13(
+    parser_context_t* c, pd_loans_borrow_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset_id))
+    CHECK_ERROR(_readCompactu128(c, &m->borrow_amount))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_loans_repay_borrow_V13(
+    parser_context_t* c, pd_loans_repay_borrow_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset_id))
+    CHECK_ERROR(_readCompactu128(c, &m->repay_amount))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_loans_repay_borrow_all_V13(
+    parser_context_t* c, pd_loans_repay_borrow_all_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset_id))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_loans_collateral_asset_V13(
+    parser_context_t* c, pd_loans_collateral_asset_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset_id))
+    CHECK_ERROR(_readbool(c, &m->enable))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_loans_liquidate_borrow_V13(
+    parser_context_t* c, pd_loans_liquidate_borrow_V13_t* m)
+{
+    CHECK_ERROR(_readAccountId_V13(c, &m->borrower))
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->liquidation_asset_id))
+    CHECK_ERROR(_readCompactu128(c, &m->repay_amount))
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->collateral_asset_id))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_loans_add_reserves_V13(
+    parser_context_t* c, pd_loans_add_reserves_V13_t* m)
+{
+    CHECK_ERROR(_readLookupasStaticLookupSource_V13(c, &m->payer))
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset_id))
+    CHECK_ERROR(_readCompactu128(c, &m->add_amount))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_loans_reduce_reserves_V13(
+    parser_context_t* c, pd_loans_reduce_reserves_V13_t* m)
+{
+    CHECK_ERROR(_readLookupasStaticLookupSource_V13(c, &m->receiver))
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset_id))
+    CHECK_ERROR(_readCompactu128(c, &m->reduce_amount))
     return parser_ok;
 }
 
@@ -1534,6 +1662,26 @@ __Z_INLINE parser_error_t _readMethod_emergencyshutdown_toggle_call_V13(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_farming_create_V13(
+    parser_context_t* c, pd_farming_create_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset))
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->reward_asset))
+    CHECK_ERROR(_readBlockNumber(c, &m->lock_duration))
+    CHECK_ERROR(_readBlockNumber(c, &m->cool_down_duration))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_farming_set_pool_status_V13(
+    parser_context_t* c, pd_farming_set_pool_status_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset))
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->reward_asset))
+    CHECK_ERROR(_readBlockNumber(c, &m->lock_duration))
+    CHECK_ERROR(_readbool(c, &m->is_active))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_farming_set_pool_cool_down_duration_V13(
     parser_context_t* c, pd_farming_set_pool_cool_down_duration_V13_t* m)
 {
@@ -1550,6 +1698,56 @@ __Z_INLINE parser_error_t _readMethod_farming_reset_pool_unlock_height_V13(
     CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset))
     CHECK_ERROR(_readAssetIdOfT_V13(c, &m->reward_asset))
     CHECK_ERROR(_readBlockNumber(c, &m->lock_duration))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_farming_deposit_V13(
+    parser_context_t* c, pd_farming_deposit_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset))
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->reward_asset))
+    CHECK_ERROR(_readBlockNumber(c, &m->lock_duration))
+    CHECK_ERROR(_readBalance(c, &m->amount))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_farming_withdraw_V13(
+    parser_context_t* c, pd_farming_withdraw_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset))
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->reward_asset))
+    CHECK_ERROR(_readBlockNumber(c, &m->lock_duration))
+    CHECK_ERROR(_readBalance(c, &m->amount))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_farming_redeem_V13(
+    parser_context_t* c, pd_farming_redeem_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset))
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->reward_asset))
+    CHECK_ERROR(_readBlockNumber(c, &m->lock_duration))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_farming_claim_V13(
+    parser_context_t* c, pd_farming_claim_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset))
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->reward_asset))
+    CHECK_ERROR(_readBlockNumber(c, &m->lock_duration))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_farming_dispatch_reward_V13(
+    parser_context_t* c, pd_farming_dispatch_reward_V13_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->asset))
+    CHECK_ERROR(_readAssetIdOfT_V13(c, &m->reward_asset))
+    CHECK_ERROR(_readBlockNumber(c, &m->lock_duration))
+    CHECK_ERROR(_readLookupasStaticLookupSource_V13(c, &m->payer))
+    CHECK_ERROR(_readBalance(c, &m->amount))
+    CHECK_ERROR(_readBlockNumber(c, &m->reward_duration))
     return parser_ok;
 }
 
@@ -1973,6 +2171,21 @@ parser_error_t _readMethod_V13(
     case 11779: /* module 46 call 3 */
         CHECK_ERROR(_readMethod_vesting_claim_for_V13(c, &method->basic.vesting_claim_for_V13))
         break;
+    case 12800: /* module 50 call 0 */
+        CHECK_ERROR(_readMethod_loans_add_market_V13(c, &method->basic.loans_add_market_V13))
+        break;
+    case 12801: /* module 50 call 1 */
+        CHECK_ERROR(_readMethod_loans_activate_market_V13(c, &method->basic.loans_activate_market_V13))
+        break;
+    case 12802: /* module 50 call 2 */
+        CHECK_ERROR(_readMethod_loans_update_rate_model_V13(c, &method->basic.loans_update_rate_model_V13))
+        break;
+    case 12803: /* module 50 call 3 */
+        CHECK_ERROR(_readMethod_loans_update_market_V13(c, &method->basic.loans_update_market_V13))
+        break;
+    case 12804: /* module 50 call 4 */
+        CHECK_ERROR(_readMethod_loans_force_update_market_V13(c, &method->basic.loans_force_update_market_V13))
+        break;
     case 12805: /* module 50 call 5 */
         CHECK_ERROR(_readMethod_loans_add_reward_V13(c, &method->basic.loans_add_reward_V13))
         break;
@@ -1987,6 +2200,36 @@ parser_error_t _readMethod_V13(
         break;
     case 12809: /* module 50 call 9 */
         CHECK_ERROR(_readMethod_loans_claim_reward_for_market_V13(c, &method->basic.loans_claim_reward_for_market_V13))
+        break;
+    case 12810: /* module 50 call 10 */
+        CHECK_ERROR(_readMethod_loans_mint_V13(c, &method->basic.loans_mint_V13))
+        break;
+    case 12811: /* module 50 call 11 */
+        CHECK_ERROR(_readMethod_loans_redeem_V13(c, &method->basic.loans_redeem_V13))
+        break;
+    case 12812: /* module 50 call 12 */
+        CHECK_ERROR(_readMethod_loans_redeem_all_V13(c, &method->basic.loans_redeem_all_V13))
+        break;
+    case 12813: /* module 50 call 13 */
+        CHECK_ERROR(_readMethod_loans_borrow_V13(c, &method->basic.loans_borrow_V13))
+        break;
+    case 12814: /* module 50 call 14 */
+        CHECK_ERROR(_readMethod_loans_repay_borrow_V13(c, &method->basic.loans_repay_borrow_V13))
+        break;
+    case 12815: /* module 50 call 15 */
+        CHECK_ERROR(_readMethod_loans_repay_borrow_all_V13(c, &method->basic.loans_repay_borrow_all_V13))
+        break;
+    case 12816: /* module 50 call 16 */
+        CHECK_ERROR(_readMethod_loans_collateral_asset_V13(c, &method->basic.loans_collateral_asset_V13))
+        break;
+    case 12817: /* module 50 call 17 */
+        CHECK_ERROR(_readMethod_loans_liquidate_borrow_V13(c, &method->basic.loans_liquidate_borrow_V13))
+        break;
+    case 12818: /* module 50 call 18 */
+        CHECK_ERROR(_readMethod_loans_add_reserves_V13(c, &method->basic.loans_add_reserves_V13))
+        break;
+    case 12819: /* module 50 call 19 */
+        CHECK_ERROR(_readMethod_loans_reduce_reserves_V13(c, &method->basic.loans_reduce_reserves_V13))
         break;
     case 12820: /* module 50 call 20 */
         CHECK_ERROR(_readMethod_loans_reduce_incentive_reserves_V13(c, &method->basic.loans_reduce_incentive_reserves_V13))
@@ -2183,11 +2426,32 @@ parser_error_t _readMethod_V13(
     case 23297: /* module 91 call 1 */
         CHECK_ERROR(_readMethod_emergencyshutdown_toggle_call_V13(c, &method->basic.emergencyshutdown_toggle_call_V13))
         break;
+    case 23552: /* module 92 call 0 */
+        CHECK_ERROR(_readMethod_farming_create_V13(c, &method->basic.farming_create_V13))
+        break;
+    case 23553: /* module 92 call 1 */
+        CHECK_ERROR(_readMethod_farming_set_pool_status_V13(c, &method->basic.farming_set_pool_status_V13))
+        break;
     case 23554: /* module 92 call 2 */
         CHECK_ERROR(_readMethod_farming_set_pool_cool_down_duration_V13(c, &method->basic.farming_set_pool_cool_down_duration_V13))
         break;
     case 23555: /* module 92 call 3 */
         CHECK_ERROR(_readMethod_farming_reset_pool_unlock_height_V13(c, &method->basic.farming_reset_pool_unlock_height_V13))
+        break;
+    case 23556: /* module 92 call 4 */
+        CHECK_ERROR(_readMethod_farming_deposit_V13(c, &method->basic.farming_deposit_V13))
+        break;
+    case 23557: /* module 92 call 5 */
+        CHECK_ERROR(_readMethod_farming_withdraw_V13(c, &method->basic.farming_withdraw_V13))
+        break;
+    case 23558: /* module 92 call 6 */
+        CHECK_ERROR(_readMethod_farming_redeem_V13(c, &method->basic.farming_redeem_V13))
+        break;
+    case 23559: /* module 92 call 7 */
+        CHECK_ERROR(_readMethod_farming_claim_V13(c, &method->basic.farming_claim_V13))
+        break;
+    case 23560: /* module 92 call 8 */
+        CHECK_ERROR(_readMethod_farming_dispatch_reward_V13(c, &method->basic.farming_dispatch_reward_V13))
         break;
     case 24067: /* module 94 call 3 */
         CHECK_ERROR(_readMethod_streaming_set_minimum_deposit_V13(c, &method->basic.streaming_set_minimum_deposit_V13))
@@ -2559,6 +2823,16 @@ const char* _getMethod_Name_V13_ParserFull(uint16_t callPrivIdx)
         return STR_ME_UPDATE_VESTING_SCHEDULES;
     case 11779: /* module 46 call 3 */
         return STR_ME_CLAIM_FOR;
+    case 12800: /* module 50 call 0 */
+        return STR_ME_ADD_MARKET;
+    case 12801: /* module 50 call 1 */
+        return STR_ME_ACTIVATE_MARKET;
+    case 12802: /* module 50 call 2 */
+        return STR_ME_UPDATE_RATE_MODEL;
+    case 12803: /* module 50 call 3 */
+        return STR_ME_UPDATE_MARKET;
+    case 12804: /* module 50 call 4 */
+        return STR_ME_FORCE_UPDATE_MARKET;
     case 12805: /* module 50 call 5 */
         return STR_ME_ADD_REWARD;
     case 12806: /* module 50 call 6 */
@@ -2569,6 +2843,26 @@ const char* _getMethod_Name_V13_ParserFull(uint16_t callPrivIdx)
         return STR_ME_CLAIM_REWARD;
     case 12809: /* module 50 call 9 */
         return STR_ME_CLAIM_REWARD_FOR_MARKET;
+    case 12810: /* module 50 call 10 */
+        return STR_ME_MINT;
+    case 12811: /* module 50 call 11 */
+        return STR_ME_REDEEM;
+    case 12812: /* module 50 call 12 */
+        return STR_ME_REDEEM_ALL;
+    case 12813: /* module 50 call 13 */
+        return STR_ME_BORROW;
+    case 12814: /* module 50 call 14 */
+        return STR_ME_REPAY_BORROW;
+    case 12815: /* module 50 call 15 */
+        return STR_ME_REPAY_BORROW_ALL;
+    case 12816: /* module 50 call 16 */
+        return STR_ME_COLLATERAL_ASSET;
+    case 12817: /* module 50 call 17 */
+        return STR_ME_LIQUIDATE_BORROW;
+    case 12818: /* module 50 call 18 */
+        return STR_ME_ADD_RESERVES;
+    case 12819: /* module 50 call 19 */
+        return STR_ME_REDUCE_RESERVES;
     case 12820: /* module 50 call 20 */
         return STR_ME_REDUCE_INCENTIVE_RESERVES;
     case 13316: /* module 52 call 4 */
@@ -2699,10 +2993,24 @@ const char* _getMethod_Name_V13_ParserFull(uint16_t callPrivIdx)
         return STR_ME_TOGGLE_PALLET;
     case 23297: /* module 91 call 1 */
         return STR_ME_TOGGLE_CALL;
+    case 23552: /* module 92 call 0 */
+        return STR_ME_CREATE;
+    case 23553: /* module 92 call 1 */
+        return STR_ME_SET_POOL_STATUS;
     case 23554: /* module 92 call 2 */
         return STR_ME_SET_POOL_COOL_DOWN_DURATION;
     case 23555: /* module 92 call 3 */
         return STR_ME_RESET_POOL_UNLOCK_HEIGHT;
+    case 23556: /* module 92 call 4 */
+        return STR_ME_DEPOSIT;
+    case 23557: /* module 92 call 5 */
+        return STR_ME_WITHDRAW;
+    case 23558: /* module 92 call 6 */
+        return STR_ME_REDEEM;
+    case 23559: /* module 92 call 7 */
+        return STR_ME_CLAIM;
+    case 23560: /* module 92 call 8 */
+        return STR_ME_DISPATCH_REWARD;
     case 24067: /* module 94 call 3 */
         return STR_ME_SET_MINIMUM_DEPOSIT;
     case 5122: /* module 20 call 2 */
@@ -2979,6 +3287,16 @@ uint8_t _getMethod_NumItems_V13(uint8_t moduleIdx, uint8_t callIdx)
         return 2;
     case 11779: /* module 46 call 3 */
         return 1;
+    case 12800: /* module 50 call 0 */
+        return 2;
+    case 12801: /* module 50 call 1 */
+        return 1;
+    case 12802: /* module 50 call 2 */
+        return 2;
+    case 12803: /* module 50 call 3 */
+        return 9;
+    case 12804: /* module 50 call 4 */
+        return 2;
     case 12805: /* module 50 call 5 */
         return 1;
     case 12806: /* module 50 call 6 */
@@ -2989,6 +3307,26 @@ uint8_t _getMethod_NumItems_V13(uint8_t moduleIdx, uint8_t callIdx)
         return 0;
     case 12809: /* module 50 call 9 */
         return 1;
+    case 12810: /* module 50 call 10 */
+        return 2;
+    case 12811: /* module 50 call 11 */
+        return 2;
+    case 12812: /* module 50 call 12 */
+        return 1;
+    case 12813: /* module 50 call 13 */
+        return 2;
+    case 12814: /* module 50 call 14 */
+        return 2;
+    case 12815: /* module 50 call 15 */
+        return 1;
+    case 12816: /* module 50 call 16 */
+        return 2;
+    case 12817: /* module 50 call 17 */
+        return 4;
+    case 12818: /* module 50 call 18 */
+        return 3;
+    case 12819: /* module 50 call 19 */
+        return 3;
     case 12820: /* module 50 call 20 */
         return 3;
     case 13316: /* module 52 call 4 */
@@ -3119,10 +3457,24 @@ uint8_t _getMethod_NumItems_V13(uint8_t moduleIdx, uint8_t callIdx)
         return 1;
     case 23297: /* module 91 call 1 */
         return 2;
+    case 23552: /* module 92 call 0 */
+        return 4;
+    case 23553: /* module 92 call 1 */
+        return 4;
     case 23554: /* module 92 call 2 */
         return 4;
     case 23555: /* module 92 call 3 */
         return 3;
+    case 23556: /* module 92 call 4 */
+        return 4;
+    case 23557: /* module 92 call 5 */
+        return 4;
+    case 23558: /* module 92 call 6 */
+        return 3;
+    case 23559: /* module 92 call 7 */
+        return 3;
+    case 23560: /* module 92 call 8 */
+        return 6;
     case 24067: /* module 94 call 3 */
         return 2;
     case 5122: /* module 20 call 2 */
@@ -4263,6 +4615,63 @@ const char* _getMethod_ItemName_V13(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         default:
             return NULL;
         }
+    case 12800: /* module 50 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset_id;
+        case 1:
+            return STR_IT_market;
+        default:
+            return NULL;
+        }
+    case 12801: /* module 50 call 1 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset_id;
+        default:
+            return NULL;
+        }
+    case 12802: /* module 50 call 2 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset_id;
+        case 1:
+            return STR_IT_rate_model;
+        default:
+            return NULL;
+        }
+    case 12803: /* module 50 call 3 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset_id;
+        case 1:
+            return STR_IT_collateral_factor;
+        case 2:
+            return STR_IT_liquidation_threshold;
+        case 3:
+            return STR_IT_reserve_factor;
+        case 4:
+            return STR_IT_close_factor;
+        case 5:
+            return STR_IT_liquidate_incentive_reserved_factor;
+        case 6:
+            return STR_IT_liquidate_incentive;
+        case 7:
+            return STR_IT_supply_cap;
+        case 8:
+            return STR_IT_borrow_cap;
+        default:
+            return NULL;
+        }
+    case 12804: /* module 50 call 4 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset_id;
+        case 1:
+            return STR_IT_market;
+        default:
+            return NULL;
+        }
     case 12805: /* module 50 call 5 */
         switch (itemIdx) {
         case 0:
@@ -4299,6 +4708,100 @@ const char* _getMethod_ItemName_V13(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         switch (itemIdx) {
         case 0:
             return STR_IT_asset_id;
+        default:
+            return NULL;
+        }
+    case 12810: /* module 50 call 10 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset_id;
+        case 1:
+            return STR_IT_mint_amount;
+        default:
+            return NULL;
+        }
+    case 12811: /* module 50 call 11 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset_id;
+        case 1:
+            return STR_IT_redeem_amount;
+        default:
+            return NULL;
+        }
+    case 12812: /* module 50 call 12 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset_id;
+        default:
+            return NULL;
+        }
+    case 12813: /* module 50 call 13 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset_id;
+        case 1:
+            return STR_IT_borrow_amount;
+        default:
+            return NULL;
+        }
+    case 12814: /* module 50 call 14 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset_id;
+        case 1:
+            return STR_IT_repay_amount;
+        default:
+            return NULL;
+        }
+    case 12815: /* module 50 call 15 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset_id;
+        default:
+            return NULL;
+        }
+    case 12816: /* module 50 call 16 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset_id;
+        case 1:
+            return STR_IT_enable;
+        default:
+            return NULL;
+        }
+    case 12817: /* module 50 call 17 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_borrower;
+        case 1:
+            return STR_IT_liquidation_asset_id;
+        case 2:
+            return STR_IT_repay_amount;
+        case 3:
+            return STR_IT_collateral_asset_id;
+        default:
+            return NULL;
+        }
+    case 12818: /* module 50 call 18 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_payer;
+        case 1:
+            return STR_IT_asset_id;
+        case 2:
+            return STR_IT_add_amount;
+        default:
+            return NULL;
+        }
+    case 12819: /* module 50 call 19 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_receiver;
+        case 1:
+            return STR_IT_asset_id;
+        case 2:
+            return STR_IT_reduce_amount;
         default:
             return NULL;
         }
@@ -4785,6 +5288,32 @@ const char* _getMethod_ItemName_V13(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         default:
             return NULL;
         }
+    case 23552: /* module 92 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset;
+        case 1:
+            return STR_IT_reward_asset;
+        case 2:
+            return STR_IT_lock_duration;
+        case 3:
+            return STR_IT_cool_down_duration;
+        default:
+            return NULL;
+        }
+    case 23553: /* module 92 call 1 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset;
+        case 1:
+            return STR_IT_reward_asset;
+        case 2:
+            return STR_IT_lock_duration;
+        case 3:
+            return STR_IT_is_active;
+        default:
+            return NULL;
+        }
     case 23554: /* module 92 call 2 */
         switch (itemIdx) {
         case 0:
@@ -4806,6 +5335,71 @@ const char* _getMethod_ItemName_V13(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
             return STR_IT_reward_asset;
         case 2:
             return STR_IT_lock_duration;
+        default:
+            return NULL;
+        }
+    case 23556: /* module 92 call 4 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset;
+        case 1:
+            return STR_IT_reward_asset;
+        case 2:
+            return STR_IT_lock_duration;
+        case 3:
+            return STR_IT_amount;
+        default:
+            return NULL;
+        }
+    case 23557: /* module 92 call 5 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset;
+        case 1:
+            return STR_IT_reward_asset;
+        case 2:
+            return STR_IT_lock_duration;
+        case 3:
+            return STR_IT_amount;
+        default:
+            return NULL;
+        }
+    case 23558: /* module 92 call 6 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset;
+        case 1:
+            return STR_IT_reward_asset;
+        case 2:
+            return STR_IT_lock_duration;
+        default:
+            return NULL;
+        }
+    case 23559: /* module 92 call 7 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset;
+        case 1:
+            return STR_IT_reward_asset;
+        case 2:
+            return STR_IT_lock_duration;
+        default:
+            return NULL;
+        }
+    case 23560: /* module 92 call 8 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset;
+        case 1:
+            return STR_IT_reward_asset;
+        case 2:
+            return STR_IT_lock_duration;
+        case 3:
+            return STR_IT_payer;
+        case 4:
+            return STR_IT_amount;
+        case 5:
+            return STR_IT_reward_duration;
         default:
             return NULL;
         }
@@ -6690,6 +7284,111 @@ parser_error_t _getMethod_ItemValue_V13(
         default:
             return parser_no_data;
         }
+    case 12800: /* module 50 call 0 */
+        switch (itemIdx) {
+        case 0: /* loans_add_market_V13 - asset_id */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.loans_add_market_V13.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* loans_add_market_V13 - market */;
+            return _toStringMarketBalanceOfT_V13(
+                &m->basic.loans_add_market_V13.market,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 12801: /* module 50 call 1 */
+        switch (itemIdx) {
+        case 0: /* loans_activate_market_V13 - asset_id */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.loans_activate_market_V13.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 12802: /* module 50 call 2 */
+        switch (itemIdx) {
+        case 0: /* loans_update_rate_model_V13 - asset_id */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.loans_update_rate_model_V13.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* loans_update_rate_model_V13 - rate_model */;
+            return _toStringInterestRateModel_V13(
+                &m->basic.loans_update_rate_model_V13.rate_model,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 12803: /* module 50 call 3 */
+        switch (itemIdx) {
+        case 0: /* loans_update_market_V13 - asset_id */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.loans_update_market_V13.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* loans_update_market_V13 - collateral_factor */;
+            return _toStringRatio_V13(
+                &m->basic.loans_update_market_V13.collateral_factor,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* loans_update_market_V13 - liquidation_threshold */;
+            return _toStringRatio_V13(
+                &m->basic.loans_update_market_V13.liquidation_threshold,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* loans_update_market_V13 - reserve_factor */;
+            return _toStringRatio_V13(
+                &m->basic.loans_update_market_V13.reserve_factor,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* loans_update_market_V13 - close_factor */;
+            return _toStringRatio_V13(
+                &m->basic.loans_update_market_V13.close_factor,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 5: /* loans_update_market_V13 - liquidate_incentive_reserved_factor */;
+            return _toStringRatio_V13(
+                &m->basic.loans_update_market_V13.liquidate_incentive_reserved_factor,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 6: /* loans_update_market_V13 - liquidate_incentive */;
+            return _toStringRate_V13(
+                &m->basic.loans_update_market_V13.liquidate_incentive,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 7: /* loans_update_market_V13 - supply_cap */;
+            return _toStringCompactu128(
+                &m->basic.loans_update_market_V13.supply_cap,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 8: /* loans_update_market_V13 - borrow_cap */;
+            return _toStringCompactu128(
+                &m->basic.loans_update_market_V13.borrow_cap,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 12804: /* module 50 call 4 */
+        switch (itemIdx) {
+        case 0: /* loans_force_update_market_V13 - asset_id */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.loans_force_update_market_V13.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* loans_force_update_market_V13 - market */;
+            return _toStringMarketBalanceOfT_V13(
+                &m->basic.loans_force_update_market_V13.market,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 12805: /* module 50 call 5 */
         switch (itemIdx) {
         case 0: /* loans_add_reward_V13 - amount */;
@@ -6745,6 +7444,166 @@ parser_error_t _getMethod_ItemValue_V13(
         case 0: /* loans_claim_reward_for_market_V13 - asset_id */;
             return _toStringAssetIdOfT_V13(
                 &m->basic.loans_claim_reward_for_market_V13.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 12810: /* module 50 call 10 */
+        switch (itemIdx) {
+        case 0: /* loans_mint_V13 - asset_id */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.loans_mint_V13.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* loans_mint_V13 - mint_amount */;
+            return _toStringCompactu128(
+                &m->basic.loans_mint_V13.mint_amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 12811: /* module 50 call 11 */
+        switch (itemIdx) {
+        case 0: /* loans_redeem_V13 - asset_id */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.loans_redeem_V13.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* loans_redeem_V13 - redeem_amount */;
+            return _toStringCompactu128(
+                &m->basic.loans_redeem_V13.redeem_amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 12812: /* module 50 call 12 */
+        switch (itemIdx) {
+        case 0: /* loans_redeem_all_V13 - asset_id */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.loans_redeem_all_V13.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 12813: /* module 50 call 13 */
+        switch (itemIdx) {
+        case 0: /* loans_borrow_V13 - asset_id */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.loans_borrow_V13.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* loans_borrow_V13 - borrow_amount */;
+            return _toStringCompactu128(
+                &m->basic.loans_borrow_V13.borrow_amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 12814: /* module 50 call 14 */
+        switch (itemIdx) {
+        case 0: /* loans_repay_borrow_V13 - asset_id */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.loans_repay_borrow_V13.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* loans_repay_borrow_V13 - repay_amount */;
+            return _toStringCompactu128(
+                &m->basic.loans_repay_borrow_V13.repay_amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 12815: /* module 50 call 15 */
+        switch (itemIdx) {
+        case 0: /* loans_repay_borrow_all_V13 - asset_id */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.loans_repay_borrow_all_V13.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 12816: /* module 50 call 16 */
+        switch (itemIdx) {
+        case 0: /* loans_collateral_asset_V13 - asset_id */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.loans_collateral_asset_V13.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* loans_collateral_asset_V13 - enable */;
+            return _toStringbool(
+                &m->basic.loans_collateral_asset_V13.enable,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 12817: /* module 50 call 17 */
+        switch (itemIdx) {
+        case 0: /* loans_liquidate_borrow_V13 - borrower */;
+            return _toStringAccountId_V13(
+                &m->basic.loans_liquidate_borrow_V13.borrower,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* loans_liquidate_borrow_V13 - liquidation_asset_id */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.loans_liquidate_borrow_V13.liquidation_asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* loans_liquidate_borrow_V13 - repay_amount */;
+            return _toStringCompactu128(
+                &m->basic.loans_liquidate_borrow_V13.repay_amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* loans_liquidate_borrow_V13 - collateral_asset_id */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.loans_liquidate_borrow_V13.collateral_asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 12818: /* module 50 call 18 */
+        switch (itemIdx) {
+        case 0: /* loans_add_reserves_V13 - payer */;
+            return _toStringLookupasStaticLookupSource_V13(
+                &m->basic.loans_add_reserves_V13.payer,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* loans_add_reserves_V13 - asset_id */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.loans_add_reserves_V13.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* loans_add_reserves_V13 - add_amount */;
+            return _toStringCompactu128(
+                &m->basic.loans_add_reserves_V13.add_amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 12819: /* module 50 call 19 */
+        switch (itemIdx) {
+        case 0: /* loans_reduce_reserves_V13 - receiver */;
+            return _toStringLookupasStaticLookupSource_V13(
+                &m->basic.loans_reduce_reserves_V13.receiver,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* loans_reduce_reserves_V13 - asset_id */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.loans_reduce_reserves_V13.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* loans_reduce_reserves_V13 - reduce_amount */;
+            return _toStringCompactu128(
+                &m->basic.loans_reduce_reserves_V13.reduce_amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -7470,6 +8329,56 @@ parser_error_t _getMethod_ItemValue_V13(
         default:
             return parser_no_data;
         }
+    case 23552: /* module 92 call 0 */
+        switch (itemIdx) {
+        case 0: /* farming_create_V13 - asset */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.farming_create_V13.asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* farming_create_V13 - reward_asset */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.farming_create_V13.reward_asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* farming_create_V13 - lock_duration */;
+            return _toStringBlockNumber(
+                &m->basic.farming_create_V13.lock_duration,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* farming_create_V13 - cool_down_duration */;
+            return _toStringBlockNumber(
+                &m->basic.farming_create_V13.cool_down_duration,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 23553: /* module 92 call 1 */
+        switch (itemIdx) {
+        case 0: /* farming_set_pool_status_V13 - asset */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.farming_set_pool_status_V13.asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* farming_set_pool_status_V13 - reward_asset */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.farming_set_pool_status_V13.reward_asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* farming_set_pool_status_V13 - lock_duration */;
+            return _toStringBlockNumber(
+                &m->basic.farming_set_pool_status_V13.lock_duration,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* farming_set_pool_status_V13 - is_active */;
+            return _toStringbool(
+                &m->basic.farming_set_pool_status_V13.is_active,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 23554: /* module 92 call 2 */
         switch (itemIdx) {
         case 0: /* farming_set_pool_cool_down_duration_V13 - asset */;
@@ -7510,6 +8419,131 @@ parser_error_t _getMethod_ItemValue_V13(
         case 2: /* farming_reset_pool_unlock_height_V13 - lock_duration */;
             return _toStringBlockNumber(
                 &m->basic.farming_reset_pool_unlock_height_V13.lock_duration,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 23556: /* module 92 call 4 */
+        switch (itemIdx) {
+        case 0: /* farming_deposit_V13 - asset */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.farming_deposit_V13.asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* farming_deposit_V13 - reward_asset */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.farming_deposit_V13.reward_asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* farming_deposit_V13 - lock_duration */;
+            return _toStringBlockNumber(
+                &m->basic.farming_deposit_V13.lock_duration,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* farming_deposit_V13 - amount */;
+            return _toStringBalance(
+                &m->basic.farming_deposit_V13.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 23557: /* module 92 call 5 */
+        switch (itemIdx) {
+        case 0: /* farming_withdraw_V13 - asset */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.farming_withdraw_V13.asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* farming_withdraw_V13 - reward_asset */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.farming_withdraw_V13.reward_asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* farming_withdraw_V13 - lock_duration */;
+            return _toStringBlockNumber(
+                &m->basic.farming_withdraw_V13.lock_duration,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* farming_withdraw_V13 - amount */;
+            return _toStringBalance(
+                &m->basic.farming_withdraw_V13.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 23558: /* module 92 call 6 */
+        switch (itemIdx) {
+        case 0: /* farming_redeem_V13 - asset */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.farming_redeem_V13.asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* farming_redeem_V13 - reward_asset */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.farming_redeem_V13.reward_asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* farming_redeem_V13 - lock_duration */;
+            return _toStringBlockNumber(
+                &m->basic.farming_redeem_V13.lock_duration,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 23559: /* module 92 call 7 */
+        switch (itemIdx) {
+        case 0: /* farming_claim_V13 - asset */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.farming_claim_V13.asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* farming_claim_V13 - reward_asset */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.farming_claim_V13.reward_asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* farming_claim_V13 - lock_duration */;
+            return _toStringBlockNumber(
+                &m->basic.farming_claim_V13.lock_duration,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 23560: /* module 92 call 8 */
+        switch (itemIdx) {
+        case 0: /* farming_dispatch_reward_V13 - asset */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.farming_dispatch_reward_V13.asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* farming_dispatch_reward_V13 - reward_asset */;
+            return _toStringAssetIdOfT_V13(
+                &m->basic.farming_dispatch_reward_V13.reward_asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* farming_dispatch_reward_V13 - lock_duration */;
+            return _toStringBlockNumber(
+                &m->basic.farming_dispatch_reward_V13.lock_duration,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* farming_dispatch_reward_V13 - payer */;
+            return _toStringLookupasStaticLookupSource_V13(
+                &m->basic.farming_dispatch_reward_V13.payer,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* farming_dispatch_reward_V13 - amount */;
+            return _toStringBalance(
+                &m->basic.farming_dispatch_reward_V13.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 5: /* farming_dispatch_reward_V13 - reward_duration */;
+            return _toStringBlockNumber(
+                &m->basic.farming_dispatch_reward_V13.reward_duration,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -7694,11 +8728,26 @@ bool _getMethod_IsNestingSupported_V13(uint8_t moduleIdx, uint8_t callIdx)
     case 11777: // Vesting:Vested transfer
     case 11778: // Vesting:Update vesting schedules
     case 11779: // Vesting:Claim for
+    case 12800: // Loans:Add market
+    case 12801: // Loans:Activate market
+    case 12802: // Loans:Update rate model
+    case 12803: // Loans:Update market
+    case 12804: // Loans:Force update market
     case 12805: // Loans:Add reward
     case 12806: // Loans:Withdraw missing reward
     case 12807: // Loans:Update market reward speed
     case 12808: // Loans:Claim reward
     case 12809: // Loans:Claim reward for market
+    case 12810: // Loans:Mint
+    case 12811: // Loans:Redeem
+    case 12812: // Loans:Redeem all
+    case 12813: // Loans:Borrow
+    case 12814: // Loans:Repay borrow
+    case 12815: // Loans:Repay borrow all
+    case 12816: // Loans:Collateral asset
+    case 12817: // Loans:Liquidate borrow
+    case 12818: // Loans:Add reserves
+    case 12819: // Loans:Reduce reserves
     case 12820: // Loans:Reduce incentive reserves
     case 13316: // Crowdloans:Set vrf
     case 15360: // LiquidStaking:Stake
@@ -7764,8 +8813,15 @@ bool _getMethod_IsNestingSupported_V13(uint8_t moduleIdx, uint8_t callIdx)
     case 23045: // Bridge:Set bridge token status
     case 23296: // EmergencyShutdown:Toggle pallet
     case 23297: // EmergencyShutdown:Toggle call
+    case 23552: // Farming:Create
+    case 23553: // Farming:Set pool status
     case 23554: // Farming:Set pool cool down duration
     case 23555: // Farming:Reset pool unlock height
+    case 23556: // Farming:Deposit
+    case 23557: // Farming:Withdraw
+    case 23558: // Farming:Redeem
+    case 23559: // Farming:Claim
+    case 23560: // Farming:Dispatch reward
     case 24067: // Streaming:Set minimum deposit
     case 5122: // ParachainSystem:Authorize upgrade
     case 5123: // ParachainSystem:Enact authorized upgrade

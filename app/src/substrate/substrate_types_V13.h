@@ -231,8 +231,27 @@ typedef struct {
 } pd_Fungibility_V13_t;
 
 typedef struct {
+    pd_u128_t value;
+} pd_Rate_V13_t;
+
+typedef struct {
+    uint32_t value;
+} pd_Ratio_V13_t;
+
+typedef struct {
+    pd_Rate_V13_t baseRate;
+} pd_CurveModel_V13_t;
+
+typedef struct {
     uint32_t value;
 } pd_EraIndex_V13_t;
+
+typedef struct {
+    pd_Rate_V13_t baseRate;
+    pd_Rate_V13_t jumpRate;
+    pd_Rate_V13_t fullRate;
+    pd_Ratio_V13_t jumpUtilization;
+} pd_JumpModel_V13_t;
 
 typedef struct {
     uint8_t value;
@@ -303,12 +322,28 @@ typedef struct {
 } pd_ContributionStrategy_V13_t;
 
 typedef struct {
+    uint32_t value;
+} pd_CurrencyId_V13_t;
+
+typedef struct {
+    uint8_t value;
+    union {
+        pd_JumpModel_V13_t jump;
+        pd_CurveModel_V13_t curve;
+    };
+} pd_InterestRateModel_V13_t;
+
+typedef struct {
     const uint8_t* _ptr;
 } pd_KeyValue_V13_t;
 
 typedef struct {
     const uint8_t* _ptr;
 } pd_Key_V13_t;
+
+typedef struct {
+    uint8_t value;
+} pd_MarketState_V13_t;
 
 typedef struct {
     uint8_t value;
@@ -418,6 +453,20 @@ typedef struct {
         const uint8_t* _ptr;
     };
 } pd_LookupasStaticLookupSource_V13_t;
+
+typedef struct {
+    pd_Ratio_V13_t collateralFactor;
+    pd_Ratio_V13_t liquidationThreshold;
+    pd_Ratio_V13_t reserveFactor;
+    pd_Ratio_V13_t closeFactor;
+    pd_Rate_V13_t liquidateIncentive;
+    pd_Ratio_V13_t liquidateIncentiveReservedFactor;
+    pd_InterestRateModel_V13_t rateModel;
+    pd_MarketState_V13_t state;
+    pd_Balance_t supplyCap;
+    pd_Balance_t borrowCap;
+    pd_CurrencyId_V13_t ptokenId;
+} pd_MarketBalanceOfT_V13_t;
 
 typedef struct {
     pd_Call_t call;
@@ -535,10 +584,6 @@ typedef struct {
 } pd_Conviction_V13_t;
 
 typedef struct {
-    uint32_t value;
-} pd_CurrencyId_V13_t;
-
-typedef struct {
     uint16_t value;
 } pd_DerivativeIndex_V13_t;
 
@@ -555,11 +600,6 @@ typedef struct {
 typedef struct {
     // TODO: Not implemented
     uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
-} pd_InterestRateModel_V13_t;
-
-typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
 } pd_JudgementBalanceOfT_V13_t;
 
 typedef struct {
@@ -570,11 +610,6 @@ typedef struct {
     // TODO: Not implemented
     uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
 } pd_LeasePeriod_V13_t;
-
-typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
-} pd_MarketBalanceOfT_V13_t;
 
 typedef struct {
     uint32_t value;
@@ -647,15 +682,6 @@ typedef struct {
 typedef struct {
     uint64_t value;
 } pd_QueryId_V13_t;
-
-typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
-} pd_Rate_V13_t;
-
-typedef struct {
-    uint32_t value;
-} pd_Ratio_V13_t;
 
 typedef struct {
     uint32_t value;
