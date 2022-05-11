@@ -342,8 +342,10 @@ typedef struct {
 } pd_VecMultiAssetV1_V13_t;
 
 typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
+    pd_BlockNumber_t start;
+    pd_BlockNumber_t period;
+    uint32_t periodCount;
+    pd_Compactu128_t perPeriod;
 } pd_VestingScheduleOf_V13_t;
 
 typedef struct {
@@ -409,6 +411,12 @@ typedef struct {
     uint8_t value;
     pd_AccountId_V13_t accountId;
 } pd_RewardDestination_V13_t;
+
+typedef struct {
+    uint64_t _len;
+    const uint8_t* _ptr;
+    uint64_t _lenBuffer;
+} pd_VecVestingScheduleOf_V13_t;
 
 typedef struct {
     // TODO: Not implemented
@@ -710,12 +718,6 @@ typedef struct {
     const uint8_t* _ptr;
     uint64_t _lenBuffer;
 } pd_VecTupleOracleKeyOracleValue_V13_t;
-
-typedef struct {
-    uint64_t _len;
-    const uint8_t* _ptr;
-    uint64_t _lenBuffer;
-} pd_VecVestingScheduleOf_V13_t;
 
 typedef struct {
     uint64_t value;

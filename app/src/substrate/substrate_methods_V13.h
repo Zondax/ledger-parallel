@@ -700,6 +700,18 @@ typedef struct {
 typedef struct {
 } pd_vesting_claim_V13_t;
 
+#define PD_CALL_VESTING_VESTED_TRANSFER_V13 1
+typedef struct {
+    pd_LookupasStaticLookupSource_V13_t dest;
+    pd_VestingScheduleOf_V13_t schedule;
+} pd_vesting_vested_transfer_V13_t;
+
+#define PD_CALL_VESTING_UPDATE_VESTING_SCHEDULES_V13 2
+typedef struct {
+    pd_LookupasStaticLookupSource_V13_t who;
+    pd_VecVestingScheduleOf_V13_t vesting_schedules;
+} pd_vesting_update_vesting_schedules_V13_t;
+
 #define PD_CALL_VESTING_CLAIM_FOR_V13 3
 typedef struct {
     pd_LookupasStaticLookupSource_V13_t dest;
@@ -1167,6 +1179,8 @@ typedef union {
     pd_collatorselection_register_as_candidate_V13_t collatorselection_register_as_candidate_V13;
     pd_collatorselection_leave_intent_V13_t collatorselection_leave_intent_V13;
     pd_vesting_claim_V13_t vesting_claim_V13;
+    pd_vesting_vested_transfer_V13_t vesting_vested_transfer_V13;
+    pd_vesting_update_vesting_schedules_V13_t vesting_update_vesting_schedules_V13;
     pd_vesting_claim_for_V13_t vesting_claim_for_V13;
     pd_loans_add_reward_V13_t loans_add_reward_V13;
     pd_loans_withdraw_missing_reward_V13_t loans_withdraw_missing_reward_V13;

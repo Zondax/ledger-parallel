@@ -1005,6 +1005,22 @@ __Z_INLINE parser_error_t _readMethod_vesting_claim_V13(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_vesting_vested_transfer_V13(
+    parser_context_t* c, pd_vesting_vested_transfer_V13_t* m)
+{
+    CHECK_ERROR(_readLookupasStaticLookupSource_V13(c, &m->dest))
+    CHECK_ERROR(_readVestingScheduleOf_V13(c, &m->schedule))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_vesting_update_vesting_schedules_V13(
+    parser_context_t* c, pd_vesting_update_vesting_schedules_V13_t* m)
+{
+    CHECK_ERROR(_readLookupasStaticLookupSource_V13(c, &m->who))
+    CHECK_ERROR(_readVecVestingScheduleOf_V13(c, &m->vesting_schedules))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_vesting_claim_for_V13(
     parser_context_t* c, pd_vesting_claim_for_V13_t* m)
 {
@@ -1883,6 +1899,12 @@ parser_error_t _readMethod_V13(
     case 11776: /* module 46 call 0 */
         CHECK_ERROR(_readMethod_vesting_claim_V13(c, &method->basic.vesting_claim_V13))
         break;
+    case 11777: /* module 46 call 1 */
+        CHECK_ERROR(_readMethod_vesting_vested_transfer_V13(c, &method->basic.vesting_vested_transfer_V13))
+        break;
+    case 11778: /* module 46 call 2 */
+        CHECK_ERROR(_readMethod_vesting_update_vesting_schedules_V13(c, &method->basic.vesting_update_vesting_schedules_V13))
+        break;
     case 11779: /* module 46 call 3 */
         CHECK_ERROR(_readMethod_vesting_claim_for_V13(c, &method->basic.vesting_claim_for_V13))
         break;
@@ -2442,6 +2464,10 @@ const char* _getMethod_Name_V13_ParserFull(uint16_t callPrivIdx)
         return STR_ME_LEAVE_INTENT;
     case 11776: /* module 46 call 0 */
         return STR_ME_CLAIM;
+    case 11777: /* module 46 call 1 */
+        return STR_ME_VESTED_TRANSFER;
+    case 11778: /* module 46 call 2 */
+        return STR_ME_UPDATE_VESTING_SCHEDULES;
     case 11779: /* module 46 call 3 */
         return STR_ME_CLAIM_FOR;
     case 12805: /* module 50 call 5 */
@@ -2842,6 +2868,10 @@ uint8_t _getMethod_NumItems_V13(uint8_t moduleIdx, uint8_t callIdx)
         return 0;
     case 11776: /* module 46 call 0 */
         return 0;
+    case 11777: /* module 46 call 1 */
+        return 2;
+    case 11778: /* module 46 call 2 */
+        return 2;
     case 11779: /* module 46 call 3 */
         return 1;
     case 12805: /* module 50 call 5 */
@@ -4084,6 +4114,24 @@ const char* _getMethod_ItemName_V13(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         }
     case 11776: /* module 46 call 0 */
         switch (itemIdx) {
+        default:
+            return NULL;
+        }
+    case 11777: /* module 46 call 1 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_dest;
+        case 1:
+            return STR_IT_schedule;
+        default:
+            return NULL;
+        }
+    case 11778: /* module 46 call 2 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_who;
+        case 1:
+            return STR_IT_vesting_schedules;
         default:
             return NULL;
         }
@@ -6407,6 +6455,36 @@ parser_error_t _getMethod_ItemValue_V13(
         default:
             return parser_no_data;
         }
+    case 11777: /* module 46 call 1 */
+        switch (itemIdx) {
+        case 0: /* vesting_vested_transfer_V13 - dest */;
+            return _toStringLookupasStaticLookupSource_V13(
+                &m->basic.vesting_vested_transfer_V13.dest,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* vesting_vested_transfer_V13 - schedule */;
+            return _toStringVestingScheduleOf_V13(
+                &m->basic.vesting_vested_transfer_V13.schedule,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 11778: /* module 46 call 2 */
+        switch (itemIdx) {
+        case 0: /* vesting_update_vesting_schedules_V13 - who */;
+            return _toStringLookupasStaticLookupSource_V13(
+                &m->basic.vesting_update_vesting_schedules_V13.who,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* vesting_update_vesting_schedules_V13 - vesting_schedules */;
+            return _toStringVecVestingScheduleOf_V13(
+                &m->basic.vesting_update_vesting_schedules_V13.vesting_schedules,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 11779: /* module 46 call 3 */
         switch (itemIdx) {
         case 0: /* vesting_claim_for_V13 - dest */;
@@ -7286,6 +7364,8 @@ bool _getMethod_IsNestingSupported_V13(uint8_t moduleIdx, uint8_t callIdx)
     case 8192: // Session:Set keys
     case 8193: // Session:Purge keys
     case 11776: // Vesting:Claim
+    case 11777: // Vesting:Vested transfer
+    case 11778: // Vesting:Update vesting schedules
     case 11779: // Vesting:Claim for
     case 12805: // Loans:Add reward
     case 12806: // Loans:Withdraw missing reward

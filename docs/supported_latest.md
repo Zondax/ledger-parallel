@@ -294,8 +294,8 @@
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
 |Claim |    | :heavy_check_mark: |   |  |
-|Vested transfer |    |   |   | `LookupasStaticLookupSource` dest <br/>`VestingScheduleOf` schedule <br/> |
-|Update vesting schedules |    |   |   | `LookupasStaticLookupSource` who <br/>`VecVestingScheduleOf` vesting_schedules <br/> |
+|Vested transfer |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` dest <br/>`VestingScheduleOf` schedule <br/> |
+|Update vesting schedules |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` who <br/>`VecVestingScheduleOf` vesting_schedules <br/> |
 |Claim for |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` dest <br/> |
 
 ## Loans
