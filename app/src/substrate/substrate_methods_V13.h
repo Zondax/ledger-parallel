@@ -776,6 +776,37 @@ typedef struct {
     pd_Compactu128_t cap;
 } pd_liquidstaking_update_staking_ledger_cap_V13_t;
 
+#define PD_CALL_LIQUIDSTAKING_BOND_V13 4
+typedef struct {
+    pd_DerivativeIndex_V13_t derivative_index;
+    pd_Compactu128_t amount;
+    pd_RewardDestination_V13_t payee;
+} pd_liquidstaking_bond_V13_t;
+
+#define PD_CALL_LIQUIDSTAKING_BOND_EXTRA_V13 5
+typedef struct {
+    pd_DerivativeIndex_V13_t derivative_index;
+    pd_Compactu128_t amount;
+} pd_liquidstaking_bond_extra_V13_t;
+
+#define PD_CALL_LIQUIDSTAKING_UNBOND_V13 6
+typedef struct {
+    pd_DerivativeIndex_V13_t derivative_index;
+    pd_Compactu128_t amount;
+} pd_liquidstaking_unbond_V13_t;
+
+#define PD_CALL_LIQUIDSTAKING_REBOND_V13 7
+typedef struct {
+    pd_DerivativeIndex_V13_t derivative_index;
+    pd_Compactu128_t amount;
+} pd_liquidstaking_rebond_V13_t;
+
+#define PD_CALL_LIQUIDSTAKING_WITHDRAW_UNBONDED_V13 8
+typedef struct {
+    pd_DerivativeIndex_V13_t derivative_index;
+    pd_u32_t num_slashing_spans;
+} pd_liquidstaking_withdraw_unbonded_V13_t;
+
 #define PD_CALL_LIQUIDSTAKING_NOMINATE_V13 9
 typedef struct {
     pd_DerivativeIndex_V13_t derivative_index;
@@ -786,6 +817,11 @@ typedef struct {
 typedef struct {
     pd_LookupasStaticLookupSource_V13_t dest;
 } pd_liquidstaking_claim_for_V13_t;
+
+#define PD_CALL_LIQUIDSTAKING_FORCE_SET_ERA_START_BLOCK_V13 12
+typedef struct {
+    pd_BlockNumber_t block_number;
+} pd_liquidstaking_force_set_era_start_block_V13_t;
 
 #define PD_CALL_LIQUIDSTAKING_FORCE_SET_CURRENT_ERA_V13 13
 typedef struct {
@@ -801,11 +837,24 @@ typedef struct {
 typedef struct {
 } pd_liquidstaking_force_matching_V13_t;
 
+#define PD_CALL_LIQUIDSTAKING_FORCE_SET_STAKING_LEDGER_V13 16
+typedef struct {
+    pd_DerivativeIndex_V13_t derivative_index;
+    pd_StakingLedgerAccountIdBalanceOfT_V13_t staking_ledger;
+} pd_liquidstaking_force_set_staking_ledger_V13_t;
+
 #define PD_CALL_LIQUIDSTAKING_SET_CURRENT_ERA_V13 17
 typedef struct {
     pd_EraIndex_V13_t era;
     pd_VecVecu8_t proof;
 } pd_liquidstaking_set_current_era_V13_t;
+
+#define PD_CALL_LIQUIDSTAKING_SET_STAKING_LEDGER_V13 18
+typedef struct {
+    pd_DerivativeIndex_V13_t derivative_index;
+    pd_StakingLedgerAccountIdBalanceOfT_V13_t staking_ledger;
+    pd_VecVecu8_t proof;
+} pd_liquidstaking_set_staking_ledger_V13_t;
 
 #define PD_CALL_GENERALCOUNCILMEMBERSHIP_ADD_MEMBER_V13 0
 typedef struct {
@@ -1193,12 +1242,20 @@ typedef union {
     pd_liquidstaking_unstake_V13_t liquidstaking_unstake_V13;
     pd_liquidstaking_update_reserve_factor_V13_t liquidstaking_update_reserve_factor_V13;
     pd_liquidstaking_update_staking_ledger_cap_V13_t liquidstaking_update_staking_ledger_cap_V13;
+    pd_liquidstaking_bond_V13_t liquidstaking_bond_V13;
+    pd_liquidstaking_bond_extra_V13_t liquidstaking_bond_extra_V13;
+    pd_liquidstaking_unbond_V13_t liquidstaking_unbond_V13;
+    pd_liquidstaking_rebond_V13_t liquidstaking_rebond_V13;
+    pd_liquidstaking_withdraw_unbonded_V13_t liquidstaking_withdraw_unbonded_V13;
     pd_liquidstaking_nominate_V13_t liquidstaking_nominate_V13;
     pd_liquidstaking_claim_for_V13_t liquidstaking_claim_for_V13;
+    pd_liquidstaking_force_set_era_start_block_V13_t liquidstaking_force_set_era_start_block_V13;
     pd_liquidstaking_force_set_current_era_V13_t liquidstaking_force_set_current_era_V13;
     pd_liquidstaking_force_advance_era_V13_t liquidstaking_force_advance_era_V13;
     pd_liquidstaking_force_matching_V13_t liquidstaking_force_matching_V13;
+    pd_liquidstaking_force_set_staking_ledger_V13_t liquidstaking_force_set_staking_ledger_V13;
     pd_liquidstaking_set_current_era_V13_t liquidstaking_set_current_era_V13;
+    pd_liquidstaking_set_staking_ledger_V13_t liquidstaking_set_staking_ledger_V13;
     pd_generalcouncilmembership_add_member_V13_t generalcouncilmembership_add_member_V13;
     pd_generalcouncilmembership_remove_member_V13_t generalcouncilmembership_remove_member_V13;
     pd_generalcouncilmembership_swap_member_V13_t generalcouncilmembership_swap_member_V13;

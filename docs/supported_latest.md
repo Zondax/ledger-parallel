@@ -335,7 +335,7 @@
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Create vault |    |   |   | `ParaId` crowdloan <br/>`AssetIdOfT` ctoken <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/>`ContributionStrategy` contribution_strategy <br/>`Compactu128` cap <br/>`BlockNumberForT` end_block <br/> |
+|Create vault |    |   |   | `ParaId` crowdloan <br/>`AssetIdOfT` ctoken <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/>`ContributionStrategy` contribution_strategy <br/>`Compactu128` cap <br/>`BlockNumber` end_block <br/> |
 |Update vault |    |   |   | `ParaId` crowdloan <br/>`OptionBalanceOfT` cap <br/>`OptionBlockNumberForT` end_block <br/>`OptionContributionStrategy` contribution_strategy <br/> |
 |Open |    |   |   | `ParaId` crowdloan <br/> |
 |Contribute |    |   |   | `ParaId` crowdloan <br/>`Compactu128` amount <br/>`Vecu8` referral_code <br/> |
@@ -363,21 +363,21 @@
 |Unstake |    | :heavy_check_mark: |   | `Compactu128` liquid_amount <br/> |
 |Update reserve factor |    | :heavy_check_mark: |   | `Ratio` reserve_factor <br/> |
 |Update staking ledger cap |    | :heavy_check_mark: |   | `Compactu128` cap <br/> |
-|Bond |    |   |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/>`RewardDestination` payee <br/> |
-|Bond extra |    |   |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
-|Unbond |    |   |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
-|Rebond |    |   |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
-|Withdraw Unbonded |    |   |   | `DerivativeIndex` derivative_index <br/>`u32` num_slashing_spans <br/> |
+|Bond |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/>`RewardDestination` payee <br/> |
+|Bond extra |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
+|Unbond |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
+|Rebond |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
+|Withdraw Unbonded |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`u32` num_slashing_spans <br/> |
 |Nominate |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`VecAccountId` targets <br/> |
 |Notification received |    |   |   | `QueryId` query_id <br/>`Response` response <br/> |
 |Claim for |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` dest <br/> |
-|Force set era start block |    |   |   | `BlockNumberForT` block_number <br/> |
+|Force set era start block |    | :heavy_check_mark: |   | `BlockNumber` block_number <br/> |
 |Force set current era |    | :heavy_check_mark: |   | `EraIndex` era <br/> |
 |Force advance era |    | :heavy_check_mark: |   | `EraIndex` offset <br/> |
 |Force matching |    | :heavy_check_mark: |   |  |
-|Force set staking ledger |    |   |   | `DerivativeIndex` derivative_index <br/>`StakingLedgerAccountIdBalanceOfT` staking_ledger <br/> |
+|Force set staking ledger |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`StakingLedgerAccountIdBalanceOfT` staking_ledger <br/> |
 |Set current era |    | :heavy_check_mark: |   | `EraIndex` era <br/>`VecVecu8` proof <br/> |
-|Set staking ledger |    |   |   | `DerivativeIndex` derivative_index <br/>`StakingLedgerAccountIdBalanceOfT` staking_ledger <br/>`VecVecu8` proof <br/> |
+|Set staking ledger |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`StakingLedgerAccountIdBalanceOfT` staking_ledger <br/>`VecVecu8` proof <br/> |
 
 ## GeneralCouncilMembership
 

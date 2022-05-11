@@ -882,7 +882,13 @@ parser_error_t _readRewardDestination_V13(parser_context_t* c, pd_RewardDestinat
 
 parser_error_t _readStakingLedgerAccountIdBalanceOfT_V13(parser_context_t* c, pd_StakingLedgerAccountIdBalanceOfT_V13_t* v)
 {
-    return parser_not_supported;
+    CHECK_INPUT()
+    CHECK_ERROR(_readAccountId_V13(c, &v->stash))
+    CHECK_ERROR(_readCompactu128(c, &v->total))
+    CHECK_ERROR(_readCompactu128(c, &v->active))
+    CHECK_ERROR(_readVecUnlockChunk_V13(c, &v->unlocking))
+    CHECK_ERROR(_readVecEraIndex_V13(c, &v->claimedRewards))
+    return parser_ok;
 }
 
 parser_error_t _readStreamId_V13(parser_context_t* c, pd_StreamId_V13_t* v)
@@ -920,6 +926,14 @@ parser_error_t _readTupleCurrencyIdBalance_V13(parser_context_t* c, pd_TupleCurr
 parser_error_t _readTupleOracleKeyOracleValue_V13(parser_context_t* c, pd_TupleOracleKeyOracleValue_V13_t* v)
 {
     return parser_not_supported;
+}
+
+parser_error_t _readUnlockChunk_V13(parser_context_t* c, pd_UnlockChunk_V13_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readCompactu128(c, &v->value))
+    CHECK_ERROR(_readCompactu32(c, &v->era))
+    return parser_ok;
 }
 
 parser_error_t _readUpwardMessage_V13(parser_context_t* c, pd_UpwardMessage_V13_t* v)
@@ -1005,6 +1019,10 @@ parser_error_t _readVecAssetIdOfTI_V13(parser_context_t* c, pd_VecAssetIdOfTI_V1
     GEN_DEF_READVECTOR(AssetIdOfTI_V13)
 }
 
+parser_error_t _readVecEraIndex_V13(parser_context_t* c, pd_VecEraIndex_V13_t* v) {
+    GEN_DEF_READVECTOR(EraIndex_V13)
+}
+
 parser_error_t _readVecKeyValue_V13(parser_context_t* c, pd_VecKeyValue_V13_t* v) {
     GEN_DEF_READVECTOR(KeyValue_V13)
 }
@@ -1031,6 +1049,10 @@ parser_error_t _readVecTupleCurrencyIdBalance_V13(parser_context_t* c, pd_VecTup
 
 parser_error_t _readVecTupleOracleKeyOracleValue_V13(parser_context_t* c, pd_VecTupleOracleKeyOracleValue_V13_t* v) {
     GEN_DEF_READVECTOR(TupleOracleKeyOracleValue_V13)
+}
+
+parser_error_t _readVecUnlockChunk_V13(parser_context_t* c, pd_VecUnlockChunk_V13_t* v) {
+    GEN_DEF_READVECTOR(UnlockChunk_V13)
 }
 
 parser_error_t _readVecVestingScheduleOf_V13(parser_context_t* c, pd_VecVestingScheduleOf_V13_t* v) {
@@ -3239,7 +3261,54 @@ parser_error_t _toStringStakingLedgerAccountIdBalanceOfT_V13(
     uint8_t* pageCount)
 {
     CLEAN_AND_CHECK()
-    return parser_print_not_supported;
+
+    // First measure number of pages
+    uint8_t pages[5] = { 0 };
+    CHECK_ERROR(_toStringAccountId_V13(&v->stash, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringCompactu128(&v->total, outValue, outValueLen, 0, &pages[1]))
+    CHECK_ERROR(_toStringCompactu128(&v->active, outValue, outValueLen, 0, &pages[2]))
+    CHECK_ERROR(_toStringVecUnlockChunk_V13(&v->unlocking, outValue, outValueLen, 0, &pages[3]))
+    CHECK_ERROR(_toStringVecEraIndex_V13(&v->claimedRewards, outValue, outValueLen, 0, &pages[4]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringAccountId_V13(&v->stash, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringCompactu128(&v->total, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+    pageIdx -= pages[1];
+
+    if (pageIdx < pages[2]) {
+        CHECK_ERROR(_toStringCompactu128(&v->active, outValue, outValueLen, pageIdx, &pages[2]))
+        return parser_ok;
+    }
+    pageIdx -= pages[2];
+
+    if (pageIdx < pages[3]) {
+        CHECK_ERROR(_toStringVecUnlockChunk_V13(&v->unlocking, outValue, outValueLen, pageIdx, &pages[3]))
+        return parser_ok;
+    }
+    pageIdx -= pages[3];
+
+    if (pageIdx < pages[4]) {
+        CHECK_ERROR(_toStringVecEraIndex_V13(&v->claimedRewards, outValue, outValueLen, pageIdx, &pages[4]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
 }
 
 parser_error_t _toStringStreamId_V13(
@@ -3343,6 +3412,43 @@ parser_error_t _toStringTupleOracleKeyOracleValue_V13(
 {
     CLEAN_AND_CHECK()
     return parser_print_not_supported;
+}
+
+parser_error_t _toStringUnlockChunk_V13(
+    const pd_UnlockChunk_V13_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    // First measure number of pages
+    uint8_t pages[2] = { 0 };
+    CHECK_ERROR(_toStringCompactu128(&v->value, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringCompactu32(&v->era, outValue, outValueLen, 0, &pages[1]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringCompactu128(&v->value, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringCompactu32(&v->era, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
 }
 
 parser_error_t _toStringUpwardMessage_V13(
@@ -3545,6 +3651,16 @@ parser_error_t _toStringVecAssetIdOfTI_V13(
     GEN_DEF_TOSTRING_VECTOR(AssetIdOfTI_V13);
 }
 
+parser_error_t _toStringVecEraIndex_V13(
+    const pd_VecEraIndex_V13_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    GEN_DEF_TOSTRING_VECTOR(EraIndex_V13);
+}
+
 parser_error_t _toStringVecKeyValue_V13(
     const pd_VecKeyValue_V13_t* v,
     char* outValue,
@@ -3613,6 +3729,16 @@ parser_error_t _toStringVecTupleOracleKeyOracleValue_V13(
     uint8_t* pageCount)
 {
     GEN_DEF_TOSTRING_VECTOR(TupleOracleKeyOracleValue_V13);
+}
+
+parser_error_t _toStringVecUnlockChunk_V13(
+    const pd_VecUnlockChunk_V13_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    GEN_DEF_TOSTRING_VECTOR(UnlockChunk_V13);
 }
 
 parser_error_t _toStringVecVestingScheduleOf_V13(

@@ -1109,6 +1109,47 @@ __Z_INLINE parser_error_t _readMethod_liquidstaking_update_staking_ledger_cap_V1
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_liquidstaking_bond_V13(
+    parser_context_t* c, pd_liquidstaking_bond_V13_t* m)
+{
+    CHECK_ERROR(_readDerivativeIndex_V13(c, &m->derivative_index))
+    CHECK_ERROR(_readCompactu128(c, &m->amount))
+    CHECK_ERROR(_readRewardDestination_V13(c, &m->payee))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_liquidstaking_bond_extra_V13(
+    parser_context_t* c, pd_liquidstaking_bond_extra_V13_t* m)
+{
+    CHECK_ERROR(_readDerivativeIndex_V13(c, &m->derivative_index))
+    CHECK_ERROR(_readCompactu128(c, &m->amount))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_liquidstaking_unbond_V13(
+    parser_context_t* c, pd_liquidstaking_unbond_V13_t* m)
+{
+    CHECK_ERROR(_readDerivativeIndex_V13(c, &m->derivative_index))
+    CHECK_ERROR(_readCompactu128(c, &m->amount))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_liquidstaking_rebond_V13(
+    parser_context_t* c, pd_liquidstaking_rebond_V13_t* m)
+{
+    CHECK_ERROR(_readDerivativeIndex_V13(c, &m->derivative_index))
+    CHECK_ERROR(_readCompactu128(c, &m->amount))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_liquidstaking_withdraw_unbonded_V13(
+    parser_context_t* c, pd_liquidstaking_withdraw_unbonded_V13_t* m)
+{
+    CHECK_ERROR(_readDerivativeIndex_V13(c, &m->derivative_index))
+    CHECK_ERROR(_readu32(c, &m->num_slashing_spans))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_liquidstaking_nominate_V13(
     parser_context_t* c, pd_liquidstaking_nominate_V13_t* m)
 {
@@ -1121,6 +1162,13 @@ __Z_INLINE parser_error_t _readMethod_liquidstaking_claim_for_V13(
     parser_context_t* c, pd_liquidstaking_claim_for_V13_t* m)
 {
     CHECK_ERROR(_readLookupasStaticLookupSource_V13(c, &m->dest))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_liquidstaking_force_set_era_start_block_V13(
+    parser_context_t* c, pd_liquidstaking_force_set_era_start_block_V13_t* m)
+{
+    CHECK_ERROR(_readBlockNumber(c, &m->block_number))
     return parser_ok;
 }
 
@@ -1144,10 +1192,27 @@ __Z_INLINE parser_error_t _readMethod_liquidstaking_force_matching_V13(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_liquidstaking_force_set_staking_ledger_V13(
+    parser_context_t* c, pd_liquidstaking_force_set_staking_ledger_V13_t* m)
+{
+    CHECK_ERROR(_readDerivativeIndex_V13(c, &m->derivative_index))
+    CHECK_ERROR(_readStakingLedgerAccountIdBalanceOfT_V13(c, &m->staking_ledger))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_liquidstaking_set_current_era_V13(
     parser_context_t* c, pd_liquidstaking_set_current_era_V13_t* m)
 {
     CHECK_ERROR(_readEraIndex_V13(c, &m->era))
+    CHECK_ERROR(_readVecVecu8(c, &m->proof))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_liquidstaking_set_staking_ledger_V13(
+    parser_context_t* c, pd_liquidstaking_set_staking_ledger_V13_t* m)
+{
+    CHECK_ERROR(_readDerivativeIndex_V13(c, &m->derivative_index))
+    CHECK_ERROR(_readStakingLedgerAccountIdBalanceOfT_V13(c, &m->staking_ledger))
     CHECK_ERROR(_readVecVecu8(c, &m->proof))
     return parser_ok;
 }
@@ -1941,11 +2006,29 @@ parser_error_t _readMethod_V13(
     case 15363: /* module 60 call 3 */
         CHECK_ERROR(_readMethod_liquidstaking_update_staking_ledger_cap_V13(c, &method->basic.liquidstaking_update_staking_ledger_cap_V13))
         break;
+    case 15364: /* module 60 call 4 */
+        CHECK_ERROR(_readMethod_liquidstaking_bond_V13(c, &method->basic.liquidstaking_bond_V13))
+        break;
+    case 15365: /* module 60 call 5 */
+        CHECK_ERROR(_readMethod_liquidstaking_bond_extra_V13(c, &method->basic.liquidstaking_bond_extra_V13))
+        break;
+    case 15366: /* module 60 call 6 */
+        CHECK_ERROR(_readMethod_liquidstaking_unbond_V13(c, &method->basic.liquidstaking_unbond_V13))
+        break;
+    case 15367: /* module 60 call 7 */
+        CHECK_ERROR(_readMethod_liquidstaking_rebond_V13(c, &method->basic.liquidstaking_rebond_V13))
+        break;
+    case 15368: /* module 60 call 8 */
+        CHECK_ERROR(_readMethod_liquidstaking_withdraw_unbonded_V13(c, &method->basic.liquidstaking_withdraw_unbonded_V13))
+        break;
     case 15369: /* module 60 call 9 */
         CHECK_ERROR(_readMethod_liquidstaking_nominate_V13(c, &method->basic.liquidstaking_nominate_V13))
         break;
     case 15371: /* module 60 call 11 */
         CHECK_ERROR(_readMethod_liquidstaking_claim_for_V13(c, &method->basic.liquidstaking_claim_for_V13))
+        break;
+    case 15372: /* module 60 call 12 */
+        CHECK_ERROR(_readMethod_liquidstaking_force_set_era_start_block_V13(c, &method->basic.liquidstaking_force_set_era_start_block_V13))
         break;
     case 15373: /* module 60 call 13 */
         CHECK_ERROR(_readMethod_liquidstaking_force_set_current_era_V13(c, &method->basic.liquidstaking_force_set_current_era_V13))
@@ -1956,8 +2039,14 @@ parser_error_t _readMethod_V13(
     case 15375: /* module 60 call 15 */
         CHECK_ERROR(_readMethod_liquidstaking_force_matching_V13(c, &method->basic.liquidstaking_force_matching_V13))
         break;
+    case 15376: /* module 60 call 16 */
+        CHECK_ERROR(_readMethod_liquidstaking_force_set_staking_ledger_V13(c, &method->basic.liquidstaking_force_set_staking_ledger_V13))
+        break;
     case 15377: /* module 60 call 17 */
         CHECK_ERROR(_readMethod_liquidstaking_set_current_era_V13(c, &method->basic.liquidstaking_set_current_era_V13))
+        break;
+    case 15378: /* module 60 call 18 */
+        CHECK_ERROR(_readMethod_liquidstaking_set_staking_ledger_V13(c, &method->basic.liquidstaking_set_staking_ledger_V13))
         break;
     case 17920: /* module 70 call 0 */
         CHECK_ERROR(_readMethod_generalcouncilmembership_add_member_V13(c, &method->basic.generalcouncilmembership_add_member_V13))
@@ -2492,18 +2581,34 @@ const char* _getMethod_Name_V13_ParserFull(uint16_t callPrivIdx)
         return STR_ME_UPDATE_RESERVE_FACTOR;
     case 15363: /* module 60 call 3 */
         return STR_ME_UPDATE_STAKING_LEDGER_CAP;
+    case 15364: /* module 60 call 4 */
+        return STR_ME_BOND;
+    case 15365: /* module 60 call 5 */
+        return STR_ME_BOND_EXTRA;
+    case 15366: /* module 60 call 6 */
+        return STR_ME_UNBOND;
+    case 15367: /* module 60 call 7 */
+        return STR_ME_REBOND;
+    case 15368: /* module 60 call 8 */
+        return STR_ME_WITHDRAW_UNBONDED;
     case 15369: /* module 60 call 9 */
         return STR_ME_NOMINATE;
     case 15371: /* module 60 call 11 */
         return STR_ME_CLAIM_FOR;
+    case 15372: /* module 60 call 12 */
+        return STR_ME_FORCE_SET_ERA_START_BLOCK;
     case 15373: /* module 60 call 13 */
         return STR_ME_FORCE_SET_CURRENT_ERA;
     case 15374: /* module 60 call 14 */
         return STR_ME_FORCE_ADVANCE_ERA;
     case 15375: /* module 60 call 15 */
         return STR_ME_FORCE_MATCHING;
+    case 15376: /* module 60 call 16 */
+        return STR_ME_FORCE_SET_STAKING_LEDGER;
     case 15377: /* module 60 call 17 */
         return STR_ME_SET_CURRENT_ERA;
+    case 15378: /* module 60 call 18 */
+        return STR_ME_SET_STAKING_LEDGER;
     case 17920: /* module 70 call 0 */
         return STR_ME_ADD_MEMBER;
     case 17921: /* module 70 call 1 */
@@ -2896,9 +3001,21 @@ uint8_t _getMethod_NumItems_V13(uint8_t moduleIdx, uint8_t callIdx)
         return 1;
     case 15363: /* module 60 call 3 */
         return 1;
+    case 15364: /* module 60 call 4 */
+        return 3;
+    case 15365: /* module 60 call 5 */
+        return 2;
+    case 15366: /* module 60 call 6 */
+        return 2;
+    case 15367: /* module 60 call 7 */
+        return 2;
+    case 15368: /* module 60 call 8 */
+        return 2;
     case 15369: /* module 60 call 9 */
         return 2;
     case 15371: /* module 60 call 11 */
+        return 1;
+    case 15372: /* module 60 call 12 */
         return 1;
     case 15373: /* module 60 call 13 */
         return 1;
@@ -2906,8 +3023,12 @@ uint8_t _getMethod_NumItems_V13(uint8_t moduleIdx, uint8_t callIdx)
         return 1;
     case 15375: /* module 60 call 15 */
         return 0;
+    case 15376: /* module 60 call 16 */
+        return 2;
     case 15377: /* module 60 call 17 */
         return 2;
+    case 15378: /* module 60 call 18 */
+        return 3;
     case 17920: /* module 70 call 0 */
         return 1;
     case 17921: /* module 70 call 1 */
@@ -4227,6 +4348,53 @@ const char* _getMethod_ItemName_V13(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         default:
             return NULL;
         }
+    case 15364: /* module 60 call 4 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_derivative_index;
+        case 1:
+            return STR_IT_amount;
+        case 2:
+            return STR_IT_payee;
+        default:
+            return NULL;
+        }
+    case 15365: /* module 60 call 5 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_derivative_index;
+        case 1:
+            return STR_IT_amount;
+        default:
+            return NULL;
+        }
+    case 15366: /* module 60 call 6 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_derivative_index;
+        case 1:
+            return STR_IT_amount;
+        default:
+            return NULL;
+        }
+    case 15367: /* module 60 call 7 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_derivative_index;
+        case 1:
+            return STR_IT_amount;
+        default:
+            return NULL;
+        }
+    case 15368: /* module 60 call 8 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_derivative_index;
+        case 1:
+            return STR_IT_num_slashing_spans;
+        default:
+            return NULL;
+        }
     case 15369: /* module 60 call 9 */
         switch (itemIdx) {
         case 0:
@@ -4240,6 +4408,13 @@ const char* _getMethod_ItemName_V13(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         switch (itemIdx) {
         case 0:
             return STR_IT_dest;
+        default:
+            return NULL;
+        }
+    case 15372: /* module 60 call 12 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_block_number;
         default:
             return NULL;
         }
@@ -4262,11 +4437,31 @@ const char* _getMethod_ItemName_V13(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         default:
             return NULL;
         }
+    case 15376: /* module 60 call 16 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_derivative_index;
+        case 1:
+            return STR_IT_staking_ledger;
+        default:
+            return NULL;
+        }
     case 15377: /* module 60 call 17 */
         switch (itemIdx) {
         case 0:
             return STR_IT_era;
         case 1:
+            return STR_IT_proof;
+        default:
+            return NULL;
+        }
+    case 15378: /* module 60 call 18 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_derivative_index;
+        case 1:
+            return STR_IT_staking_ledger;
+        case 2:
             return STR_IT_proof;
         default:
             return NULL;
@@ -6625,6 +6820,86 @@ parser_error_t _getMethod_ItemValue_V13(
         default:
             return parser_no_data;
         }
+    case 15364: /* module 60 call 4 */
+        switch (itemIdx) {
+        case 0: /* liquidstaking_bond_V13 - derivative_index */;
+            return _toStringDerivativeIndex_V13(
+                &m->basic.liquidstaking_bond_V13.derivative_index,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* liquidstaking_bond_V13 - amount */;
+            return _toStringCompactu128(
+                &m->basic.liquidstaking_bond_V13.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* liquidstaking_bond_V13 - payee */;
+            return _toStringRewardDestination_V13(
+                &m->basic.liquidstaking_bond_V13.payee,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 15365: /* module 60 call 5 */
+        switch (itemIdx) {
+        case 0: /* liquidstaking_bond_extra_V13 - derivative_index */;
+            return _toStringDerivativeIndex_V13(
+                &m->basic.liquidstaking_bond_extra_V13.derivative_index,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* liquidstaking_bond_extra_V13 - amount */;
+            return _toStringCompactu128(
+                &m->basic.liquidstaking_bond_extra_V13.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 15366: /* module 60 call 6 */
+        switch (itemIdx) {
+        case 0: /* liquidstaking_unbond_V13 - derivative_index */;
+            return _toStringDerivativeIndex_V13(
+                &m->basic.liquidstaking_unbond_V13.derivative_index,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* liquidstaking_unbond_V13 - amount */;
+            return _toStringCompactu128(
+                &m->basic.liquidstaking_unbond_V13.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 15367: /* module 60 call 7 */
+        switch (itemIdx) {
+        case 0: /* liquidstaking_rebond_V13 - derivative_index */;
+            return _toStringDerivativeIndex_V13(
+                &m->basic.liquidstaking_rebond_V13.derivative_index,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* liquidstaking_rebond_V13 - amount */;
+            return _toStringCompactu128(
+                &m->basic.liquidstaking_rebond_V13.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 15368: /* module 60 call 8 */
+        switch (itemIdx) {
+        case 0: /* liquidstaking_withdraw_unbonded_V13 - derivative_index */;
+            return _toStringDerivativeIndex_V13(
+                &m->basic.liquidstaking_withdraw_unbonded_V13.derivative_index,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* liquidstaking_withdraw_unbonded_V13 - num_slashing_spans */;
+            return _toStringu32(
+                &m->basic.liquidstaking_withdraw_unbonded_V13.num_slashing_spans,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 15369: /* module 60 call 9 */
         switch (itemIdx) {
         case 0: /* liquidstaking_nominate_V13 - derivative_index */;
@@ -6645,6 +6920,16 @@ parser_error_t _getMethod_ItemValue_V13(
         case 0: /* liquidstaking_claim_for_V13 - dest */;
             return _toStringLookupasStaticLookupSource_V13(
                 &m->basic.liquidstaking_claim_for_V13.dest,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 15372: /* module 60 call 12 */
+        switch (itemIdx) {
+        case 0: /* liquidstaking_force_set_era_start_block_V13 - block_number */;
+            return _toStringBlockNumber(
+                &m->basic.liquidstaking_force_set_era_start_block_V13.block_number,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -6675,6 +6960,21 @@ parser_error_t _getMethod_ItemValue_V13(
         default:
             return parser_no_data;
         }
+    case 15376: /* module 60 call 16 */
+        switch (itemIdx) {
+        case 0: /* liquidstaking_force_set_staking_ledger_V13 - derivative_index */;
+            return _toStringDerivativeIndex_V13(
+                &m->basic.liquidstaking_force_set_staking_ledger_V13.derivative_index,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* liquidstaking_force_set_staking_ledger_V13 - staking_ledger */;
+            return _toStringStakingLedgerAccountIdBalanceOfT_V13(
+                &m->basic.liquidstaking_force_set_staking_ledger_V13.staking_ledger,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 15377: /* module 60 call 17 */
         switch (itemIdx) {
         case 0: /* liquidstaking_set_current_era_V13 - era */;
@@ -6685,6 +6985,26 @@ parser_error_t _getMethod_ItemValue_V13(
         case 1: /* liquidstaking_set_current_era_V13 - proof */;
             return _toStringVecVecu8(
                 &m->basic.liquidstaking_set_current_era_V13.proof,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 15378: /* module 60 call 18 */
+        switch (itemIdx) {
+        case 0: /* liquidstaking_set_staking_ledger_V13 - derivative_index */;
+            return _toStringDerivativeIndex_V13(
+                &m->basic.liquidstaking_set_staking_ledger_V13.derivative_index,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* liquidstaking_set_staking_ledger_V13 - staking_ledger */;
+            return _toStringStakingLedgerAccountIdBalanceOfT_V13(
+                &m->basic.liquidstaking_set_staking_ledger_V13.staking_ledger,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* liquidstaking_set_staking_ledger_V13 - proof */;
+            return _toStringVecVecu8(
+                &m->basic.liquidstaking_set_staking_ledger_V13.proof,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -7243,6 +7563,13 @@ bool _getMethod_ItemIsExpert_V13(uint8_t moduleIdx, uint8_t callIdx, uint8_t ite
     uint16_t callPrivIdx = ((uint16_t)moduleIdx << 8u) + callIdx;
 
     switch (callPrivIdx) {
+    case 15368: // LiquidStaking:Withdraw Unbonded
+        switch (itemIdx) {
+        case 1: // Num slashing spans
+            return true;
+        default:
+            return false;
+        }
 
     default:
         return false;
@@ -7378,12 +7705,20 @@ bool _getMethod_IsNestingSupported_V13(uint8_t moduleIdx, uint8_t callIdx)
     case 15361: // LiquidStaking:Unstake
     case 15362: // LiquidStaking:Update reserve factor
     case 15363: // LiquidStaking:Update staking ledger cap
+    case 15364: // LiquidStaking:Bond
+    case 15365: // LiquidStaking:Bond extra
+    case 15366: // LiquidStaking:Unbond
+    case 15367: // LiquidStaking:Rebond
+    case 15368: // LiquidStaking:Withdraw Unbonded
     case 15369: // LiquidStaking:Nominate
     case 15371: // LiquidStaking:Claim for
+    case 15372: // LiquidStaking:Force set era start block
     case 15373: // LiquidStaking:Force set current era
     case 15374: // LiquidStaking:Force advance era
     case 15375: // LiquidStaking:Force matching
+    case 15376: // LiquidStaking:Force set staking ledger
     case 15377: // LiquidStaking:Set current era
+    case 15378: // LiquidStaking:Set staking ledger
     case 17920: // GeneralCouncilMembership:Add member
     case 17921: // GeneralCouncilMembership:Remove member
     case 17922: // GeneralCouncilMembership:Swap member

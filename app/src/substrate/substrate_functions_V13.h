@@ -134,10 +134,12 @@ parser_error_t _readTimestamp_V13(parser_context_t* c, pd_Timestamp_V13_t* v);
 parser_error_t _readTupleAccountIdData_V13(parser_context_t* c, pd_TupleAccountIdData_V13_t* v);
 parser_error_t _readTupleCurrencyIdBalance_V13(parser_context_t* c, pd_TupleCurrencyIdBalance_V13_t* v);
 parser_error_t _readTupleOracleKeyOracleValue_V13(parser_context_t* c, pd_TupleOracleKeyOracleValue_V13_t* v);
+parser_error_t _readUnlockChunk_V13(parser_context_t* c, pd_UnlockChunk_V13_t* v);
 parser_error_t _readUpwardMessage_V13(parser_context_t* c, pd_UpwardMessage_V13_t* v);
 parser_error_t _readVecAccountIdOfT_V13(parser_context_t* c, pd_VecAccountIdOfT_V13_t* v);
 parser_error_t _readVecAccountId_V13(parser_context_t* c, pd_VecAccountId_V13_t* v);
 parser_error_t _readVecAssetIdOfTI_V13(parser_context_t* c, pd_VecAssetIdOfTI_V13_t* v);
+parser_error_t _readVecEraIndex_V13(parser_context_t* c, pd_VecEraIndex_V13_t* v);
 parser_error_t _readVecKeyValue_V13(parser_context_t* c, pd_VecKeyValue_V13_t* v);
 parser_error_t _readVecKey_V13(parser_context_t* c, pd_VecKey_V13_t* v);
 parser_error_t _readVecMultiAssetV0_V13(parser_context_t* c, pd_VecMultiAssetV0_V13_t* v);
@@ -145,6 +147,7 @@ parser_error_t _readVecMultiAssetV1_V13(parser_context_t* c, pd_VecMultiAssetV1_
 parser_error_t _readVecTupleAccountIdData_V13(parser_context_t* c, pd_VecTupleAccountIdData_V13_t* v);
 parser_error_t _readVecTupleCurrencyIdBalance_V13(parser_context_t* c, pd_VecTupleCurrencyIdBalance_V13_t* v);
 parser_error_t _readVecTupleOracleKeyOracleValue_V13(parser_context_t* c, pd_VecTupleOracleKeyOracleValue_V13_t* v);
+parser_error_t _readVecUnlockChunk_V13(parser_context_t* c, pd_VecUnlockChunk_V13_t* v);
 parser_error_t _readVecVestingScheduleOf_V13(parser_context_t* c, pd_VecVestingScheduleOf_V13_t* v);
 parser_error_t _readVestingScheduleOf_V13(parser_context_t* c, pd_VestingScheduleOf_V13_t* v);
 parser_error_t _readVote_V13(parser_context_t* c, pd_Vote_V13_t* v);
@@ -914,6 +917,13 @@ parser_error_t _toStringTupleOracleKeyOracleValue_V13(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
+parser_error_t _toStringUnlockChunk_V13(
+    const pd_UnlockChunk_V13_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringUpwardMessage_V13(
     const pd_UpwardMessage_V13_t* v,
     char* outValue,
@@ -937,6 +947,13 @@ parser_error_t _toStringVecAccountId_V13(
 
 parser_error_t _toStringVecAssetIdOfTI_V13(
     const pd_VecAssetIdOfTI_V13_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringVecEraIndex_V13(
+    const pd_VecEraIndex_V13_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -986,6 +1003,13 @@ parser_error_t _toStringVecTupleCurrencyIdBalance_V13(
 
 parser_error_t _toStringVecTupleOracleKeyOracleValue_V13(
     const pd_VecTupleOracleKeyOracleValue_V13_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringVecUnlockChunk_V13(
+    const pd_VecUnlockChunk_V13_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,

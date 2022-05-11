@@ -231,6 +231,10 @@ typedef struct {
 } pd_Fungibility_V13_t;
 
 typedef struct {
+    uint32_t value;
+} pd_EraIndex_V13_t;
+
+typedef struct {
     uint8_t value;
     union {
         pd_Vecu8_t abstract;
@@ -246,6 +250,11 @@ typedef struct {
     pd_AssetId_V13_t assetId;
     pd_Fungibility_V13_t fungibility;
 } pd_MultiAssetV1_V13_t;
+
+typedef struct {
+    pd_Compactu128_t value;
+    pd_Compactu32_t era;
+} pd_UnlockChunk_V13_t;
 
 typedef struct {
     uint8_t value;
@@ -333,6 +342,12 @@ typedef struct {
     uint64_t _len;
     const uint8_t* _ptr;
     uint64_t _lenBuffer;
+} pd_VecEraIndex_V13_t;
+
+typedef struct {
+    uint64_t _len;
+    const uint8_t* _ptr;
+    uint64_t _lenBuffer;
 } pd_VecMultiAssetV0_V13_t;
 
 typedef struct {
@@ -340,6 +355,12 @@ typedef struct {
     const uint8_t* _ptr;
     uint64_t _lenBuffer;
 } pd_VecMultiAssetV1_V13_t;
+
+typedef struct {
+    uint64_t _len;
+    const uint8_t* _ptr;
+    uint64_t _lenBuffer;
+} pd_VecUnlockChunk_V13_t;
 
 typedef struct {
     pd_BlockNumber_t start;
@@ -411,6 +432,14 @@ typedef struct {
     uint8_t value;
     pd_AccountId_V13_t accountId;
 } pd_RewardDestination_V13_t;
+
+typedef struct {
+    pd_AccountId_V13_t stash;
+    pd_Compactu128_t total;
+    pd_Compactu128_t active;
+    pd_VecUnlockChunk_V13_t unlocking;
+    pd_VecEraIndex_V13_t claimedRewards;
+} pd_StakingLedgerAccountIdBalanceOfT_V13_t;
 
 typedef struct {
     uint64_t _len;
@@ -517,10 +546,6 @@ typedef struct {
     // TODO: Not implemented
     uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
 } pd_DoubleEncodedTuple_V13_t;
-
-typedef struct {
-    uint32_t value;
-} pd_EraIndex_V13_t;
 
 typedef struct {
     // TODO: Not implemented
@@ -645,11 +670,6 @@ typedef struct {
     // TODO: Not implemented
     uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
 } pd_RewardDestinationAccountIdOfT_V13_t;
-
-typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
-} pd_StakingLedgerAccountIdBalanceOfT_V13_t;
 
 typedef struct {
     // TODO: Not implemented
