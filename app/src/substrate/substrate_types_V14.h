@@ -478,6 +478,10 @@ typedef struct {
 } pd_OptionTimepoint_V14_t;
 
 typedef struct {
+    pd_u128_t value;
+} pd_Price_V14_t;
+
+typedef struct {
     uint8_t value;
     pd_AccountId_V14_t accountId;
 } pd_RewardDestination_V14_t;
@@ -673,11 +677,6 @@ typedef struct {
 typedef struct {
     uint32_t value;
 } pd_Perbill_V14_t;
-
-typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
-} pd_Price_V14_t;
 
 typedef struct {
     uint64_t value;

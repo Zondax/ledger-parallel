@@ -1202,6 +1202,21 @@ __Z_INLINE parser_error_t _readMethod_loans_reduce_incentive_reserves_V14(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_prices_set_price_V14(
+    parser_context_t* c, pd_prices_set_price_V14_t* m)
+{
+    CHECK_ERROR(_readCurrencyId_V14(c, &m->asset_id))
+    CHECK_ERROR(_readPrice_V14(c, &m->price))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_prices_reset_price_V14(
+    parser_context_t* c, pd_prices_reset_price_V14_t* m)
+{
+    CHECK_ERROR(_readCurrencyId_V14(c, &m->asset_id))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_crowdloans_set_vrf_V14(
     parser_context_t* c, pd_crowdloans_set_vrf_V14_t* m)
 {
@@ -2242,6 +2257,12 @@ parser_error_t _readMethod_V14(
     case 12820: /* module 50 call 20 */
         CHECK_ERROR(_readMethod_loans_reduce_incentive_reserves_V14(c, &method->basic.loans_reduce_incentive_reserves_V14))
         break;
+    case 13056: /* module 51 call 0 */
+        CHECK_ERROR(_readMethod_prices_set_price_V14(c, &method->basic.prices_set_price_V14))
+        break;
+    case 13057: /* module 51 call 1 */
+        CHECK_ERROR(_readMethod_prices_reset_price_V14(c, &method->basic.prices_reset_price_V14))
+        break;
     case 13316: /* module 52 call 4 */
         CHECK_ERROR(_readMethod_crowdloans_set_vrf_V14(c, &method->basic.crowdloans_set_vrf_V14))
         break;
@@ -2528,6 +2549,8 @@ const char* _getMethod_ModuleName_V14(uint8_t moduleIdx)
         return STR_MO_VESTING;
     case 50:
         return STR_MO_LOANS;
+    case 51:
+        return STR_MO_PRICES;
     case 52:
         return STR_MO_CROWDLOANS;
     case 60:
@@ -2876,6 +2899,10 @@ const char* _getMethod_Name_V14_ParserFull(uint16_t callPrivIdx)
         return STR_ME_REDUCE_RESERVES;
     case 12820: /* module 50 call 20 */
         return STR_ME_REDUCE_INCENTIVE_RESERVES;
+    case 13056: /* module 51 call 0 */
+        return STR_ME_SET_PRICE;
+    case 13057: /* module 51 call 1 */
+        return STR_ME_RESET_PRICE;
     case 13316: /* module 52 call 4 */
         return STR_ME_SET_VRF;
     case 15360: /* module 60 call 0 */
@@ -3342,6 +3369,10 @@ uint8_t _getMethod_NumItems_V14(uint8_t moduleIdx, uint8_t callIdx)
         return 3;
     case 12820: /* module 50 call 20 */
         return 3;
+    case 13056: /* module 51 call 0 */
+        return 2;
+    case 13057: /* module 51 call 1 */
+        return 1;
     case 13316: /* module 52 call 4 */
         return 1;
     case 15360: /* module 60 call 0 */
@@ -4828,6 +4859,22 @@ const char* _getMethod_ItemName_V14(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
             return STR_IT_asset_id;
         case 2:
             return STR_IT_redeem_amount;
+        default:
+            return NULL;
+        }
+    case 13056: /* module 51 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset_id;
+        case 1:
+            return STR_IT_price;
+        default:
+            return NULL;
+        }
+    case 13057: /* module 51 call 1 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset_id;
         default:
             return NULL;
         }
@@ -7653,6 +7700,31 @@ parser_error_t _getMethod_ItemValue_V14(
         default:
             return parser_no_data;
         }
+    case 13056: /* module 51 call 0 */
+        switch (itemIdx) {
+        case 0: /* prices_set_price_V14 - asset_id */;
+            return _toStringCurrencyId_V14(
+                &m->basic.prices_set_price_V14.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* prices_set_price_V14 - price */;
+            return _toStringPrice_V14(
+                &m->basic.prices_set_price_V14.price,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13057: /* module 51 call 1 */
+        switch (itemIdx) {
+        case 0: /* prices_reset_price_V14 - asset_id */;
+            return _toStringCurrencyId_V14(
+                &m->basic.prices_reset_price_V14.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 13316: /* module 52 call 4 */
         switch (itemIdx) {
         case 0: /* crowdloans_set_vrf_V14 - flag */;
@@ -8781,6 +8853,8 @@ bool _getMethod_IsNestingSupported_V14(uint8_t moduleIdx, uint8_t callIdx)
     case 12818: // Loans:Add reserves
     case 12819: // Loans:Reduce reserves
     case 12820: // Loans:Reduce incentive reserves
+    case 13056: // Prices:Set price
+    case 13057: // Prices:Reset price
     case 13316: // Crowdloans:Set vrf
     case 15360: // LiquidStaking:Stake
     case 15361: // LiquidStaking:Unstake

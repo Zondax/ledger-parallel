@@ -328,8 +328,8 @@
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Set price |    |   |   | `CurrencyId` asset_id <br/>`Price` price <br/> |
-|Reset price |    |   |   | `CurrencyId` asset_id <br/> |
+|Set price |    | :heavy_check_mark: |   | `CurrencyId` asset_id <br/>`Price` price <br/> |
+|Reset price |    | :heavy_check_mark: |   | `CurrencyId` asset_id <br/> |
 
 ## Crowdloans
 

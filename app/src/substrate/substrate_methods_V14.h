@@ -45,6 +45,7 @@ extern "C" {
 #define PD_CALL_SESSION_V14 32
 #define PD_CALL_VESTING_V14 46
 #define PD_CALL_LOANS_V14 50
+#define PD_CALL_PRICES_V14 51
 #define PD_CALL_CROWDLOANS_V14 52
 #define PD_CALL_LIQUIDSTAKING_V14 60
 #define PD_CALL_GENERALCOUNCILMEMBERSHIP_V14 70
@@ -849,6 +850,17 @@ typedef struct {
     pd_Compactu128_t redeem_amount;
 } pd_loans_reduce_incentive_reserves_V14_t;
 
+#define PD_CALL_PRICES_SET_PRICE_V14 0
+typedef struct {
+    pd_CurrencyId_V14_t asset_id;
+    pd_Price_V14_t price;
+} pd_prices_set_price_V14_t;
+
+#define PD_CALL_PRICES_RESET_PRICE_V14 1
+typedef struct {
+    pd_CurrencyId_V14_t asset_id;
+} pd_prices_reset_price_V14_t;
+
 #define PD_CALL_CROWDLOANS_SET_VRF_V14 4
 typedef struct {
     pd_bool_t flag;
@@ -1412,6 +1424,8 @@ typedef union {
     pd_loans_add_reserves_V14_t loans_add_reserves_V14;
     pd_loans_reduce_reserves_V14_t loans_reduce_reserves_V14;
     pd_loans_reduce_incentive_reserves_V14_t loans_reduce_incentive_reserves_V14;
+    pd_prices_set_price_V14_t prices_set_price_V14;
+    pd_prices_reset_price_V14_t prices_reset_price_V14;
     pd_crowdloans_set_vrf_V14_t crowdloans_set_vrf_V14;
     pd_liquidstaking_stake_V14_t liquidstaking_stake_V14;
     pd_liquidstaking_unstake_V14_t liquidstaking_unstake_V14;

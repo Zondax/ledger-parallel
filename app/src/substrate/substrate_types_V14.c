@@ -862,7 +862,9 @@ parser_error_t _readPlurality_V14(parser_context_t* c, pd_Plurality_V14_t* v)
 
 parser_error_t _readPrice_V14(parser_context_t* c, pd_Price_V14_t* v)
 {
-    return parser_not_supported;
+    CHECK_INPUT()
+    CHECK_ERROR(_readu128(c, &v->value))
+    return parser_ok;
 }
 
 parser_error_t _readProxyType_V14(parser_context_t* c, pd_ProxyType_V14_t* v)
@@ -3354,7 +3356,8 @@ parser_error_t _toStringPrice_V14(
     uint8_t* pageCount)
 {
     CLEAN_AND_CHECK()
-    return parser_print_not_supported;
+    CHECK_ERROR(_toStringu128(&v->value, outValue, outValueLen, pageIdx, pageCount))
+    return parser_ok;
 }
 
 parser_error_t _toStringProxyType_V14(
