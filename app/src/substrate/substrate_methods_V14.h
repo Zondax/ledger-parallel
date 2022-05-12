@@ -54,6 +54,7 @@ extern "C" {
 #define PD_CALL_LIQUIDSTAKINGAGENTSMEMBERSHIP_V14 73
 #define PD_CALL_BRIDGEMEMBERSHIP_V14 74
 #define PD_CALL_CROWDLOANSAUTOMATORSMEMBERSHIP_V14 75
+#define PD_CALL_CURRENCYADAPTER_V14 82
 #define PD_CALL_BRIDGE_V14 90
 #define PD_CALL_EMERGENCYSHUTDOWN_V14 91
 #define PD_CALL_FARMING_V14 92
@@ -1182,6 +1183,19 @@ typedef struct {
 typedef struct {
 } pd_crowdloansautomatorsmembership_clear_prime_V14_t;
 
+#define PD_CALL_CURRENCYADAPTER_FORCE_SET_LOCK_V14 0
+typedef struct {
+    pd_AssetIdOfT_V14_t asset;
+    pd_AccountId_V14_t who;
+    pd_Compactu128_t amount;
+} pd_currencyadapter_force_set_lock_V14_t;
+
+#define PD_CALL_CURRENCYADAPTER_FORCE_REMOVE_LOCK_V14 1
+typedef struct {
+    pd_AssetIdOfT_V14_t asset;
+    pd_AccountId_V14_t who;
+} pd_currencyadapter_force_remove_lock_V14_t;
+
 #define PD_CALL_BRIDGE_SET_BRIDGE_TOKEN_STATUS_V14 5
 typedef struct {
     pd_CurrencyId_V14_t bridge_token_id;
@@ -1488,6 +1502,8 @@ typedef union {
     pd_crowdloansautomatorsmembership_change_key_V14_t crowdloansautomatorsmembership_change_key_V14;
     pd_crowdloansautomatorsmembership_set_prime_V14_t crowdloansautomatorsmembership_set_prime_V14;
     pd_crowdloansautomatorsmembership_clear_prime_V14_t crowdloansautomatorsmembership_clear_prime_V14;
+    pd_currencyadapter_force_set_lock_V14_t currencyadapter_force_set_lock_V14;
+    pd_currencyadapter_force_remove_lock_V14_t currencyadapter_force_remove_lock_V14;
     pd_bridge_set_bridge_token_status_V14_t bridge_set_bridge_token_status_V14;
     pd_emergencyshutdown_toggle_pallet_V14_t emergencyshutdown_toggle_pallet_V14;
     pd_emergencyshutdown_toggle_call_V14_t emergencyshutdown_toggle_call_V14;

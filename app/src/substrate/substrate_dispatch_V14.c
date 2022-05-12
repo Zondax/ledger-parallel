@@ -1662,6 +1662,23 @@ __Z_INLINE parser_error_t _readMethod_crowdloansautomatorsmembership_clear_prime
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_currencyadapter_force_set_lock_V14(
+    parser_context_t* c, pd_currencyadapter_force_set_lock_V14_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V14(c, &m->asset))
+    CHECK_ERROR(_readAccountId_V14(c, &m->who))
+    CHECK_ERROR(_readCompactu128(c, &m->amount))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_currencyadapter_force_remove_lock_V14(
+    parser_context_t* c, pd_currencyadapter_force_remove_lock_V14_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V14(c, &m->asset))
+    CHECK_ERROR(_readAccountId_V14(c, &m->who))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_bridge_set_bridge_token_status_V14(
     parser_context_t* c, pd_bridge_set_bridge_token_status_V14_t* m)
 {
@@ -2449,6 +2466,12 @@ parser_error_t _readMethod_V14(
     case 19206: /* module 75 call 6 */
         CHECK_ERROR(_readMethod_crowdloansautomatorsmembership_clear_prime_V14(c, &method->basic.crowdloansautomatorsmembership_clear_prime_V14))
         break;
+    case 20992: /* module 82 call 0 */
+        CHECK_ERROR(_readMethod_currencyadapter_force_set_lock_V14(c, &method->basic.currencyadapter_force_set_lock_V14))
+        break;
+    case 20993: /* module 82 call 1 */
+        CHECK_ERROR(_readMethod_currencyadapter_force_remove_lock_V14(c, &method->basic.currencyadapter_force_remove_lock_V14))
+        break;
     case 23045: /* module 90 call 5 */
         CHECK_ERROR(_readMethod_bridge_set_bridge_token_status_V14(c, &method->basic.bridge_set_bridge_token_status_V14))
         break;
@@ -2567,6 +2590,8 @@ const char* _getMethod_ModuleName_V14(uint8_t moduleIdx)
         return STR_MO_BRIDGEMEMBERSHIP;
     case 75:
         return STR_MO_CROWDLOANSAUTOMATORSMEMBERSHIP;
+    case 82:
+        return STR_MO_CURRENCYADAPTER;
     case 90:
         return STR_MO_BRIDGE;
     case 91:
@@ -3027,6 +3052,10 @@ const char* _getMethod_Name_V14_ParserFull(uint16_t callPrivIdx)
         return STR_ME_SET_PRIME;
     case 19206: /* module 75 call 6 */
         return STR_ME_CLEAR_PRIME;
+    case 20992: /* module 82 call 0 */
+        return STR_ME_FORCE_SET_LOCK;
+    case 20993: /* module 82 call 1 */
+        return STR_ME_FORCE_REMOVE_LOCK;
     case 23045: /* module 90 call 5 */
         return STR_ME_SET_BRIDGE_TOKEN_STATUS;
     case 23296: /* module 91 call 0 */
@@ -3497,6 +3526,10 @@ uint8_t _getMethod_NumItems_V14(uint8_t moduleIdx, uint8_t callIdx)
         return 1;
     case 19206: /* module 75 call 6 */
         return 0;
+    case 20992: /* module 82 call 0 */
+        return 3;
+    case 20993: /* module 82 call 1 */
+        return 2;
     case 23045: /* module 90 call 5 */
         return 2;
     case 23296: /* module 91 call 0 */
@@ -5331,6 +5364,26 @@ const char* _getMethod_ItemName_V14(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         }
     case 19206: /* module 75 call 6 */
         switch (itemIdx) {
+        default:
+            return NULL;
+        }
+    case 20992: /* module 82 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset;
+        case 1:
+            return STR_IT_who;
+        case 2:
+            return STR_IT_amount;
+        default:
+            return NULL;
+        }
+    case 20993: /* module 82 call 1 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset;
+        case 1:
+            return STR_IT_who;
         default:
             return NULL;
         }
@@ -8400,6 +8453,41 @@ parser_error_t _getMethod_ItemValue_V14(
         default:
             return parser_no_data;
         }
+    case 20992: /* module 82 call 0 */
+        switch (itemIdx) {
+        case 0: /* currencyadapter_force_set_lock_V14 - asset */;
+            return _toStringAssetIdOfT_V14(
+                &m->basic.currencyadapter_force_set_lock_V14.asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* currencyadapter_force_set_lock_V14 - who */;
+            return _toStringAccountId_V14(
+                &m->basic.currencyadapter_force_set_lock_V14.who,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* currencyadapter_force_set_lock_V14 - amount */;
+            return _toStringCompactu128(
+                &m->basic.currencyadapter_force_set_lock_V14.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 20993: /* module 82 call 1 */
+        switch (itemIdx) {
+        case 0: /* currencyadapter_force_remove_lock_V14 - asset */;
+            return _toStringAssetIdOfT_V14(
+                &m->basic.currencyadapter_force_remove_lock_V14.asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* currencyadapter_force_remove_lock_V14 - who */;
+            return _toStringAccountId_V14(
+                &m->basic.currencyadapter_force_remove_lock_V14.who,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 23045: /* module 90 call 5 */
         switch (itemIdx) {
         case 0: /* bridge_set_bridge_token_status_V14 - bridge_token_id */;
@@ -8917,6 +9005,8 @@ bool _getMethod_IsNestingSupported_V14(uint8_t moduleIdx, uint8_t callIdx)
     case 19204: // CrowdloansAutomatorsMembership:Change key
     case 19205: // CrowdloansAutomatorsMembership:Set prime
     case 19206: // CrowdloansAutomatorsMembership:Clear prime
+    case 20992: // CurrencyAdapter:Force set lock
+    case 20993: // CurrencyAdapter:Force remove lock
     case 23045: // Bridge:Set bridge token status
     case 23296: // EmergencyShutdown:Toggle pallet
     case 23297: // EmergencyShutdown:Toggle call

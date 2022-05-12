@@ -471,8 +471,8 @@
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Force set lock |    |   |   | `AssetIdOfT` asset <br/>`AccountId` who <br/>`Compactu128` amount <br/> |
-|Force remove lock |    |   |   | `AssetIdOfT` asset <br/>`AccountId` who <br/> |
+|Force set lock |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AccountId` who <br/>`Compactu128` amount <br/> |
+|Force remove lock |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AccountId` who <br/> |
 
 ## Bridge
 
