@@ -28,7 +28,7 @@ Please:
 - **Do not use in production**
 - **Do not use a Ledger device with funds for development purposes.**
 - **Have a separate and marked device that is used ONLY for development and testing**
-# Parallel  14.184.x
+# Parallel  14.185.x
 
 ## System
 
@@ -408,6 +408,7 @@ Please:
 |Force set staking ledger |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`StakingLedgerAccountIdBalanceOfT` staking_ledger <br/> |
 |Set current era |    | :heavy_check_mark: |   | `EraIndex` era <br/>`VecVecu8` proof <br/> |
 |Set staking ledger |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`StakingLedgerAccountIdBalanceOfT` staking_ledger <br/>`VecVecu8` proof <br/> |
+|Reduce reserves |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` receiver <br/>`Compactu128` reduce_amount <br/> |
 
 ## GeneralCouncilMembership
 
@@ -561,9 +562,9 @@ Please:
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Create stream |    |   |   | `AccountOfT` recipient <br/>`Balance` deposit <br/>`AssetIdOfT` asset_id <br/>`Timestamp` start_time <br/>`Timestamp` stop_time <br/> |
-|Cancel stream |    |   |   | `StreamId` stream_id <br/> |
-|Withdraw from stream |    |   |   | `StreamId` stream_id <br/>`Balance` amount <br/> |
+|Create |    |   |   | `AccountOfT` recipient <br/>`Balance` deposit <br/>`AssetIdOfT` asset_id <br/>`Timestamp` start_time <br/>`Timestamp` end_time <br/>`bool` cancellable <br/> |
+|Cancel |    |   |   | `StreamId` stream_id <br/> |
+|Withdraw |    |   |   | `StreamId` stream_id <br/>`Balance` amount <br/> |
 |Set minimum deposit |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Balance` minimum_deposit <br/> |
 
 ## AssetRegistry
