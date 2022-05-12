@@ -15,7 +15,7 @@
  ******************************************************************************* */
 
 import Zemu, { DEFAULT_START_OPTIONS } from '@zondax/zemu'
-import { newParallelFiApp } from '@zondax/ledger-substrate'
+import { newParallelApp } from '@zondax/ledger-substrate'
 import { APP_SEED } from './common'
 import { txBalances_transfer } from './zemu_blobs'
 
@@ -45,7 +45,7 @@ describe('SR25519', function () {
     const sim = new Zemu(APP_PATH)
     try {
       await sim.start({ ...defaultOptions })
-      const app = newParallelFiApp(sim.getTransport())
+      const app = newParallelApp(sim.getTransport())
 
       const resp = await app.getAddress(0x80000000, 0x80000000, 0x80000000, false, 1)
 
@@ -68,7 +68,7 @@ describe('SR25519', function () {
     const sim = new Zemu(APP_PATH)
     try {
       await sim.start({ ...defaultOptions, model: 'nanos' })
-      const app = newParallelFiApp(sim.getTransport())
+      const app = newParallelApp(sim.getTransport())
 
       const respRequest = app.getAddress(0x80000000, 0x80000000, 0x80000000, true, 1)
       // Wait until we are not in the main menu
@@ -95,7 +95,7 @@ describe('SR25519', function () {
     const sim = new Zemu(APP_PATH)
     try {
       await sim.start({ ...defaultOptions })
-      const app = newParallelFiApp(sim.getTransport())
+      const app = newParallelApp(sim.getTransport())
 
       const respRequest = app.getAddress(0x80000000, 0x80000000, 0x80000000, true, 1)
       // Wait until we are not in the main menu
@@ -116,7 +116,7 @@ describe('SR25519', function () {
     const sim = new Zemu(APP_PATH)
     try {
       await sim.start({ ...defaultOptions })
-      const app = newParallelFiApp(sim.getTransport())
+      const app = newParallelApp(sim.getTransport())
       const pathAccount = 0x80000000
       const pathChange = 0x80000000
       const pathIndex = 0x80000000
@@ -157,7 +157,7 @@ describe('SR25519', function () {
     const sim = new Zemu(APP_PATH)
     try {
       await sim.start({ ...defaultOptions })
-      const app = newParallelFiApp(sim.getTransport())
+      const app = newParallelApp(sim.getTransport())
       const pathAccount = 0x80000000
       const pathChange = 0x80000000
       const pathIndex = 0x80000000
@@ -204,7 +204,7 @@ describe('SR25519', function () {
     const sim = new Zemu(APP_PATH)
     try {
       await sim.start({ ...defaultOptions })
-      const app = newParallelFiApp(sim.getTransport())
+      const app = newParallelApp(sim.getTransport())
       const pathAccount = 0x80000000
       const pathChange = 0x80000000
       const pathIndex = 0x80000000
@@ -256,7 +256,7 @@ describe('SR25519', function () {
   //   const sim = new Zemu(APP_PATH)
   //   try {
   //     await sim.start({ ...defaultOptions })
-  //     const app = newParallelFiApp(sim.getTransport())
+  //     const app = newParallelApp(sim.getTransport())
   //     const pathAccount = 0x80000000
   //     const pathChange = 0x80000000
   //     const pathIndex = 0x80000000
