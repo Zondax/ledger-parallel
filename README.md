@@ -1,7 +1,7 @@
-# Ledger Parallel-fi App
+# Ledger Parallel App
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![GithubActions](https://github.com/zondax/ledger-parallel-fi/actions/workflows/main.yml/badge.svg)](https://github.com/Zondax/ledger-parallel-fi/blob/main/.github/workflows/main.yaml)
+[![GithubActions](https://github.com/zondax/ledger-parallel/actions/workflows/main.yml/badge.svg)](https://github.com/Zondax/ledger-parallel/blob/main/.github/workflows/main.yaml)
 
 ---
 
@@ -12,7 +12,7 @@ _Please visit our website at [zondax.ch](https://www.zondax.ch)_
 
 ---
 
-This project contains the Parallel-fi app (https://parallel.fi/) for Ledger Nano S and X.
+This project contains the Parallel app (https://parallel.fi/) for Ledger Nano S and X.
 
 - Ledger Nano S/X BOLOS app
 - Specs / Documentation
@@ -28,7 +28,7 @@ Please:
 - **Do not use in production**
 - **Do not use a Ledger device with funds for development purposes.**
 - **Have a separate and marked device that is used ONLY for development and testing**
-# Parallel-fi  13.184.x
+# Parallel  14.184.x
 
 ## System
 
