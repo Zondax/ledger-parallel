@@ -869,7 +869,7 @@ parser_error_t _readProxyType_V14(parser_context_t* c, pd_ProxyType_V14_t* v)
 {
     CHECK_INPUT()
     CHECK_ERROR(_readUInt8(c, &v->value))
-    if (v->value > 3) {
+    if (v->value > 4) {
         return parser_value_out_of_range;
     }
     return parser_ok;
@@ -3365,25 +3365,26 @@ parser_error_t _toStringProxyType_V14(
     uint8_t* pageCount)
 {
     CLEAN_AND_CHECK()
-
     *pageCount = 1;
     switch (v->value) {
     case 0:
         snprintf(outValue, outValueLen, "Any");
         break;
     case 1:
-        snprintf(outValue, outValueLen, "NonTransfer");
+        snprintf(outValue, outValueLen, "Loans");
         break;
     case 2:
-        snprintf(outValue, outValueLen, "Governance");
+        snprintf(outValue, outValueLen, "Staking");
         break;
     case 3:
-        snprintf(outValue, outValueLen, "Staking");
+        snprintf(outValue, outValueLen, "Crowdloans");
+        break;
+    case 4:
+        snprintf(outValue, outValueLen, "Farming");
         break;
     default:
         return parser_print_not_supported;
     }
-
     return parser_ok;
 }
 
