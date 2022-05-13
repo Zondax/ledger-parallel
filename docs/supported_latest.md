@@ -339,7 +339,7 @@
 |Update vault |    |   |   | `ParaId` crowdloan <br/>`OptionBalanceOfT` cap <br/>`OptionBlockNumberForT` end_block <br/>`OptionContributionStrategy` contribution_strategy <br/> |
 |Open |    |   |   | `ParaId` crowdloan <br/> |
 |Contribute |    |   |   | `ParaId` crowdloan <br/>`Compactu128` amount <br/>`Vecu8` referral_code <br/> |
-|Set vrf |    | :heavy_check_mark: |   | `bool` flag <br/> |
+|Set vrf |    |   |   | `bool` flag <br/> |
 |Close |    |   |   | `ParaId` crowdloan <br/> |
 |Reopen |    |   |   | `ParaId` crowdloan <br/> |
 |Auction succeeded |    |   |   | `ParaId` crowdloan <br/> |

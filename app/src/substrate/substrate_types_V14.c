@@ -837,7 +837,9 @@ parser_error_t _readOverweightIndex_V14(parser_context_t* c, pd_OverweightIndex_
 
 parser_error_t _readParaId_V14(parser_context_t* c, pd_ParaId_V14_t* v)
 {
-    return parser_not_supported;
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt32(c, &v->value))
+    return parser_ok;
 }
 
 parser_error_t _readParachainInherentData_V14(parser_context_t* c, pd_ParachainInherentData_V14_t* v)
@@ -3273,8 +3275,7 @@ parser_error_t _toStringParaId_V14(
     uint8_t pageIdx,
     uint8_t* pageCount)
 {
-    CLEAN_AND_CHECK()
-    return parser_print_not_supported;
+    return _toStringu32(&v->value, outValue, outValueLen, pageIdx, pageCount);
 }
 
 parser_error_t _toStringParachainInherentData_V14(

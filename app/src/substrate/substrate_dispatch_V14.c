@@ -1217,13 +1217,6 @@ __Z_INLINE parser_error_t _readMethod_prices_reset_price_V14(
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_crowdloans_set_vrf_V14(
-    parser_context_t* c, pd_crowdloans_set_vrf_V14_t* m)
-{
-    CHECK_ERROR(_readbool(c, &m->flag))
-    return parser_ok;
-}
-
 __Z_INLINE parser_error_t _readMethod_liquidstaking_stake_V14(
     parser_context_t* c, pd_liquidstaking_stake_V14_t* m)
 {
@@ -2280,9 +2273,6 @@ parser_error_t _readMethod_V14(
     case 13057: /* module 51 call 1 */
         CHECK_ERROR(_readMethod_prices_reset_price_V14(c, &method->basic.prices_reset_price_V14))
         break;
-    case 13316: /* module 52 call 4 */
-        CHECK_ERROR(_readMethod_crowdloans_set_vrf_V14(c, &method->basic.crowdloans_set_vrf_V14))
-        break;
     case 15360: /* module 60 call 0 */
         CHECK_ERROR(_readMethod_liquidstaking_stake_V14(c, &method->basic.liquidstaking_stake_V14))
         break;
@@ -2574,8 +2564,6 @@ const char* _getMethod_ModuleName_V14(uint8_t moduleIdx)
         return STR_MO_LOANS;
     case 51:
         return STR_MO_PRICES;
-    case 52:
-        return STR_MO_CROWDLOANS;
     case 60:
         return STR_MO_LIQUIDSTAKING;
     case 70:
@@ -2928,8 +2916,6 @@ const char* _getMethod_Name_V14_ParserFull(uint16_t callPrivIdx)
         return STR_ME_SET_PRICE;
     case 13057: /* module 51 call 1 */
         return STR_ME_RESET_PRICE;
-    case 13316: /* module 52 call 4 */
-        return STR_ME_SET_VRF;
     case 15360: /* module 60 call 0 */
         return STR_ME_STAKE;
     case 15361: /* module 60 call 1 */
@@ -3401,8 +3387,6 @@ uint8_t _getMethod_NumItems_V14(uint8_t moduleIdx, uint8_t callIdx)
     case 13056: /* module 51 call 0 */
         return 2;
     case 13057: /* module 51 call 1 */
-        return 1;
-    case 13316: /* module 52 call 4 */
         return 1;
     case 15360: /* module 60 call 0 */
         return 1;
@@ -4908,13 +4892,6 @@ const char* _getMethod_ItemName_V14(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         switch (itemIdx) {
         case 0:
             return STR_IT_asset_id;
-        default:
-            return NULL;
-        }
-    case 13316: /* module 52 call 4 */
-        switch (itemIdx) {
-        case 0:
-            return STR_IT_flag;
         default:
             return NULL;
         }
@@ -7778,16 +7755,6 @@ parser_error_t _getMethod_ItemValue_V14(
         default:
             return parser_no_data;
         }
-    case 13316: /* module 52 call 4 */
-        switch (itemIdx) {
-        case 0: /* crowdloans_set_vrf_V14 - flag */;
-            return _toStringbool(
-                &m->basic.crowdloans_set_vrf_V14.flag,
-                outValue, outValueLen,
-                pageIdx, pageCount);
-        default:
-            return parser_no_data;
-        }
     case 15360: /* module 60 call 0 */
         switch (itemIdx) {
         case 0: /* liquidstaking_stake_V14 - amount */;
@@ -8943,7 +8910,6 @@ bool _getMethod_IsNestingSupported_V14(uint8_t moduleIdx, uint8_t callIdx)
     case 12820: // Loans:Reduce incentive reserves
     case 13056: // Prices:Set price
     case 13057: // Prices:Reset price
-    case 13316: // Crowdloans:Set vrf
     case 15360: // LiquidStaking:Stake
     case 15361: // LiquidStaking:Unstake
     case 15362: // LiquidStaking:Update reserve factor
