@@ -5,8 +5,8 @@
 
 ---
 
-![zondax_light](docs/zondax_light.jpg#gh-light-mode-only)
-![zondax_dark](docs/zondax_dark.jpg#gh-dark-mode-only)
+![zondax_light](docs/zondax_light.png#gh-light-mode-only)
+![zondax_dark](docs/zondax_dark.png#gh-dark-mode-only)
 
 _Please visit our website at [zondax.ch](https://www.zondax.ch)_
 
@@ -28,7 +28,7 @@ Please:
 - **Do not use in production**
 - **Do not use a Ledger device with funds for development purposes.**
 - **Have a separate and marked device that is used ONLY for development and testing**
-# Parallel  13.184.x
+# Parallel  14.185.x
 
 ## System
 
@@ -113,16 +113,16 @@ Please:
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Proxy |    |   |   | `AccountId` real <br/>`OptionProxyType` force_proxy_type <br/>`Call` call <br/> |
-|Add proxy |    |   |   | `AccountId` delegate <br/>`ProxyType` proxy_type <br/>`BlockNumber` delay <br/> |
-|Remove proxy |    |   |   | `AccountId` delegate <br/>`ProxyType` proxy_type <br/>`BlockNumber` delay <br/> |
-|Remove proxies |    |   |   |  |
-|Anonymous |    |   |   | `ProxyType` proxy_type <br/>`BlockNumber` delay <br/>`u16` index <br/> |
-|Kill anonymous |    |   |   | `AccountId` spawner <br/>`ProxyType` proxy_type <br/>`u16` index <br/>`Compactu32` height <br/>`Compactu32` ext_index <br/> |
+|Proxy |    | :heavy_check_mark: | :heavy_check_mark: | `AccountId` real <br/>`OptionProxyType` force_proxy_type <br/>`Call` call <br/> |
+|Add proxy |    | :heavy_check_mark: |   | `AccountId` delegate <br/>`ProxyType` proxy_type <br/>`BlockNumber` delay <br/> |
+|Remove proxy |    | :heavy_check_mark: |   | `AccountId` delegate <br/>`ProxyType` proxy_type <br/>`BlockNumber` delay <br/> |
+|Remove proxies |    | :heavy_check_mark: |   |  |
+|Anonymous |    | :heavy_check_mark: |   | `ProxyType` proxy_type <br/>`BlockNumber` delay <br/>`u16` index <br/> |
+|Kill anonymous |    | :heavy_check_mark: |   | `AccountId` spawner <br/>`ProxyType` proxy_type <br/>`u16` index <br/>`Compactu32` height <br/>`Compactu32` ext_index <br/> |
 |Announce |    | :heavy_check_mark: |   | `AccountId` real <br/>`CallHashOf` call_hash <br/> |
 |Remove announcement |    | :heavy_check_mark: |   | `AccountId` real <br/>`CallHashOf` call_hash <br/> |
 |Reject announcement |    | :heavy_check_mark: |   | `AccountId` delegate <br/>`CallHashOf` call_hash <br/> |
-|Proxy announced |    |   |   | `AccountId` delegate <br/>`AccountId` real <br/>`OptionProxyType` force_proxy_type <br/>`Call` call <br/> |
+|Proxy announced |    | :heavy_check_mark: |   | `AccountId` delegate <br/>`AccountId` real <br/>`OptionProxyType` force_proxy_type <br/>`Call` call <br/> |
 
 ## Identity
 
@@ -324,48 +324,48 @@ Please:
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
 |Claim |    | :heavy_check_mark: |   |  |
-|Vested transfer |    |   |   | `LookupasStaticLookupSource` dest <br/>`VestingScheduleOf` schedule <br/> |
-|Update vesting schedules |    |   |   | `LookupasStaticLookupSource` who <br/>`VecVestingScheduleOf` vesting_schedules <br/> |
+|Vested transfer |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` dest <br/>`VestingScheduleOf` schedule <br/> |
+|Update vesting schedules |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` who <br/>`VecVestingScheduleOf` vesting_schedules <br/> |
 |Claim for |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` dest <br/> |
 
 ## Loans
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Add market |    |   |   | `AssetIdOfT` asset_id <br/>`MarketBalanceOfT` market <br/> |
-|Activate market |    |   |   | `AssetIdOfT` asset_id <br/> |
-|Update rate model |    |   |   | `AssetIdOfT` asset_id <br/>`InterestRateModel` rate_model <br/> |
-|Update market |    |   |   | `AssetIdOfT` asset_id <br/>`Ratio` collateral_factor <br/>`Ratio` liquidation_threshold <br/>`Ratio` reserve_factor <br/>`Ratio` close_factor <br/>`Ratio` liquidate_incentive_reserved_factor <br/>`Rate` liquidate_incentive <br/>`Compactu128` supply_cap <br/>`Compactu128` borrow_cap <br/> |
-|Force update market |    |   |   | `AssetIdOfT` asset_id <br/>`MarketBalanceOfT` market <br/> |
+|Add market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`MarketBalanceOfT` market <br/> |
+|Activate market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/> |
+|Update rate model |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`InterestRateModel` rate_model <br/> |
+|Update market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Ratio` collateral_factor <br/>`Ratio` liquidation_threshold <br/>`Ratio` reserve_factor <br/>`Ratio` close_factor <br/>`Ratio` liquidate_incentive_reserved_factor <br/>`Rate` liquidate_incentive <br/>`Compactu128` supply_cap <br/>`Compactu128` borrow_cap <br/> |
+|Force update market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`MarketBalanceOfT` market <br/> |
 |Add reward |    | :heavy_check_mark: |   | `Balance` amount <br/> |
 |Withdraw missing reward |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` target_account <br/>`Balance` amount <br/> |
 |Update market reward speed |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Balance` supply_reward_per_block <br/>`Balance` borrow_reward_per_block <br/> |
 |Claim reward |    | :heavy_check_mark: |   |  |
 |Claim reward for market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/> |
-|Mint |    |   |   | `AssetIdOfT` asset_id <br/>`Compactu128` mint_amount <br/> |
-|Redeem |    |   |   | `AssetIdOfT` asset_id <br/>`Compactu128` redeem_amount <br/> |
-|Redeem all |    |   |   | `AssetIdOfT` asset_id <br/> |
-|Borrow |    |   |   | `AssetIdOfT` asset_id <br/>`Compactu128` borrow_amount <br/> |
-|Repay borrow |    |   |   | `AssetIdOfT` asset_id <br/>`Compactu128` repay_amount <br/> |
-|Repay borrow all |    |   |   | `AssetIdOfT` asset_id <br/> |
-|Collateral asset |    |   |   | `AssetIdOfT` asset_id <br/>`bool` enable <br/> |
-|Liquidate borrow |    |   |   | `AccountId` borrower <br/>`AssetIdOfT` liquidation_asset_id <br/>`Compactu128` repay_amount <br/>`AssetIdOfT` collateral_asset_id <br/> |
-|Add reserves |    |   |   | `LookupasStaticLookupSource` payer <br/>`AssetIdOfT` asset_id <br/>`Compactu128` add_amount <br/> |
-|Reduce reserves |    |   |   | `LookupasStaticLookupSource` receiver <br/>`AssetIdOfT` asset_id <br/>`Compactu128` reduce_amount <br/> |
+|Mint |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Compactu128` mint_amount <br/> |
+|Redeem |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Compactu128` redeem_amount <br/> |
+|Redeem all |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/> |
+|Borrow |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Compactu128` borrow_amount <br/> |
+|Repay borrow |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Compactu128` repay_amount <br/> |
+|Repay borrow all |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/> |
+|Collateral asset |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`bool` enable <br/> |
+|Liquidate borrow |    | :heavy_check_mark: |   | `AccountId` borrower <br/>`AssetIdOfT` liquidation_asset_id <br/>`Compactu128` repay_amount <br/>`AssetIdOfT` collateral_asset_id <br/> |
+|Add reserves |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` payer <br/>`AssetIdOfT` asset_id <br/>`Compactu128` add_amount <br/> |
+|Reduce reserves |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` receiver <br/>`AssetIdOfT` asset_id <br/>`Compactu128` reduce_amount <br/> |
 |Reduce incentive reserves |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` receiver <br/>`AssetIdOfT` asset_id <br/>`Compactu128` redeem_amount <br/> |
 
 ## Prices
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Set price |    |   |   | `CurrencyId` asset_id <br/>`Price` price <br/> |
-|Reset price |    |   |   | `CurrencyId` asset_id <br/> |
+|Set price |    | :heavy_check_mark: |   | `CurrencyId` asset_id <br/>`Price` price <br/> |
+|Reset price |    | :heavy_check_mark: |   | `CurrencyId` asset_id <br/> |
 
 ## Crowdloans
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Create vault |    |   |   | `ParaId` crowdloan <br/>`AssetIdOfT` ctoken <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/>`ContributionStrategy` contribution_strategy <br/>`Compactu128` cap <br/>`BlockNumberForT` end_block <br/> |
+|Create vault |    |   |   | `ParaId` crowdloan <br/>`AssetIdOfT` ctoken <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/>`ContributionStrategy` contribution_strategy <br/>`Compactu128` cap <br/>`BlockNumber` end_block <br/> |
 |Update vault |    |   |   | `ParaId` crowdloan <br/>`OptionBalanceOfT` cap <br/>`OptionBlockNumberForT` end_block <br/>`OptionContributionStrategy` contribution_strategy <br/> |
 |Open |    |   |   | `ParaId` crowdloan <br/> |
 |Contribute |    |   |   | `ParaId` crowdloan <br/>`Compactu128` amount <br/>`Vecu8` referral_code <br/> |
@@ -393,21 +393,22 @@ Please:
 |Unstake |    | :heavy_check_mark: |   | `Compactu128` liquid_amount <br/> |
 |Update reserve factor |    | :heavy_check_mark: |   | `Ratio` reserve_factor <br/> |
 |Update staking ledger cap |    | :heavy_check_mark: |   | `Compactu128` cap <br/> |
-|Bond |    |   |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/>`RewardDestination` payee <br/> |
-|Bond extra |    |   |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
-|Unbond |    |   |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
-|Rebond |    |   |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
-|Withdraw Unbonded |    |   |   | `DerivativeIndex` derivative_index <br/>`u32` num_slashing_spans <br/> |
+|Bond |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/>`RewardDestination` payee <br/> |
+|Bond extra |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
+|Unbond |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
+|Rebond |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
+|Withdraw Unbonded |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`u32` num_slashing_spans <br/> |
 |Nominate |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`VecAccountId` targets <br/> |
 |Notification received |    |   |   | `QueryId` query_id <br/>`Response` response <br/> |
 |Claim for |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` dest <br/> |
-|Force set era start block |    |   |   | `BlockNumberForT` block_number <br/> |
+|Force set era start block |    | :heavy_check_mark: |   | `BlockNumber` block_number <br/> |
 |Force set current era |    | :heavy_check_mark: |   | `EraIndex` era <br/> |
 |Force advance era |    | :heavy_check_mark: |   | `EraIndex` offset <br/> |
 |Force matching |    | :heavy_check_mark: |   |  |
-|Force set staking ledger |    |   |   | `DerivativeIndex` derivative_index <br/>`StakingLedgerAccountIdBalanceOfT` staking_ledger <br/> |
+|Force set staking ledger |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`StakingLedgerAccountIdBalanceOfT` staking_ledger <br/> |
 |Set current era |    | :heavy_check_mark: |   | `EraIndex` era <br/>`VecVecu8` proof <br/> |
-|Set staking ledger |    |   |   | `DerivativeIndex` derivative_index <br/>`StakingLedgerAccountIdBalanceOfT` staking_ledger <br/>`VecVecu8` proof <br/> |
+|Set staking ledger |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`StakingLedgerAccountIdBalanceOfT` staking_ledger <br/>`VecVecu8` proof <br/> |
+|Reduce reserves |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` receiver <br/>`Compactu128` reduce_amount <br/> |
 
 ## GeneralCouncilMembership
 
@@ -500,8 +501,8 @@ Please:
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Force set lock |    |   |   | `AssetIdOfT` asset <br/>`AccountId` who <br/>`Compactu128` amount <br/> |
-|Force remove lock |    |   |   | `AssetIdOfT` asset <br/>`AccountId` who <br/> |
+|Force set lock |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AccountId` who <br/>`Compactu128` amount <br/> |
+|Force remove lock |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AccountId` who <br/> |
 
 ## Bridge
 
@@ -529,15 +530,15 @@ Please:
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Create |    |   |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`BlockNumber` cool_down_duration <br/> |
-|Set pool status |    |   |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`bool` is_active <br/> |
+|Create |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`BlockNumber` cool_down_duration <br/> |
+|Set pool status |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`bool` is_active <br/> |
 |Set pool cool down duration |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`BlockNumber` cool_down_duration <br/> |
 |Reset pool unlock height |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/> |
-|Deposit |    |   |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`Balance` amount <br/> |
-|Withdraw |    |   |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`Balance` amount <br/> |
-|Redeem |    |   |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/> |
-|Claim |    |   |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/> |
-|Dispatch reward |    |   |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`LookupasStaticLookupSource` payer <br/>`Balance` amount <br/>`BlockNumber` reward_duration <br/> |
+|Deposit |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`Balance` amount <br/> |
+|Withdraw |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`Balance` amount <br/> |
+|Redeem |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/> |
+|Claim |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/> |
+|Dispatch reward |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`LookupasStaticLookupSource` payer <br/>`Balance` amount <br/>`BlockNumber` reward_duration <br/> |
 
 ## XcmHelper
 
@@ -561,9 +562,9 @@ Please:
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Create stream |    |   |   | `AccountOfT` recipient <br/>`Balance` deposit <br/>`AssetIdOfT` asset_id <br/>`Timestamp` start_time <br/>`Timestamp` stop_time <br/> |
-|Cancel stream |    |   |   | `StreamId` stream_id <br/> |
-|Withdraw from stream |    |   |   | `StreamId` stream_id <br/>`Balance` amount <br/> |
+|Create |    |   |   | `AccountOfT` recipient <br/>`Balance` deposit <br/>`AssetIdOfT` asset_id <br/>`Timestamp` start_time <br/>`Timestamp` end_time <br/>`bool` cancellable <br/> |
+|Cancel |    |   |   | `StreamId` stream_id <br/> |
+|Withdraw |    |   |   | `StreamId` stream_id <br/>`Balance` amount <br/> |
 |Set minimum deposit |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Balance` minimum_deposit <br/> |
 
 ## AssetRegistry
