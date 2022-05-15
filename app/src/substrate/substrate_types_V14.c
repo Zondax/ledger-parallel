@@ -111,19 +111,22 @@ parser_error_t _readAccountVote_V14(parser_context_t* c, pd_AccountVote_V14_t* v
     return parser_ok;
 }
 
-parser_error_t _readAssetIdOfTIAssetIdOfTI_V14(parser_context_t* c, pd_AssetIdOfTIAssetIdOfTI_V14_t* v)
+parser_error_t _readAssetIdOfAssetIdOf_V14(parser_context_t* c, pd_AssetIdOfAssetIdOf_V14_t* v)
 {
-    return parser_not_supported;
+    CHECK_INPUT()
+    CHECK_ERROR(_readAssetIdOf_V14(c, &v->assetid1))
+    CHECK_ERROR(_readAssetIdOf_V14(c, &v->assetid2))
+    return parser_ok;
 }
 
-parser_error_t _readAssetIdOfTI_V14(parser_context_t* c, pd_AssetIdOfTI_V14_t* v)
+parser_error_t _readAssetIdOfT_V14(parser_context_t* c, pd_AssetIdOfT_V14_t* v)
 {
     CHECK_INPUT()
     CHECK_ERROR(_readUInt32(c, &v->value))
     return parser_ok;
 }
 
-parser_error_t _readAssetIdOfT_V14(parser_context_t* c, pd_AssetIdOfT_V14_t* v)
+parser_error_t _readAssetIdOf_V14(parser_context_t* c, pd_AssetIdOf_V14_t* v)
 {
     CHECK_INPUT()
     CHECK_ERROR(_readUInt32(c, &v->value))
@@ -186,9 +189,12 @@ parser_error_t _readAssetType_V14(parser_context_t* c, pd_AssetType_V14_t* v)
     return parser_not_supported;
 }
 
-parser_error_t _readBalanceOfTIBalanceOfTI_V14(parser_context_t* c, pd_BalanceOfTIBalanceOfTI_V14_t* v)
+parser_error_t _readBalanceOfBalanceOf_V14(parser_context_t* c, pd_BalanceOfBalanceOf_V14_t* v)
 {
-    return parser_not_supported;
+    CHECK_INPUT()
+    CHECK_ERROR(_readBalance(c, &v->balance1))
+    CHECK_ERROR(_readBalance(c, &v->balance2))
+    return parser_ok;
 }
 
 parser_error_t _readBalanceOfT_V14(parser_context_t* c, pd_BalanceOfT_V14_t* v)
@@ -1072,8 +1078,8 @@ parser_error_t _readVecAccountId_V14(parser_context_t* c, pd_VecAccountId_V14_t*
     GEN_DEF_READVECTOR(AccountId_V14)
 }
 
-parser_error_t _readVecAssetIdOfTI_V14(parser_context_t* c, pd_VecAssetIdOfTI_V14_t* v) {
-    GEN_DEF_READVECTOR(AssetIdOfTI_V14)
+parser_error_t _readVecAssetIdOf_V14(parser_context_t* c, pd_VecAssetIdOf_V14_t* v) {
+    GEN_DEF_READVECTOR(AssetIdOf_V14)
 }
 
 parser_error_t _readVecEraIndex_V14(parser_context_t* c, pd_VecEraIndex_V14_t* v) {
@@ -1533,19 +1539,45 @@ parser_error_t _toStringAccountVote_V14(
     return parser_ok;
 }
 
-parser_error_t _toStringAssetIdOfTIAssetIdOfTI_V14(
-    const pd_AssetIdOfTIAssetIdOfTI_V14_t* v,
+parser_error_t _toStringAssetIdOfAssetIdOf_V14(
+    const pd_AssetIdOfAssetIdOf_V14_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
     uint8_t* pageCount)
 {
     CLEAN_AND_CHECK()
-    return parser_print_not_supported;
+
+    // First measure number of pages
+    uint8_t pages[2] = { 0 };
+    CHECK_ERROR(_toStringAssetIdOf_V14(&v->assetid1, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringAssetIdOf_V14(&v->assetid2, outValue, outValueLen, 0, &pages[1]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringAssetIdOf_V14(&v->assetid1, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringAssetIdOf_V14(&v->assetid2, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
 }
 
-parser_error_t _toStringAssetIdOfTI_V14(
-    const pd_AssetIdOfTI_V14_t* v,
+parser_error_t _toStringAssetIdOfT_V14(
+    const pd_AssetIdOfT_V14_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -1554,8 +1586,8 @@ parser_error_t _toStringAssetIdOfTI_V14(
     return _toStringu32(&v->value, outValue, outValueLen, pageIdx, pageCount);
 }
 
-parser_error_t _toStringAssetIdOfT_V14(
-    const pd_AssetIdOfT_V14_t* v,
+parser_error_t _toStringAssetIdOf_V14(
+    const pd_AssetIdOf_V14_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -1639,15 +1671,41 @@ parser_error_t _toStringAssetType_V14(
     return parser_print_not_supported;
 }
 
-parser_error_t _toStringBalanceOfTIBalanceOfTI_V14(
-    const pd_BalanceOfTIBalanceOfTI_V14_t* v,
+parser_error_t _toStringBalanceOfBalanceOf_V14(
+    const pd_BalanceOfBalanceOf_V14_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
     uint8_t* pageCount)
 {
     CLEAN_AND_CHECK()
-    return parser_print_not_supported;
+
+    // First measure number of pages
+    uint8_t pages[2] = { 0 };
+    CHECK_ERROR(_toStringBalance(&v->balance1, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringBalance(&v->balance2, outValue, outValueLen, 0, &pages[1]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringBalance(&v->balance1, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringBalance(&v->balance2, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
 }
 
 parser_error_t _toStringBalanceOfT_V14(
@@ -3887,14 +3945,14 @@ parser_error_t _toStringVecAccountId_V14(
     GEN_DEF_TOSTRING_VECTOR(AccountId_V14);
 }
 
-parser_error_t _toStringVecAssetIdOfTI_V14(
-    const pd_VecAssetIdOfTI_V14_t* v,
+parser_error_t _toStringVecAssetIdOf_V14(
+    const pd_VecAssetIdOf_V14_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
     uint8_t* pageCount)
 {
-    GEN_DEF_TOSTRING_VECTOR(AssetIdOfTI_V14);
+    GEN_DEF_TOSTRING_VECTOR(AssetIdOf_V14);
 }
 
 parser_error_t _toStringVecEraIndex_V14(

@@ -53,6 +53,7 @@ extern "C" {
 #define PD_CALL_LIQUIDSTAKINGAGENTSMEMBERSHIP_V14 73
 #define PD_CALL_BRIDGEMEMBERSHIP_V14 74
 #define PD_CALL_CROWDLOANSAUTOMATORSMEMBERSHIP_V14 75
+#define PD_CALL_AMM_V14 80
 #define PD_CALL_CURRENCYADAPTER_V14 82
 #define PD_CALL_BRIDGE_V14 90
 #define PD_CALL_EMERGENCYSHUTDOWN_V14 91
@@ -1177,6 +1178,27 @@ typedef struct {
 typedef struct {
 } pd_crowdloansautomatorsmembership_clear_prime_V14_t;
 
+#define PD_CALL_AMM_ADD_LIQUIDITY_V14 0
+typedef struct {
+    pd_AssetIdOfAssetIdOf_V14_t pair;
+    pd_BalanceOfBalanceOf_V14_t desired_amounts;
+    pd_BalanceOfBalanceOf_V14_t minimum_amounts;
+} pd_amm_add_liquidity_V14_t;
+
+#define PD_CALL_AMM_REMOVE_LIQUIDITY_V14 1
+typedef struct {
+    pd_AssetIdOfAssetIdOf_V14_t pair;
+    pd_Compactu128_t liquidity;
+} pd_amm_remove_liquidity_V14_t;
+
+#define PD_CALL_AMM_CREATE_POOL_V14 2
+typedef struct {
+    pd_AssetIdOfAssetIdOf_V14_t pair;
+    pd_BalanceOfBalanceOf_V14_t liquidity_amounts;
+    pd_AccountId_V14_t lptoken_receiver;
+    pd_AssetIdOf_V14_t lp_token_id;
+} pd_amm_create_pool_V14_t;
+
 #define PD_CALL_CURRENCYADAPTER_FORCE_SET_LOCK_V14 0
 typedef struct {
     pd_AssetIdOfT_V14_t asset;
@@ -1495,6 +1517,9 @@ typedef union {
     pd_crowdloansautomatorsmembership_change_key_V14_t crowdloansautomatorsmembership_change_key_V14;
     pd_crowdloansautomatorsmembership_set_prime_V14_t crowdloansautomatorsmembership_set_prime_V14;
     pd_crowdloansautomatorsmembership_clear_prime_V14_t crowdloansautomatorsmembership_clear_prime_V14;
+    pd_amm_add_liquidity_V14_t amm_add_liquidity_V14;
+    pd_amm_remove_liquidity_V14_t amm_remove_liquidity_V14;
+    pd_amm_create_pool_V14_t amm_create_pool_V14;
     pd_currencyadapter_force_set_lock_V14_t currencyadapter_force_set_lock_V14;
     pd_currencyadapter_force_remove_lock_V14_t currencyadapter_force_remove_lock_V14;
     pd_bridge_set_bridge_token_status_V14_t bridge_set_bridge_token_status_V14;

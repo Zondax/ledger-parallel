@@ -486,16 +486,16 @@ Please:
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Add liquidity |    |   |   | `AssetIdOfTIAssetIdOfTI` pair <br/>`BalanceOfTIBalanceOfTI` desired_amounts <br/>`BalanceOfTIBalanceOfTI` minimum_amounts <br/> |
-|Remove liquidity |    |   |   | `AssetIdOfTIAssetIdOfTI` pair <br/>`Compactu128` liquidity <br/> |
-|Create pool |    |   |   | `AssetIdOfTIAssetIdOfTI` pair <br/>`BalanceOfTIBalanceOfTI` liquidity_amounts <br/>`AccountId` lptoken_receiver <br/>`AssetIdOfTI` lp_token_id <br/> |
+|Add liquidity |    | :heavy_check_mark: |   | `AssetIdOfAssetIdOf` pair <br/>`BalanceOfBalanceOf` desired_amounts <br/>`BalanceOfBalanceOf` minimum_amounts <br/> |
+|Remove liquidity |    | :heavy_check_mark: |   | `AssetIdOfAssetIdOf` pair <br/>`Compactu128` liquidity <br/> |
+|Create pool |    | :heavy_check_mark: |   | `AssetIdOfAssetIdOf` pair <br/>`BalanceOfBalanceOf` liquidity_amounts <br/>`AccountId` lptoken_receiver <br/>`AssetIdOf` lp_token_id <br/> |
 
 ## AMMRoute
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Swap exact tokens for tokens |    |   |   | `VecAssetIdOfTI` route <br/>`Compactu128` amount_in <br/>`Compactu128` min_amount_out <br/> |
-|Swap tokens for exact tokens |    |   |   | `VecAssetIdOfTI` route <br/>`Compactu128` amount_out <br/>`Compactu128` max_amount_in <br/> |
+|Swap exact tokens for tokens |    |   |   | `VecAssetIdOf` route <br/>`Compactu128` amount_in <br/>`Compactu128` min_amount_out <br/> |
+|Swap tokens for exact tokens |    |   |   | `VecAssetIdOf` route <br/>`Compactu128` amount_out <br/>`Compactu128` max_amount_in <br/> |
 
 ## CurrencyAdapter
 
