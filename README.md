@@ -494,8 +494,8 @@ Please:
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Swap exact tokens for tokens |    |   |   | `VecAssetIdOf` route <br/>`Compactu128` amount_in <br/>`Compactu128` min_amount_out <br/> |
-|Swap tokens for exact tokens |    |   |   | `VecAssetIdOf` route <br/>`Compactu128` amount_out <br/>`Compactu128` max_amount_in <br/> |
+|Swap exact tokens for tokens |    | :heavy_check_mark: |   | `VecAssetIdOf` route <br/>`Compactu128` amount_in <br/>`Compactu128` min_amount_out <br/> |
+|Swap tokens for exact tokens |    | :heavy_check_mark: |   | `VecAssetIdOf` route <br/>`Compactu128` amount_out <br/>`Compactu128` max_amount_in <br/> |
 
 ## CurrencyAdapter
 

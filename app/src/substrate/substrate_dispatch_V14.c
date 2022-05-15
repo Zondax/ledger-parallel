@@ -1682,6 +1682,24 @@ __Z_INLINE parser_error_t _readMethod_amm_create_pool_V14(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_ammroute_swap_exact_tokens_for_tokens_V14(
+    parser_context_t* c, pd_ammroute_swap_exact_tokens_for_tokens_V14_t* m)
+{
+    CHECK_ERROR(_readVecAssetIdOf_V14(c, &m->route))
+    CHECK_ERROR(_readCompactu128(c, &m->amount_in))
+    CHECK_ERROR(_readCompactu128(c, &m->min_amount_out))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_ammroute_swap_tokens_for_exact_tokens_V14(
+    parser_context_t* c, pd_ammroute_swap_tokens_for_exact_tokens_V14_t* m)
+{
+    CHECK_ERROR(_readVecAssetIdOf_V14(c, &m->route))
+    CHECK_ERROR(_readCompactu128(c, &m->amount_out))
+    CHECK_ERROR(_readCompactu128(c, &m->max_amount_in))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_currencyadapter_force_set_lock_V14(
     parser_context_t* c, pd_currencyadapter_force_set_lock_V14_t* m)
 {
@@ -2492,6 +2510,12 @@ parser_error_t _readMethod_V14(
     case 20482: /* module 80 call 2 */
         CHECK_ERROR(_readMethod_amm_create_pool_V14(c, &method->basic.amm_create_pool_V14))
         break;
+    case 20736: /* module 81 call 0 */
+        CHECK_ERROR(_readMethod_ammroute_swap_exact_tokens_for_tokens_V14(c, &method->basic.ammroute_swap_exact_tokens_for_tokens_V14))
+        break;
+    case 20737: /* module 81 call 1 */
+        CHECK_ERROR(_readMethod_ammroute_swap_tokens_for_exact_tokens_V14(c, &method->basic.ammroute_swap_tokens_for_exact_tokens_V14))
+        break;
     case 20992: /* module 82 call 0 */
         CHECK_ERROR(_readMethod_currencyadapter_force_set_lock_V14(c, &method->basic.currencyadapter_force_set_lock_V14))
         break;
@@ -2616,6 +2640,8 @@ const char* _getMethod_ModuleName_V14(uint8_t moduleIdx)
         return STR_MO_CROWDLOANSAUTOMATORSMEMBERSHIP;
     case 80:
         return STR_MO_AMM;
+    case 81:
+        return STR_MO_AMMROUTE;
     case 82:
         return STR_MO_CURRENCYADAPTER;
     case 90:
@@ -3082,6 +3108,10 @@ const char* _getMethod_Name_V14_ParserFull(uint16_t callPrivIdx)
         return STR_ME_REMOVE_LIQUIDITY;
     case 20482: /* module 80 call 2 */
         return STR_ME_CREATE_POOL;
+    case 20736: /* module 81 call 0 */
+        return STR_ME_SWAP_EXACT_TOKENS_FOR_TOKENS;
+    case 20737: /* module 81 call 1 */
+        return STR_ME_SWAP_TOKENS_FOR_EXACT_TOKENS;
     case 20992: /* module 82 call 0 */
         return STR_ME_FORCE_SET_LOCK;
     case 20993: /* module 82 call 1 */
@@ -3560,6 +3590,10 @@ uint8_t _getMethod_NumItems_V14(uint8_t moduleIdx, uint8_t callIdx)
         return 2;
     case 20482: /* module 80 call 2 */
         return 4;
+    case 20736: /* module 81 call 0 */
+        return 3;
+    case 20737: /* module 81 call 1 */
+        return 3;
     case 20992: /* module 82 call 0 */
         return 3;
     case 20993: /* module 82 call 1 */
@@ -5424,6 +5458,28 @@ const char* _getMethod_ItemName_V14(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
             return STR_IT_lptoken_receiver;
         case 3:
             return STR_IT_lp_token_id;
+        default:
+            return NULL;
+        }
+    case 20736: /* module 81 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_route;
+        case 1:
+            return STR_IT_amount_in;
+        case 2:
+            return STR_IT_min_amount_out;
+        default:
+            return NULL;
+        }
+    case 20737: /* module 81 call 1 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_route;
+        case 1:
+            return STR_IT_amount_out;
+        case 2:
+            return STR_IT_max_amount_in;
         default:
             return NULL;
         }
@@ -8563,6 +8619,46 @@ parser_error_t _getMethod_ItemValue_V14(
         default:
             return parser_no_data;
         }
+    case 20736: /* module 81 call 0 */
+        switch (itemIdx) {
+        case 0: /* ammroute_swap_exact_tokens_for_tokens_V14 - route */;
+            return _toStringVecAssetIdOf_V14(
+                &m->basic.ammroute_swap_exact_tokens_for_tokens_V14.route,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* ammroute_swap_exact_tokens_for_tokens_V14 - amount_in */;
+            return _toStringCompactu128(
+                &m->basic.ammroute_swap_exact_tokens_for_tokens_V14.amount_in,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* ammroute_swap_exact_tokens_for_tokens_V14 - min_amount_out */;
+            return _toStringCompactu128(
+                &m->basic.ammroute_swap_exact_tokens_for_tokens_V14.min_amount_out,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 20737: /* module 81 call 1 */
+        switch (itemIdx) {
+        case 0: /* ammroute_swap_tokens_for_exact_tokens_V14 - route */;
+            return _toStringVecAssetIdOf_V14(
+                &m->basic.ammroute_swap_tokens_for_exact_tokens_V14.route,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* ammroute_swap_tokens_for_exact_tokens_V14 - amount_out */;
+            return _toStringCompactu128(
+                &m->basic.ammroute_swap_tokens_for_exact_tokens_V14.amount_out,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* ammroute_swap_tokens_for_exact_tokens_V14 - max_amount_in */;
+            return _toStringCompactu128(
+                &m->basic.ammroute_swap_tokens_for_exact_tokens_V14.max_amount_in,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 20992: /* module 82 call 0 */
         switch (itemIdx) {
         case 0: /* currencyadapter_force_set_lock_V14 - asset */;
@@ -9117,6 +9213,8 @@ bool _getMethod_IsNestingSupported_V14(uint8_t moduleIdx, uint8_t callIdx)
     case 20480: // AMM:Add liquidity
     case 20481: // AMM:Remove liquidity
     case 20482: // AMM:Create pool
+    case 20736: // AMMRoute:Swap exact tokens for tokens
+    case 20737: // AMMRoute:Swap tokens for exact tokens
     case 20992: // CurrencyAdapter:Force set lock
     case 20993: // CurrencyAdapter:Force remove lock
     case 23045: // Bridge:Set bridge token status
