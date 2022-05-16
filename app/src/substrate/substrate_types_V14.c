@@ -343,12 +343,23 @@ parser_error_t _readBoxVersionedXcmTuple_V14(parser_context_t* c, pd_BoxVersione
 
 parser_error_t _readBridgeToken_V14(parser_context_t* c, pd_BridgeToken_V14_t* v)
 {
-    return parser_not_supported;
+    CHECK_INPUT()
+    CHECK_ERROR(_readCurrencyId_V14(c, &v->id))
+    CHECK_ERROR(_readbool(c, &v->external))
+    CHECK_ERROR(_readBalance(c, &v->fee))
+    CHECK_ERROR(_readbool(c, &v->enable))
+    CHECK_ERROR(_readBalance(c, &v->outCap))
+    CHECK_ERROR(_readBalance(c, &v->outAmount))
+    CHECK_ERROR(_readBalance(c, &v->inCap))
+    CHECK_ERROR(_readBalance(c, &v->inAmount))
+    return parser_ok;
 }
 
 parser_error_t _readBridgeType_V14(parser_context_t* c, pd_BridgeType_V14_t* v)
 {
-    return parser_not_supported;
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    return parser_ok;
 }
 
 parser_error_t _readCallHashOf_V14(parser_context_t* c, pd_CallHashOf_V14_t* v) {
@@ -357,12 +368,16 @@ parser_error_t _readCallHashOf_V14(parser_context_t* c, pd_CallHashOf_V14_t* v) 
 
 parser_error_t _readChainId_V14(parser_context_t* c, pd_ChainId_V14_t* v)
 {
-    return parser_not_supported;
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt32(c, &v->value))
+    return parser_ok;
 }
 
 parser_error_t _readChainNonce_V14(parser_context_t* c, pd_ChainNonce_V14_t* v)
 {
-    return parser_not_supported;
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt64(c, &v->value))
+    return parser_ok;
 }
 
 parser_error_t _readCompactAccountIndex_V14(parser_context_t* c, pd_CompactAccountIndex_V14_t* v)
@@ -738,7 +753,7 @@ parser_error_t _readMarketState_V14(parser_context_t* c, pd_MarketState_V14_t* v
     CHECK_INPUT()
     CHECK_ERROR(_readUInt8(c, &v->value))
     if (v->value > 3) {
-        return parser_unexpected_value;
+        return parser_value_out_of_range;
     }
     return parser_ok;
 }
@@ -961,7 +976,9 @@ parser_error_t _readStreamId_V14(parser_context_t* c, pd_StreamId_V14_t* v)
 
 parser_error_t _readTeleAccount_V14(parser_context_t* c, pd_TeleAccount_V14_t* v)
 {
-    return parser_not_supported;
+    CHECK_INPUT()
+    CHECK_ERROR(_readVecu8(c, &v->value))
+    return parser_ok;
 }
 
 parser_error_t _readTimepoint_V14(parser_context_t* c, pd_Timepoint_V14_t* v)
@@ -1952,7 +1969,75 @@ parser_error_t _toStringBridgeToken_V14(
     uint8_t* pageCount)
 {
     CLEAN_AND_CHECK()
-    return parser_print_not_supported;
+
+    // First measure number of pages
+    uint8_t pages[8] = { 0 };
+    CHECK_ERROR(_toStringCurrencyId_V14(&v->id, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringbool(&v->external, outValue, outValueLen, 0, &pages[1]))
+    CHECK_ERROR(_toStringBalance(&v->fee, outValue, outValueLen, 0, &pages[2]))
+    CHECK_ERROR(_toStringbool(&v->enable, outValue, outValueLen, 0, &pages[3]))
+    CHECK_ERROR(_toStringBalance(&v->outCap, outValue, outValueLen, 0, &pages[4]))
+    CHECK_ERROR(_toStringBalance(&v->outAmount, outValue, outValueLen, 0, &pages[5]))
+    CHECK_ERROR(_toStringBalance(&v->inCap, outValue, outValueLen, 0, &pages[6]))
+    CHECK_ERROR(_toStringBalance(&v->inAmount, outValue, outValueLen, 0, &pages[7]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringCurrencyId_V14(&v->id, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringbool(&v->external, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+    pageIdx -= pages[1];
+
+    if (pageIdx < pages[2]) {
+        CHECK_ERROR(_toStringBalance(&v->fee, outValue, outValueLen, pageIdx, &pages[2]))
+        return parser_ok;
+    }
+    pageIdx -= pages[2];
+
+    if (pageIdx < pages[3]) {
+        CHECK_ERROR(_toStringbool(&v->enable, outValue, outValueLen, pageIdx, &pages[3]))
+        return parser_ok;
+    }
+    pageIdx -= pages[3];
+
+    if (pageIdx < pages[4]) {
+        CHECK_ERROR(_toStringBalance(&v->outCap, outValue, outValueLen, pageIdx, &pages[4]))
+        return parser_ok;
+    }
+    pageIdx -= pages[4];
+
+    if (pageIdx < pages[5]) {
+        CHECK_ERROR(_toStringBalance(&v->outAmount, outValue, outValueLen, pageIdx, &pages[5]))
+        return parser_ok;
+    }
+    pageIdx -= pages[5];
+
+    if (pageIdx < pages[6]) {
+        CHECK_ERROR(_toStringBalance(&v->inCap, outValue, outValueLen, pageIdx, &pages[6]))
+        return parser_ok;
+    }
+    pageIdx -= pages[6];
+
+    if (pageIdx < pages[7]) {
+        CHECK_ERROR(_toStringBalance(&v->inAmount, outValue, outValueLen, pageIdx, &pages[7]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
 }
 
 parser_error_t _toStringBridgeType_V14(
@@ -1963,7 +2048,18 @@ parser_error_t _toStringBridgeType_V14(
     uint8_t* pageCount)
 {
     CLEAN_AND_CHECK()
-    return parser_print_not_supported;
+    *pageCount = 1;
+    switch (v->value) {
+    case 0:
+        snprintf(outValue, outValueLen, "BridgeOut");
+        break;
+    case 1:
+        snprintf(outValue, outValueLen, "BridgeIn");
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
 }
 
 parser_error_t _toStringCallHashOf_V14(
@@ -1982,8 +2078,7 @@ parser_error_t _toStringChainId_V14(
     uint8_t pageIdx,
     uint8_t* pageCount)
 {
-    CLEAN_AND_CHECK()
-    return parser_print_not_supported;
+    return _toStringu32(&v->value, outValue, outValueLen, pageIdx, pageCount);
 }
 
 parser_error_t _toStringChainNonce_V14(
@@ -1993,8 +2088,7 @@ parser_error_t _toStringChainNonce_V14(
     uint8_t pageIdx,
     uint8_t* pageCount)
 {
-    CLEAN_AND_CHECK()
-    return parser_print_not_supported;
+    return _toStringu64(&v->value, outValue, outValueLen, pageIdx, pageCount);
 }
 
 parser_error_t _toStringCompactAccountIndex_V14(
@@ -3634,7 +3728,8 @@ parser_error_t _toStringTeleAccount_V14(
     uint8_t* pageCount)
 {
     CLEAN_AND_CHECK()
-    return parser_print_not_supported;
+    CHECK_ERROR(_toStringVecu8(&v->value, outValue, outValueLen, pageIdx, pageCount))
+    return parser_ok;
 }
 
 parser_error_t _toStringTimepoint_V14(

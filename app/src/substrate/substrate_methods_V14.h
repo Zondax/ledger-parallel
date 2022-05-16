@@ -1227,11 +1227,69 @@ typedef struct {
     pd_AccountId_V14_t who;
 } pd_currencyadapter_force_remove_lock_V14_t;
 
+#define PD_CALL_BRIDGE_REGISTER_CHAIN_V14 0
+typedef struct {
+    pd_ChainId_V14_t chain_id;
+} pd_bridge_register_chain_V14_t;
+
+#define PD_CALL_BRIDGE_UNREGISTER_CHAIN_V14 1
+typedef struct {
+    pd_ChainId_V14_t chain_id;
+} pd_bridge_unregister_chain_V14_t;
+
+#define PD_CALL_BRIDGE_REGISTER_BRIDGE_TOKEN_V14 2
+typedef struct {
+    pd_AssetIdOfT_V14_t asset_id;
+    pd_BridgeToken_V14_t bridge_token;
+} pd_bridge_register_bridge_token_V14_t;
+
+#define PD_CALL_BRIDGE_UNREGISTER_BRIDGE_TOKEN_V14 3
+typedef struct {
+    pd_CurrencyId_V14_t bridge_token_id;
+} pd_bridge_unregister_bridge_token_V14_t;
+
+#define PD_CALL_BRIDGE_SET_BRIDGE_TOKEN_FEE_V14 4
+typedef struct {
+    pd_CurrencyId_V14_t bridge_token_id;
+    pd_Balance_t new_fee;
+} pd_bridge_set_bridge_token_fee_V14_t;
+
 #define PD_CALL_BRIDGE_SET_BRIDGE_TOKEN_STATUS_V14 5
 typedef struct {
     pd_CurrencyId_V14_t bridge_token_id;
     pd_bool_t enable;
 } pd_bridge_set_bridge_token_status_V14_t;
+
+#define PD_CALL_BRIDGE_SET_BRIDGE_TOKEN_CAP_V14 6
+typedef struct {
+    pd_CurrencyId_V14_t bridge_token_id;
+    pd_BridgeType_V14_t bridge_type;
+    pd_Balance_t new_cap;
+} pd_bridge_set_bridge_token_cap_V14_t;
+
+#define PD_CALL_BRIDGE_CLEAN_CAP_ACCUMULATED_VALUE_V14 7
+typedef struct {
+    pd_CurrencyId_V14_t bridge_token_id;
+    pd_BridgeType_V14_t bridge_type;
+} pd_bridge_clean_cap_accumulated_value_V14_t;
+
+#define PD_CALL_BRIDGE_TELEPORT_V14 8
+typedef struct {
+    pd_ChainId_V14_t dest_id;
+    pd_CurrencyId_V14_t bridge_token_id;
+    pd_TeleAccount_V14_t to;
+    pd_Balance_t amount;
+} pd_bridge_teleport_V14_t;
+
+#define PD_CALL_BRIDGE_MATERIALIZE_V14 9
+typedef struct {
+    pd_ChainId_V14_t src_id;
+    pd_ChainNonce_V14_t src_nonce;
+    pd_CurrencyId_V14_t bridge_token_id;
+    pd_AccountId_V14_t to;
+    pd_Balance_t amount;
+    pd_bool_t favour;
+} pd_bridge_materialize_V14_t;
 
 #define PD_CALL_EMERGENCYSHUTDOWN_TOGGLE_PALLET_V14 0
 typedef struct {
@@ -1539,7 +1597,16 @@ typedef union {
     pd_ammroute_swap_tokens_for_exact_tokens_V14_t ammroute_swap_tokens_for_exact_tokens_V14;
     pd_currencyadapter_force_set_lock_V14_t currencyadapter_force_set_lock_V14;
     pd_currencyadapter_force_remove_lock_V14_t currencyadapter_force_remove_lock_V14;
+    pd_bridge_register_chain_V14_t bridge_register_chain_V14;
+    pd_bridge_unregister_chain_V14_t bridge_unregister_chain_V14;
+    pd_bridge_register_bridge_token_V14_t bridge_register_bridge_token_V14;
+    pd_bridge_unregister_bridge_token_V14_t bridge_unregister_bridge_token_V14;
+    pd_bridge_set_bridge_token_fee_V14_t bridge_set_bridge_token_fee_V14;
     pd_bridge_set_bridge_token_status_V14_t bridge_set_bridge_token_status_V14;
+    pd_bridge_set_bridge_token_cap_V14_t bridge_set_bridge_token_cap_V14;
+    pd_bridge_clean_cap_accumulated_value_V14_t bridge_clean_cap_accumulated_value_V14;
+    pd_bridge_teleport_V14_t bridge_teleport_V14;
+    pd_bridge_materialize_V14_t bridge_materialize_V14;
     pd_emergencyshutdown_toggle_pallet_V14_t emergencyshutdown_toggle_pallet_V14;
     pd_emergencyshutdown_toggle_call_V14_t emergencyshutdown_toggle_call_V14;
     pd_farming_create_V14_t farming_create_V14;

@@ -449,6 +449,17 @@ typedef struct {
 } pd_BoxVersionedMultiAssets_V14_t;
 
 typedef struct {
+    pd_CurrencyId_V14_t id;
+    pd_bool_t external;
+    pd_Balance_t fee;
+    pd_bool_t enable;
+    pd_Balance_t outCap;
+    pd_Balance_t outAmount;
+    pd_Balance_t inCap;
+    pd_Balance_t inAmount;
+} pd_BridgeToken_V14_t;
+
+typedef struct {
     pd_Compactu32_t accounts;
     pd_Compactu32_t sufficients;
     pd_Compactu32_t approvals;
@@ -503,6 +514,10 @@ typedef struct {
     pd_VecUnlockChunk_V14_t unlocking;
     pd_VecEraIndex_V14_t claimedRewards;
 } pd_StakingLedgerAccountIdBalanceOfT_V14_t;
+
+typedef struct {
+    pd_Vecu8_t value;
+} pd_TeleAccount_V14_t;
 
 typedef struct {
     uint64_t _len;
@@ -560,13 +575,7 @@ typedef struct {
 } pd_BoxVersionedXcmTuple_V14_t;
 
 typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
-} pd_BridgeToken_V14_t;
-
-typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
+    uint8_t value;
 } pd_BridgeType_V14_t;
 
 typedef struct {
@@ -574,13 +583,11 @@ typedef struct {
 } pd_CallHashOf_V14_t;
 
 typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
+    uint32_t value;
 } pd_ChainId_V14_t;
 
 typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
+    uint64_t value;
 } pd_ChainNonce_V14_t;
 
 typedef struct {
@@ -699,11 +706,6 @@ typedef struct {
     // TODO: Not implemented
     uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
 } pd_StreamId_V14_t;
-
-typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
-} pd_TeleAccount_V14_t;
 
 typedef struct {
     // TODO: Not implemented

@@ -478,16 +478,16 @@
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Register chain |    |   |   | `ChainId` chain_id <br/> |
-|Unregister chain |    |   |   | `ChainId` chain_id <br/> |
-|Register bridge token |    |   |   | `AssetIdOfT` asset_id <br/>`BridgeToken` bridge_token <br/> |
-|Unregister bridge token |    |   |   | `CurrencyId` bridge_token_id <br/> |
-|Set bridge token fee |    |   |   | `CurrencyId` bridge_token_id <br/>`Balance` new_fee <br/> |
+|Register chain |    | :heavy_check_mark: |   | `ChainId` chain_id <br/> |
+|Unregister chain |    | :heavy_check_mark: |   | `ChainId` chain_id <br/> |
+|Register bridge token |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`BridgeToken` bridge_token <br/> |
+|Unregister bridge token |    | :heavy_check_mark: |   | `CurrencyId` bridge_token_id <br/> |
+|Set bridge token fee |    | :heavy_check_mark: |   | `CurrencyId` bridge_token_id <br/>`Balance` new_fee <br/> |
 |Set bridge token status |    | :heavy_check_mark: |   | `CurrencyId` bridge_token_id <br/>`bool` enable <br/> |
-|Set bridge token cap |    |   |   | `CurrencyId` bridge_token_id <br/>`BridgeType` bridge_type <br/>`Balance` new_cap <br/> |
-|Clean cap accumulated value |    |   |   | `CurrencyId` bridge_token_id <br/>`BridgeType` bridge_type <br/> |
-|Teleport |    |   |   | `ChainId` dest_id <br/>`CurrencyId` bridge_token_id <br/>`TeleAccount` to <br/>`Balance` amount <br/> |
-|Materialize |    |   |   | `ChainId` src_id <br/>`ChainNonce` src_nonce <br/>`CurrencyId` bridge_token_id <br/>`AccountId` to <br/>`Balance` amount <br/>`bool` favour <br/> |
+|Set bridge token cap |    | :heavy_check_mark: |   | `CurrencyId` bridge_token_id <br/>`BridgeType` bridge_type <br/>`Balance` new_cap <br/> |
+|Clean cap accumulated value |    | :heavy_check_mark: |   | `CurrencyId` bridge_token_id <br/>`BridgeType` bridge_type <br/> |
+|Teleport |    | :heavy_check_mark: |   | `ChainId` dest_id <br/>`CurrencyId` bridge_token_id <br/>`TeleAccount` to <br/>`Balance` amount <br/> |
+|Materialize |    | :heavy_check_mark: |   | `ChainId` src_id <br/>`ChainNonce` src_nonce <br/>`CurrencyId` bridge_token_id <br/>`AccountId` to <br/>`Balance` amount <br/>`bool` favour <br/> |
 
 ## EmergencyShutdown
 

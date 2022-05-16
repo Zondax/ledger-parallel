@@ -1717,11 +1717,87 @@ __Z_INLINE parser_error_t _readMethod_currencyadapter_force_remove_lock_V14(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_bridge_register_chain_V14(
+    parser_context_t* c, pd_bridge_register_chain_V14_t* m)
+{
+    CHECK_ERROR(_readChainId_V14(c, &m->chain_id))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_bridge_unregister_chain_V14(
+    parser_context_t* c, pd_bridge_unregister_chain_V14_t* m)
+{
+    CHECK_ERROR(_readChainId_V14(c, &m->chain_id))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_bridge_register_bridge_token_V14(
+    parser_context_t* c, pd_bridge_register_bridge_token_V14_t* m)
+{
+    CHECK_ERROR(_readAssetIdOfT_V14(c, &m->asset_id))
+    CHECK_ERROR(_readBridgeToken_V14(c, &m->bridge_token))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_bridge_unregister_bridge_token_V14(
+    parser_context_t* c, pd_bridge_unregister_bridge_token_V14_t* m)
+{
+    CHECK_ERROR(_readCurrencyId_V14(c, &m->bridge_token_id))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_bridge_set_bridge_token_fee_V14(
+    parser_context_t* c, pd_bridge_set_bridge_token_fee_V14_t* m)
+{
+    CHECK_ERROR(_readCurrencyId_V14(c, &m->bridge_token_id))
+    CHECK_ERROR(_readBalance(c, &m->new_fee))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_bridge_set_bridge_token_status_V14(
     parser_context_t* c, pd_bridge_set_bridge_token_status_V14_t* m)
 {
     CHECK_ERROR(_readCurrencyId_V14(c, &m->bridge_token_id))
     CHECK_ERROR(_readbool(c, &m->enable))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_bridge_set_bridge_token_cap_V14(
+    parser_context_t* c, pd_bridge_set_bridge_token_cap_V14_t* m)
+{
+    CHECK_ERROR(_readCurrencyId_V14(c, &m->bridge_token_id))
+    CHECK_ERROR(_readBridgeType_V14(c, &m->bridge_type))
+    CHECK_ERROR(_readBalance(c, &m->new_cap))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_bridge_clean_cap_accumulated_value_V14(
+    parser_context_t* c, pd_bridge_clean_cap_accumulated_value_V14_t* m)
+{
+    CHECK_ERROR(_readCurrencyId_V14(c, &m->bridge_token_id))
+    CHECK_ERROR(_readBridgeType_V14(c, &m->bridge_type))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_bridge_teleport_V14(
+    parser_context_t* c, pd_bridge_teleport_V14_t* m)
+{
+    CHECK_ERROR(_readChainId_V14(c, &m->dest_id))
+    CHECK_ERROR(_readCurrencyId_V14(c, &m->bridge_token_id))
+    CHECK_ERROR(_readTeleAccount_V14(c, &m->to))
+    CHECK_ERROR(_readBalance(c, &m->amount))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_bridge_materialize_V14(
+    parser_context_t* c, pd_bridge_materialize_V14_t* m)
+{
+    CHECK_ERROR(_readChainId_V14(c, &m->src_id))
+    CHECK_ERROR(_readChainNonce_V14(c, &m->src_nonce))
+    CHECK_ERROR(_readCurrencyId_V14(c, &m->bridge_token_id))
+    CHECK_ERROR(_readAccountId_V14(c, &m->to))
+    CHECK_ERROR(_readBalance(c, &m->amount))
+    CHECK_ERROR(_readbool(c, &m->favour))
     return parser_ok;
 }
 
@@ -2522,8 +2598,35 @@ parser_error_t _readMethod_V14(
     case 20993: /* module 82 call 1 */
         CHECK_ERROR(_readMethod_currencyadapter_force_remove_lock_V14(c, &method->basic.currencyadapter_force_remove_lock_V14))
         break;
+    case 23040: /* module 90 call 0 */
+        CHECK_ERROR(_readMethod_bridge_register_chain_V14(c, &method->basic.bridge_register_chain_V14))
+        break;
+    case 23041: /* module 90 call 1 */
+        CHECK_ERROR(_readMethod_bridge_unregister_chain_V14(c, &method->basic.bridge_unregister_chain_V14))
+        break;
+    case 23042: /* module 90 call 2 */
+        CHECK_ERROR(_readMethod_bridge_register_bridge_token_V14(c, &method->basic.bridge_register_bridge_token_V14))
+        break;
+    case 23043: /* module 90 call 3 */
+        CHECK_ERROR(_readMethod_bridge_unregister_bridge_token_V14(c, &method->basic.bridge_unregister_bridge_token_V14))
+        break;
+    case 23044: /* module 90 call 4 */
+        CHECK_ERROR(_readMethod_bridge_set_bridge_token_fee_V14(c, &method->basic.bridge_set_bridge_token_fee_V14))
+        break;
     case 23045: /* module 90 call 5 */
         CHECK_ERROR(_readMethod_bridge_set_bridge_token_status_V14(c, &method->basic.bridge_set_bridge_token_status_V14))
+        break;
+    case 23046: /* module 90 call 6 */
+        CHECK_ERROR(_readMethod_bridge_set_bridge_token_cap_V14(c, &method->basic.bridge_set_bridge_token_cap_V14))
+        break;
+    case 23047: /* module 90 call 7 */
+        CHECK_ERROR(_readMethod_bridge_clean_cap_accumulated_value_V14(c, &method->basic.bridge_clean_cap_accumulated_value_V14))
+        break;
+    case 23048: /* module 90 call 8 */
+        CHECK_ERROR(_readMethod_bridge_teleport_V14(c, &method->basic.bridge_teleport_V14))
+        break;
+    case 23049: /* module 90 call 9 */
+        CHECK_ERROR(_readMethod_bridge_materialize_V14(c, &method->basic.bridge_materialize_V14))
         break;
     case 23296: /* module 91 call 0 */
         CHECK_ERROR(_readMethod_emergencyshutdown_toggle_pallet_V14(c, &method->basic.emergencyshutdown_toggle_pallet_V14))
@@ -3116,8 +3219,26 @@ const char* _getMethod_Name_V14_ParserFull(uint16_t callPrivIdx)
         return STR_ME_FORCE_SET_LOCK;
     case 20993: /* module 82 call 1 */
         return STR_ME_FORCE_REMOVE_LOCK;
+    case 23040: /* module 90 call 0 */
+        return STR_ME_REGISTER_CHAIN;
+    case 23041: /* module 90 call 1 */
+        return STR_ME_UNREGISTER_CHAIN;
+    case 23042: /* module 90 call 2 */
+        return STR_ME_REGISTER_BRIDGE_TOKEN;
+    case 23043: /* module 90 call 3 */
+        return STR_ME_UNREGISTER_BRIDGE_TOKEN;
+    case 23044: /* module 90 call 4 */
+        return STR_ME_SET_BRIDGE_TOKEN_FEE;
     case 23045: /* module 90 call 5 */
         return STR_ME_SET_BRIDGE_TOKEN_STATUS;
+    case 23046: /* module 90 call 6 */
+        return STR_ME_SET_BRIDGE_TOKEN_CAP;
+    case 23047: /* module 90 call 7 */
+        return STR_ME_CLEAN_CAP_ACCUMULATED_VALUE;
+    case 23048: /* module 90 call 8 */
+        return STR_ME_TELEPORT;
+    case 23049: /* module 90 call 9 */
+        return STR_ME_MATERIALIZE;
     case 23296: /* module 91 call 0 */
         return STR_ME_TOGGLE_PALLET;
     case 23297: /* module 91 call 1 */
@@ -3598,8 +3719,26 @@ uint8_t _getMethod_NumItems_V14(uint8_t moduleIdx, uint8_t callIdx)
         return 3;
     case 20993: /* module 82 call 1 */
         return 2;
+    case 23040: /* module 90 call 0 */
+        return 1;
+    case 23041: /* module 90 call 1 */
+        return 1;
+    case 23042: /* module 90 call 2 */
+        return 2;
+    case 23043: /* module 90 call 3 */
+        return 1;
+    case 23044: /* module 90 call 4 */
+        return 2;
     case 23045: /* module 90 call 5 */
         return 2;
+    case 23046: /* module 90 call 6 */
+        return 3;
+    case 23047: /* module 90 call 7 */
+        return 2;
+    case 23048: /* module 90 call 8 */
+        return 4;
+    case 23049: /* module 90 call 9 */
+        return 6;
     case 23296: /* module 91 call 0 */
         return 1;
     case 23297: /* module 91 call 1 */
@@ -5503,12 +5642,101 @@ const char* _getMethod_ItemName_V14(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         default:
             return NULL;
         }
+    case 23040: /* module 90 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_chain_id;
+        default:
+            return NULL;
+        }
+    case 23041: /* module 90 call 1 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_chain_id;
+        default:
+            return NULL;
+        }
+    case 23042: /* module 90 call 2 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset_id;
+        case 1:
+            return STR_IT_bridge_token;
+        default:
+            return NULL;
+        }
+    case 23043: /* module 90 call 3 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_bridge_token_id;
+        default:
+            return NULL;
+        }
+    case 23044: /* module 90 call 4 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_bridge_token_id;
+        case 1:
+            return STR_IT_new_fee;
+        default:
+            return NULL;
+        }
     case 23045: /* module 90 call 5 */
         switch (itemIdx) {
         case 0:
             return STR_IT_bridge_token_id;
         case 1:
             return STR_IT_enable;
+        default:
+            return NULL;
+        }
+    case 23046: /* module 90 call 6 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_bridge_token_id;
+        case 1:
+            return STR_IT_bridge_type;
+        case 2:
+            return STR_IT_new_cap;
+        default:
+            return NULL;
+        }
+    case 23047: /* module 90 call 7 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_bridge_token_id;
+        case 1:
+            return STR_IT_bridge_type;
+        default:
+            return NULL;
+        }
+    case 23048: /* module 90 call 8 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_dest_id;
+        case 1:
+            return STR_IT_bridge_token_id;
+        case 2:
+            return STR_IT_to;
+        case 3:
+            return STR_IT_amount;
+        default:
+            return NULL;
+        }
+    case 23049: /* module 90 call 9 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_src_id;
+        case 1:
+            return STR_IT_src_nonce;
+        case 2:
+            return STR_IT_bridge_token_id;
+        case 3:
+            return STR_IT_to;
+        case 4:
+            return STR_IT_amount;
+        case 5:
+            return STR_IT_favour;
         default:
             return NULL;
         }
@@ -8694,6 +8922,66 @@ parser_error_t _getMethod_ItemValue_V14(
         default:
             return parser_no_data;
         }
+    case 23040: /* module 90 call 0 */
+        switch (itemIdx) {
+        case 0: /* bridge_register_chain_V14 - chain_id */;
+            return _toStringChainId_V14(
+                &m->basic.bridge_register_chain_V14.chain_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 23041: /* module 90 call 1 */
+        switch (itemIdx) {
+        case 0: /* bridge_unregister_chain_V14 - chain_id */;
+            return _toStringChainId_V14(
+                &m->basic.bridge_unregister_chain_V14.chain_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 23042: /* module 90 call 2 */
+        switch (itemIdx) {
+        case 0: /* bridge_register_bridge_token_V14 - asset_id */;
+            return _toStringAssetIdOfT_V14(
+                &m->basic.bridge_register_bridge_token_V14.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* bridge_register_bridge_token_V14 - bridge_token */;
+            return _toStringBridgeToken_V14(
+                &m->basic.bridge_register_bridge_token_V14.bridge_token,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 23043: /* module 90 call 3 */
+        switch (itemIdx) {
+        case 0: /* bridge_unregister_bridge_token_V14 - bridge_token_id */;
+            return _toStringCurrencyId_V14(
+                &m->basic.bridge_unregister_bridge_token_V14.bridge_token_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 23044: /* module 90 call 4 */
+        switch (itemIdx) {
+        case 0: /* bridge_set_bridge_token_fee_V14 - bridge_token_id */;
+            return _toStringCurrencyId_V14(
+                &m->basic.bridge_set_bridge_token_fee_V14.bridge_token_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* bridge_set_bridge_token_fee_V14 - new_fee */;
+            return _toStringBalance(
+                &m->basic.bridge_set_bridge_token_fee_V14.new_fee,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 23045: /* module 90 call 5 */
         switch (itemIdx) {
         case 0: /* bridge_set_bridge_token_status_V14 - bridge_token_id */;
@@ -8704,6 +8992,101 @@ parser_error_t _getMethod_ItemValue_V14(
         case 1: /* bridge_set_bridge_token_status_V14 - enable */;
             return _toStringbool(
                 &m->basic.bridge_set_bridge_token_status_V14.enable,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 23046: /* module 90 call 6 */
+        switch (itemIdx) {
+        case 0: /* bridge_set_bridge_token_cap_V14 - bridge_token_id */;
+            return _toStringCurrencyId_V14(
+                &m->basic.bridge_set_bridge_token_cap_V14.bridge_token_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* bridge_set_bridge_token_cap_V14 - bridge_type */;
+            return _toStringBridgeType_V14(
+                &m->basic.bridge_set_bridge_token_cap_V14.bridge_type,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* bridge_set_bridge_token_cap_V14 - new_cap */;
+            return _toStringBalance(
+                &m->basic.bridge_set_bridge_token_cap_V14.new_cap,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 23047: /* module 90 call 7 */
+        switch (itemIdx) {
+        case 0: /* bridge_clean_cap_accumulated_value_V14 - bridge_token_id */;
+            return _toStringCurrencyId_V14(
+                &m->basic.bridge_clean_cap_accumulated_value_V14.bridge_token_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* bridge_clean_cap_accumulated_value_V14 - bridge_type */;
+            return _toStringBridgeType_V14(
+                &m->basic.bridge_clean_cap_accumulated_value_V14.bridge_type,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 23048: /* module 90 call 8 */
+        switch (itemIdx) {
+        case 0: /* bridge_teleport_V14 - dest_id */;
+            return _toStringChainId_V14(
+                &m->basic.bridge_teleport_V14.dest_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* bridge_teleport_V14 - bridge_token_id */;
+            return _toStringCurrencyId_V14(
+                &m->basic.bridge_teleport_V14.bridge_token_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* bridge_teleport_V14 - to */;
+            return _toStringTeleAccount_V14(
+                &m->basic.bridge_teleport_V14.to,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* bridge_teleport_V14 - amount */;
+            return _toStringBalance(
+                &m->basic.bridge_teleport_V14.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 23049: /* module 90 call 9 */
+        switch (itemIdx) {
+        case 0: /* bridge_materialize_V14 - src_id */;
+            return _toStringChainId_V14(
+                &m->basic.bridge_materialize_V14.src_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* bridge_materialize_V14 - src_nonce */;
+            return _toStringChainNonce_V14(
+                &m->basic.bridge_materialize_V14.src_nonce,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* bridge_materialize_V14 - bridge_token_id */;
+            return _toStringCurrencyId_V14(
+                &m->basic.bridge_materialize_V14.bridge_token_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* bridge_materialize_V14 - to */;
+            return _toStringAccountId_V14(
+                &m->basic.bridge_materialize_V14.to,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* bridge_materialize_V14 - amount */;
+            return _toStringBalance(
+                &m->basic.bridge_materialize_V14.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 5: /* bridge_materialize_V14 - favour */;
+            return _toStringbool(
+                &m->basic.bridge_materialize_V14.favour,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9217,7 +9600,16 @@ bool _getMethod_IsNestingSupported_V14(uint8_t moduleIdx, uint8_t callIdx)
     case 20737: // AMMRoute:Swap tokens for exact tokens
     case 20992: // CurrencyAdapter:Force set lock
     case 20993: // CurrencyAdapter:Force remove lock
+    case 23040: // Bridge:Register chain
+    case 23041: // Bridge:Unregister chain
+    case 23042: // Bridge:Register bridge token
+    case 23043: // Bridge:Unregister bridge token
+    case 23044: // Bridge:Set bridge token fee
     case 23045: // Bridge:Set bridge token status
+    case 23046: // Bridge:Set bridge token cap
+    case 23047: // Bridge:Clean cap accumulated value
+    case 23048: // Bridge:Teleport
+    case 23049: // Bridge:Materialize
     case 23296: // EmergencyShutdown:Toggle pallet
     case 23297: // EmergencyShutdown:Toggle call
     case 23552: // Farming:Create
