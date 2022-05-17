@@ -37,13 +37,13 @@ parser_error_t _readAccountOfT_V14(parser_context_t* c, pd_AccountOfT_V14_t* v);
 parser_error_t _readAccountVoteSplit_V14(parser_context_t* c, pd_AccountVoteSplit_V14_t* v);
 parser_error_t _readAccountVoteStandard_V14(parser_context_t* c, pd_AccountVoteStandard_V14_t* v);
 parser_error_t _readAccountVote_V14(parser_context_t* c, pd_AccountVote_V14_t* v);
-parser_error_t _readAssetIdOfTIAssetIdOfTI_V14(parser_context_t* c, pd_AssetIdOfTIAssetIdOfTI_V14_t* v);
-parser_error_t _readAssetIdOfTI_V14(parser_context_t* c, pd_AssetIdOfTI_V14_t* v);
+parser_error_t _readAssetIdOfAssetIdOf_V14(parser_context_t* c, pd_AssetIdOfAssetIdOf_V14_t* v);
 parser_error_t _readAssetIdOfT_V14(parser_context_t* c, pd_AssetIdOfT_V14_t* v);
+parser_error_t _readAssetIdOf_V14(parser_context_t* c, pd_AssetIdOf_V14_t* v);
 parser_error_t _readAssetId_V14(parser_context_t* c, pd_AssetId_V14_t* v);
 parser_error_t _readAssetInstance_V14(parser_context_t* c, pd_AssetInstance_V14_t* v);
 parser_error_t _readAssetType_V14(parser_context_t* c, pd_AssetType_V14_t* v);
-parser_error_t _readBalanceOfTIBalanceOfTI_V14(parser_context_t* c, pd_BalanceOfTIBalanceOfTI_V14_t* v);
+parser_error_t _readBalanceOfBalanceOf_V14(parser_context_t* c, pd_BalanceOfBalanceOf_V14_t* v);
 parser_error_t _readBalanceOfT_V14(parser_context_t* c, pd_BalanceOfT_V14_t* v);
 parser_error_t _readBlockNumberForT_V14(parser_context_t* c, pd_BlockNumberForT_V14_t* v);
 parser_error_t _readBodyId_V14(parser_context_t* c, pd_BodyId_V14_t* v);
@@ -141,7 +141,7 @@ parser_error_t _readUnlockChunk_V14(parser_context_t* c, pd_UnlockChunk_V14_t* v
 parser_error_t _readUpwardMessage_V14(parser_context_t* c, pd_UpwardMessage_V14_t* v);
 parser_error_t _readVecAccountIdOfT_V14(parser_context_t* c, pd_VecAccountIdOfT_V14_t* v);
 parser_error_t _readVecAccountId_V14(parser_context_t* c, pd_VecAccountId_V14_t* v);
-parser_error_t _readVecAssetIdOfTI_V14(parser_context_t* c, pd_VecAssetIdOfTI_V14_t* v);
+parser_error_t _readVecAssetIdOf_V14(parser_context_t* c, pd_VecAssetIdOf_V14_t* v);
 parser_error_t _readVecEraIndex_V14(parser_context_t* c, pd_VecEraIndex_V14_t* v);
 parser_error_t _readVecKeyValue_V14(parser_context_t* c, pd_VecKeyValue_V14_t* v);
 parser_error_t _readVecKey_V14(parser_context_t* c, pd_VecKey_V14_t* v);
@@ -241,15 +241,8 @@ parser_error_t _toStringAccountVote_V14(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
-parser_error_t _toStringAssetIdOfTIAssetIdOfTI_V14(
-    const pd_AssetIdOfTIAssetIdOfTI_V14_t* v,
-    char* outValue,
-    uint16_t outValueLen,
-    uint8_t pageIdx,
-    uint8_t* pageCount);
-
-parser_error_t _toStringAssetIdOfTI_V14(
-    const pd_AssetIdOfTI_V14_t* v,
+parser_error_t _toStringAssetIdOfAssetIdOf_V14(
+    const pd_AssetIdOfAssetIdOf_V14_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -257,6 +250,13 @@ parser_error_t _toStringAssetIdOfTI_V14(
 
 parser_error_t _toStringAssetIdOfT_V14(
     const pd_AssetIdOfT_V14_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringAssetIdOf_V14(
+    const pd_AssetIdOf_V14_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -283,8 +283,8 @@ parser_error_t _toStringAssetType_V14(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
-parser_error_t _toStringBalanceOfTIBalanceOfTI_V14(
-    const pd_BalanceOfTIBalanceOfTI_V14_t* v,
+parser_error_t _toStringBalanceOfBalanceOf_V14(
+    const pd_BalanceOfBalanceOf_V14_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -969,8 +969,8 @@ parser_error_t _toStringVecAccountId_V14(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
-parser_error_t _toStringVecAssetIdOfTI_V14(
-    const pd_VecAssetIdOfTI_V14_t* v,
+parser_error_t _toStringVecAssetIdOf_V14(
+    const pd_VecAssetIdOf_V14_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,

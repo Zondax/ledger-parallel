@@ -369,7 +369,7 @@ Please:
 |Update vault |    |   |   | `ParaId` crowdloan <br/>`OptionBalanceOfT` cap <br/>`OptionBlockNumberForT` end_block <br/>`OptionContributionStrategy` contribution_strategy <br/> |
 |Open |    |   |   | `ParaId` crowdloan <br/> |
 |Contribute |    |   |   | `ParaId` crowdloan <br/>`Compactu128` amount <br/>`Vecu8` referral_code <br/> |
-|Set vrf |    | :heavy_check_mark: |   | `bool` flag <br/> |
+|Set vrf |    |   |   | `bool` flag <br/> |
 |Close |    |   |   | `ParaId` crowdloan <br/> |
 |Reopen |    |   |   | `ParaId` crowdloan <br/> |
 |Auction succeeded |    |   |   | `ParaId` crowdloan <br/> |
@@ -486,16 +486,16 @@ Please:
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Add liquidity |    |   |   | `AssetIdOfTIAssetIdOfTI` pair <br/>`BalanceOfTIBalanceOfTI` desired_amounts <br/>`BalanceOfTIBalanceOfTI` minimum_amounts <br/> |
-|Remove liquidity |    |   |   | `AssetIdOfTIAssetIdOfTI` pair <br/>`Compactu128` liquidity <br/> |
-|Create pool |    |   |   | `AssetIdOfTIAssetIdOfTI` pair <br/>`BalanceOfTIBalanceOfTI` liquidity_amounts <br/>`AccountId` lptoken_receiver <br/>`AssetIdOfTI` lp_token_id <br/> |
+|Add liquidity |    | :heavy_check_mark: |   | `AssetIdOfAssetIdOf` pair <br/>`BalanceOfBalanceOf` desired_amounts <br/>`BalanceOfBalanceOf` minimum_amounts <br/> |
+|Remove liquidity |    | :heavy_check_mark: |   | `AssetIdOfAssetIdOf` pair <br/>`Compactu128` liquidity <br/> |
+|Create pool |    | :heavy_check_mark: |   | `AssetIdOfAssetIdOf` pair <br/>`BalanceOfBalanceOf` liquidity_amounts <br/>`AccountId` lptoken_receiver <br/>`AssetIdOf` lp_token_id <br/> |
 
 ## AMMRoute
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Swap exact tokens for tokens |    |   |   | `VecAssetIdOfTI` route <br/>`Compactu128` amount_in <br/>`Compactu128` min_amount_out <br/> |
-|Swap tokens for exact tokens |    |   |   | `VecAssetIdOfTI` route <br/>`Compactu128` amount_out <br/>`Compactu128` max_amount_in <br/> |
+|Swap exact tokens for tokens |    | :heavy_check_mark: |   | `VecAssetIdOf` route <br/>`Compactu128` amount_in <br/>`Compactu128` min_amount_out <br/> |
+|Swap tokens for exact tokens |    | :heavy_check_mark: |   | `VecAssetIdOf` route <br/>`Compactu128` amount_out <br/>`Compactu128` max_amount_in <br/> |
 
 ## CurrencyAdapter
 
@@ -508,16 +508,16 @@ Please:
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Register chain |    |   |   | `ChainId` chain_id <br/> |
-|Unregister chain |    |   |   | `ChainId` chain_id <br/> |
-|Register bridge token |    |   |   | `AssetIdOfT` asset_id <br/>`BridgeToken` bridge_token <br/> |
-|Unregister bridge token |    |   |   | `CurrencyId` bridge_token_id <br/> |
-|Set bridge token fee |    |   |   | `CurrencyId` bridge_token_id <br/>`Balance` new_fee <br/> |
+|Register chain |    | :heavy_check_mark: |   | `ChainId` chain_id <br/> |
+|Unregister chain |    | :heavy_check_mark: |   | `ChainId` chain_id <br/> |
+|Register bridge token |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`BridgeToken` bridge_token <br/> |
+|Unregister bridge token |    | :heavy_check_mark: |   | `CurrencyId` bridge_token_id <br/> |
+|Set bridge token fee |    | :heavy_check_mark: |   | `CurrencyId` bridge_token_id <br/>`Balance` new_fee <br/> |
 |Set bridge token status |    | :heavy_check_mark: |   | `CurrencyId` bridge_token_id <br/>`bool` enable <br/> |
-|Set bridge token cap |    |   |   | `CurrencyId` bridge_token_id <br/>`BridgeType` bridge_type <br/>`Balance` new_cap <br/> |
-|Clean cap accumulated value |    |   |   | `CurrencyId` bridge_token_id <br/>`BridgeType` bridge_type <br/> |
-|Teleport |    |   |   | `ChainId` dest_id <br/>`CurrencyId` bridge_token_id <br/>`TeleAccount` to <br/>`Balance` amount <br/> |
-|Materialize |    |   |   | `ChainId` src_id <br/>`ChainNonce` src_nonce <br/>`CurrencyId` bridge_token_id <br/>`AccountId` to <br/>`Balance` amount <br/>`bool` favour <br/> |
+|Set bridge token cap |    | :heavy_check_mark: |   | `CurrencyId` bridge_token_id <br/>`BridgeType` bridge_type <br/>`Balance` new_cap <br/> |
+|Clean cap accumulated value |    | :heavy_check_mark: |   | `CurrencyId` bridge_token_id <br/>`BridgeType` bridge_type <br/> |
+|Teleport |    | :heavy_check_mark: |   | `ChainId` dest_id <br/>`CurrencyId` bridge_token_id <br/>`TeleAccount` to <br/>`Balance` amount <br/> |
+|Materialize |    | :heavy_check_mark: |   | `ChainId` src_id <br/>`ChainNonce` src_nonce <br/>`CurrencyId` bridge_token_id <br/>`AccountId` to <br/>`Balance` amount <br/>`bool` favour <br/> |
 
 ## EmergencyShutdown
 

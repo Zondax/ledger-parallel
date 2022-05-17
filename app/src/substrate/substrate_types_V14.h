@@ -300,7 +300,7 @@ typedef struct {
 
 typedef struct {
     uint32_t value;
-} pd_AssetIdOfTI_V14_t;
+} pd_AssetIdOf_V14_t;
 
 typedef struct {
     // TODO: Not implemented
@@ -423,6 +423,16 @@ typedef struct {
 } pd_AccountVote_V14_t;
 
 typedef struct {
+    pd_AssetIdOf_V14_t assetid1;
+    pd_AssetIdOf_V14_t assetid2;
+} pd_AssetIdOfAssetIdOf_V14_t;
+
+typedef struct {
+    pd_Balance_t balance1;
+    pd_Balance_t balance2;
+} pd_BalanceOfBalanceOf_V14_t;
+
+typedef struct {
     uint8_t value;
     union {
         pd_MultiAssetV0_V14_t multiassetV0;
@@ -437,6 +447,17 @@ typedef struct {
         pd_VecMultiAssetV1_V14_t vecMultiassetV1;
     };
 } pd_BoxVersionedMultiAssets_V14_t;
+
+typedef struct {
+    pd_CurrencyId_V14_t id;
+    pd_bool_t external;
+    pd_Balance_t fee;
+    pd_bool_t enable;
+    pd_Balance_t outCap;
+    pd_Balance_t outAmount;
+    pd_Balance_t inCap;
+    pd_Balance_t inAmount;
+} pd_BridgeToken_V14_t;
 
 typedef struct {
     pd_Compactu32_t accounts;
@@ -495,6 +516,10 @@ typedef struct {
 } pd_StakingLedgerAccountIdBalanceOfT_V14_t;
 
 typedef struct {
+    pd_Vecu8_t value;
+} pd_TeleAccount_V14_t;
+
+typedef struct {
     uint64_t _len;
     const uint8_t* _ptr;
     uint64_t _lenBuffer;
@@ -506,11 +531,6 @@ typedef struct {
 } pd_AccountOfT_V14_t;
 
 typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
-} pd_AssetIdOfTIAssetIdOfTI_V14_t;
-
-typedef struct {
     uint32_t value;
 } pd_AssetIdOfT_V14_t;
 
@@ -518,11 +538,6 @@ typedef struct {
     // TODO: Not implemented
     uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
 } pd_AssetType_V14_t;
-
-typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
-} pd_BalanceOfTIBalanceOfTI_V14_t;
 
 typedef struct {
     // TODO: Not implemented
@@ -560,13 +575,7 @@ typedef struct {
 } pd_BoxVersionedXcmTuple_V14_t;
 
 typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
-} pd_BridgeToken_V14_t;
-
-typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
+    uint8_t value;
 } pd_BridgeType_V14_t;
 
 typedef struct {
@@ -574,13 +583,11 @@ typedef struct {
 } pd_CallHashOf_V14_t;
 
 typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
+    uint32_t value;
 } pd_ChainId_V14_t;
 
 typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
+    uint64_t value;
 } pd_ChainNonce_V14_t;
 
 typedef struct {
@@ -665,8 +672,7 @@ typedef struct {
 } pd_OverweightIndex_V14_t;
 
 typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
+    uint32_t value;
 } pd_ParaId_V14_t;
 
 typedef struct {
@@ -704,11 +710,6 @@ typedef struct {
 typedef struct {
     // TODO: Not implemented
     uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
-} pd_TeleAccount_V14_t;
-
-typedef struct {
-    // TODO: Not implemented
-    uint8_t _NOT_IMPLEMENTED__DO_NOT_USE;
 } pd_Timestamp_V14_t;
 
 typedef struct {
@@ -732,7 +733,7 @@ typedef struct {
     uint64_t _len;
     const uint8_t* _ptr;
     uint64_t _lenBuffer;
-} pd_VecAssetIdOfTI_V14_t;
+} pd_VecAssetIdOf_V14_t;
 
 typedef struct {
     uint64_t _len;
