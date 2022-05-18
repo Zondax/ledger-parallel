@@ -28,7 +28,7 @@ Please:
 - **Do not use in production**
 - **Do not use a Ledger device with funds for development purposes.**
 - **Have a separate and marked device that is used ONLY for development and testing**
-# Parallel  14.185.x
+# Parallel  15.186.x
 
 ## System
 
@@ -409,6 +409,7 @@ Please:
 |Set current era |    | :heavy_check_mark: |   | `EraIndex` era <br/>`VecVecu8` proof <br/> |
 |Set staking ledger |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`StakingLedgerAccountIdBalanceOfT` staking_ledger <br/>`VecVecu8` proof <br/> |
 |Reduce reserves |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` receiver <br/>`Compactu128` reduce_amount <br/> |
+|Cancel unstake |    | :heavy_check_mark: |   | `Compactu128` amount <br/> |
 
 ## GeneralCouncilMembership
 
