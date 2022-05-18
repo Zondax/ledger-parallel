@@ -213,6 +213,7 @@ static const char* STR_ME_FORCE_MATCHING = "Force matching";
 static const char* STR_ME_FORCE_SET_STAKING_LEDGER = "Force set staking ledger";
 static const char* STR_ME_SET_CURRENT_ERA = "Set current era";
 static const char* STR_ME_SET_STAKING_LEDGER = "Set staking ledger";
+static const char* STR_ME_CANCEL_UNSTAKE = "Cancel unstake";
 static const char* STR_ME_ADD_MEMBER = "Add member";
 static const char* STR_ME_REMOVE_MEMBER = "Remove member";
 static const char* STR_ME_SWAP_MEMBER = "Swap member";
