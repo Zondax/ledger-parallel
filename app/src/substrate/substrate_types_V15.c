@@ -102,6 +102,16 @@ parser_error_t _readCompactAccountIndex_V15(parser_context_t* c, pd_CompactAccou
     return _readCompactInt(c, &v->value);
 }
 
+parser_error_t _readContributionStrategy_V15(parser_context_t* c, pd_ContributionStrategy_V15_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    if (v->value > 0) {
+        return parser_value_out_of_range;
+    }
+    return parser_ok;
+}
+
 parser_error_t _readConviction_V15(parser_context_t* c, pd_Conviction_V15_t* v)
 {
     CHECK_INPUT()
@@ -179,6 +189,13 @@ parser_error_t _readKeys_V15(parser_context_t* c, pd_Keys_V15_t* v) {
     GEN_DEF_READARRAY(32)
 }
 
+parser_error_t _readLeasePeriod_V15(parser_context_t* c, pd_LeasePeriod_V15_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt32(c, &v->value))
+    return parser_ok;
+}
+
 parser_error_t _readLookupasStaticLookupSource_V15(parser_context_t* c, pd_LookupasStaticLookupSource_V15_t* v)
 {
     CHECK_INPUT()
@@ -246,6 +263,13 @@ parser_error_t _readOpaqueCall_V15(parser_context_t* c, pd_OpaqueCall_V15_t* v)
     uint8_t size;
     CHECK_ERROR(_readUInt8(c, &size))
     return _readCall(c, &v->call);
+}
+
+parser_error_t _readParaId_V15(parser_context_t* c, pd_ParaId_V15_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt32(c, &v->value))
+    return parser_ok;
 }
 
 parser_error_t _readPerbill_V15(parser_context_t* c, pd_Perbill_V15_t* v)
@@ -388,6 +412,15 @@ parser_error_t _readOptionAccountId_V15(parser_context_t* c, pd_OptionAccountId_
     CHECK_ERROR(_readUInt8(c, &v->some))
     if (v->some > 0) {
         CHECK_ERROR(_readAccountId_V15(c, &v->contained))
+    }
+    return parser_ok;
+}
+
+parser_error_t _readOptionContributionStrategy_V15(parser_context_t* c, pd_OptionContributionStrategy_V15_t* v)
+{
+    CHECK_ERROR(_readUInt8(c, &v->some))
+    if (v->some > 0) {
+        CHECK_ERROR(_readContributionStrategy_V15(c, &v->contained))
     }
     return parser_ok;
 }
@@ -658,6 +691,25 @@ parser_error_t _toStringCompactAccountIndex_V15(
     return _toStringCompactInt(&v->value, 0, "", "", outValue, outValueLen, pageIdx, pageCount);
 }
 
+parser_error_t _toStringContributionStrategy_V15(
+    const pd_ContributionStrategy_V15_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    *pageCount = 1;
+    switch (v->value) {
+    case 0: // XCM
+        snprintf(outValue, outValueLen, "XCM");
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
 parser_error_t _toStringConviction_V15(
     const pd_Conviction_V15_t* v,
     char* outValue,
@@ -861,6 +913,16 @@ parser_error_t _toStringKeys_V15(
     GEN_DEF_TOSTRING_ARRAY(32)
 }
 
+parser_error_t _toStringLeasePeriod_V15(
+    const pd_LeasePeriod_V15_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    return _toStringu32(&v->value, outValue, outValueLen, pageIdx, pageCount);
+}
+
 parser_error_t _toStringLookupasStaticLookupSource_V15(
     const pd_LookupasStaticLookupSource_V15_t* v,
     char* outValue,
@@ -1037,6 +1099,16 @@ parser_error_t _toStringOpaqueCall_V15(
     uint8_t* pageCount)
 {
     return _toStringCall(&v->call, outValue, outValueLen, pageIdx, pageCount);
+}
+
+parser_error_t _toStringParaId_V15(
+    const pd_ParaId_V15_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    return _toStringu32(&v->value, outValue, outValueLen, pageIdx, pageCount);
 }
 
 parser_error_t _toStringPerbill_V15(
@@ -1447,6 +1519,27 @@ parser_error_t _toStringOptionAccountId_V15(
     *pageCount = 1;
     if (v->some > 0) {
         CHECK_ERROR(_toStringAccountId_V15(
+            &v->contained,
+            outValue, outValueLen,
+            pageIdx, pageCount));
+    } else {
+        snprintf(outValue, outValueLen, "None");
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringOptionContributionStrategy_V15(
+    const pd_OptionContributionStrategy_V15_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    *pageCount = 1;
+    if (v->some > 0) {
+        CHECK_ERROR(_toStringContributionStrategy_V15(
             &v->contained,
             outValue, outValueLen,
             pageIdx, pageCount));

@@ -200,6 +200,24 @@ parser_error_t _readVecVecu8(parser_context_t* c, pd_VecVecu8_t* v) {
     GEN_DEF_READVECTOR(Vecu8)
 }
 
+parser_error_t _readOptionBalance(parser_context_t* c, pd_OptionBalance_t* v)
+{
+    CHECK_ERROR(_readUInt8(c, &v->some))
+    if (v->some > 0) {
+        CHECK_ERROR(_readBalance(c, &v->contained))
+    }
+    return parser_ok;
+}
+
+parser_error_t _readOptionBlockNumber(parser_context_t* c, pd_OptionBlockNumber_t* v)
+{
+    CHECK_ERROR(_readUInt8(c, &v->some))
+    if (v->some > 0) {
+        CHECK_ERROR(_readBlockNumber(c, &v->contained))
+    }
+    return parser_ok;
+}
+
 ///////////////////////////////////
 ///////////////////////////////////
 ///////////////////////////////////
@@ -594,6 +612,48 @@ parser_error_t _toStringVecVecu8(
     uint8_t* pageCount)
 {
     GEN_DEF_TOSTRING_VECTOR(Vecu8);
+}
+
+parser_error_t _toStringOptionBalance(
+    const pd_OptionBalance_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    *pageCount = 1;
+    if (v->some > 0) {
+        CHECK_ERROR(_toStringBalance(
+            &v->contained,
+            outValue, outValueLen,
+            pageIdx, pageCount));
+    } else {
+        snprintf(outValue, outValueLen, "None");
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringOptionBlockNumber(
+    const pd_OptionBlockNumber_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    *pageCount = 1;
+    if (v->some > 0) {
+        CHECK_ERROR(_toStringBlockNumber(
+            &v->contained,
+            outValue, outValueLen,
+            pageIdx, pageCount));
+    } else {
+        snprintf(outValue, outValueLen, "None");
+    }
+    return parser_ok;
 }
 
 ///////////////////////////////////

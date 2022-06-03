@@ -67,6 +67,10 @@ typedef struct {
 } pd_CompactAccountIndex_V15_t;
 
 typedef struct {
+    uint8_t value;
+} pd_ContributionStrategy_V15_t;
+
+typedef struct {
     uint32_t value;
 } pd_CurrencyId_V15_t;
 
@@ -231,6 +235,10 @@ typedef struct {
 
 typedef struct {
     uint32_t value;
+} pd_LeasePeriod_V15_t;
+
+typedef struct {
+    uint32_t value;
 } pd_MemberCount_V15_t;
 
 typedef struct {
@@ -240,8 +248,17 @@ typedef struct {
 
 typedef struct {
     uint8_t some;
+    pd_ContributionStrategy_V15_t contained;
+} pd_OptionContributionStrategy_V15_t;
+
+typedef struct {
+    uint8_t some;
     pd_ProxyType_V15_t contained;
 } pd_OptionProxyType_V15_t;
+
+typedef struct {
+    uint32_t value;
+} pd_ParaId_V15_t;
 
 typedef struct {
     uint32_t value;

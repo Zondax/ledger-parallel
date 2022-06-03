@@ -365,25 +365,25 @@ Please:
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Create vault |    |   |   | `ParaId` crowdloan <br/>`AssetIdOfT` ctoken <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/>`ContributionStrategy` contribution_strategy <br/>`Compactu128` cap <br/>`BlockNumber` end_block <br/> |
-|Update vault |    |   |   | `ParaId` crowdloan <br/>`OptionBalanceOfT` cap <br/>`OptionBlockNumberForT` end_block <br/>`OptionContributionStrategy` contribution_strategy <br/> |
-|Open |    |   |   | `ParaId` crowdloan <br/> |
-|Contribute |    |   |   | `ParaId` crowdloan <br/>`Compactu128` amount <br/>`Vecu8` referral_code <br/> |
-|Set vrf |    |   |   | `bool` flag <br/> |
-|Close |    |   |   | `ParaId` crowdloan <br/> |
-|Reopen |    |   |   | `ParaId` crowdloan <br/> |
-|Auction succeeded |    |   |   | `ParaId` crowdloan <br/> |
-|Auction failed |    |   |   | `ParaId` crowdloan <br/> |
-|Claim |    |   |   | `ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
-|Claim for |    |   |   | `LookupasStaticLookupSource` dest <br/>`ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
-|Withdraw |    |   |   | `ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
-|Withdraw for |    |   |   | `LookupasStaticLookupSource` dest <br/>`ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
-|Redeem |    |   |   | `ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/>`Compactu128` amount <br/> |
-|Slot expired |    |   |   | `ParaId` crowdloan <br/> |
-|Migrate pending |    |   |   | `ParaId` crowdloan <br/> |
+|Create vault |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/>`AssetIdOfT` ctoken <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/>`ContributionStrategy` contribution_strategy <br/>`CompactBalance` cap <br/>`BlockNumber` end_block <br/> |
+|Update vault |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/>`OptionBalance` cap <br/>`OptionBlockNumber` end_block <br/>`OptionContributionStrategy` contribution_strategy <br/> |
+|Open |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/> |
+|Contribute |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/>`CompactBalance` amount <br/>`Vecu8` referral_code <br/> |
+|Set vrf |    | :heavy_check_mark: |   | `bool` flag <br/> |
+|Close |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/> |
+|Reopen |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/> |
+|Auction succeeded |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/> |
+|Auction failed |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/> |
+|Claim |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
+|Claim for |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` dest <br/>`ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
+|Withdraw |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
+|Withdraw for |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` dest <br/>`ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
+|Redeem |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/>`CompactBalance` amount <br/> |
+|Slot expired |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/> |
+|Migrate pending |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/> |
 |Notification received |    |   |   | `QueryId` query_id <br/>`Response` response <br/> |
-|Refund |    |   |   | `ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
-|Dissolve vault |    |   |   | `ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
+|Refund |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
+|Dissolve vault |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
 
 ## LiquidStaking
 

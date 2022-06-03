@@ -37,6 +37,7 @@ parser_error_t _readCallHashOf_V15(parser_context_t* c, pd_CallHashOf_V15_t* v);
 parser_error_t _readChainId_V15(parser_context_t* c, pd_ChainId_V15_t* v);
 parser_error_t _readChainNonce_V15(parser_context_t* c, pd_ChainNonce_V15_t* v);
 parser_error_t _readCompactAccountIndex_V15(parser_context_t* c, pd_CompactAccountIndex_V15_t* v);
+parser_error_t _readContributionStrategy_V15(parser_context_t* c, pd_ContributionStrategy_V15_t* v);
 parser_error_t _readConviction_V15(parser_context_t* c, pd_Conviction_V15_t* v);
 parser_error_t _readCurrencyId_V15(parser_context_t* c, pd_CurrencyId_V15_t* v);
 parser_error_t _readCurveModel_V15(parser_context_t* c, pd_CurveModel_V15_t* v);
@@ -46,14 +47,17 @@ parser_error_t _readEraIndex_V15(parser_context_t* c, pd_EraIndex_V15_t* v);
 parser_error_t _readInterestRateModel_V15(parser_context_t* c, pd_InterestRateModel_V15_t* v);
 parser_error_t _readJumpModel_V15(parser_context_t* c, pd_JumpModel_V15_t* v);
 parser_error_t _readKeys_V15(parser_context_t* c, pd_Keys_V15_t* v);
+parser_error_t _readLeasePeriod_V15(parser_context_t* c, pd_LeasePeriod_V15_t* v);
 parser_error_t _readLookupasStaticLookupSource_V15(parser_context_t* c, pd_LookupasStaticLookupSource_V15_t* v);
 parser_error_t _readMarketBalanceOfT_V15(parser_context_t* c, pd_MarketBalanceOfT_V15_t* v);
 parser_error_t _readMarketState_V15(parser_context_t* c, pd_MarketState_V15_t* v);
 parser_error_t _readMemberCount_V15(parser_context_t* c, pd_MemberCount_V15_t* v);
 parser_error_t _readOpaqueCall_V15(parser_context_t* c, pd_OpaqueCall_V15_t* v);
 parser_error_t _readOptionAccountId_V15(parser_context_t* c, pd_OptionAccountId_V15_t* v);
+parser_error_t _readOptionContributionStrategy_V15(parser_context_t* c, pd_OptionContributionStrategy_V15_t* v);
 parser_error_t _readOptionProxyType_V15(parser_context_t* c, pd_OptionProxyType_V15_t* v);
 parser_error_t _readOptionTimepoint_V15(parser_context_t* c, pd_OptionTimepoint_V15_t* v);
+parser_error_t _readParaId_V15(parser_context_t* c, pd_ParaId_V15_t* v);
 parser_error_t _readPerbill_V15(parser_context_t* c, pd_Perbill_V15_t* v);
 parser_error_t _readPrice_V15(parser_context_t* c, pd_Price_V15_t* v);
 parser_error_t _readProxyType_V15(parser_context_t* c, pd_ProxyType_V15_t* v);
@@ -152,6 +156,13 @@ parser_error_t _toStringCompactAccountIndex_V15(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
+parser_error_t _toStringContributionStrategy_V15(
+    const pd_ContributionStrategy_V15_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringConviction_V15(
     const pd_Conviction_V15_t* v,
     char* outValue,
@@ -215,6 +226,13 @@ parser_error_t _toStringKeys_V15(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
+parser_error_t _toStringLeasePeriod_V15(
+    const pd_LeasePeriod_V15_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringLookupasStaticLookupSource_V15(
     const pd_LookupasStaticLookupSource_V15_t* v,
     char* outValue,
@@ -257,6 +275,13 @@ parser_error_t _toStringOptionAccountId_V15(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
+parser_error_t _toStringOptionContributionStrategy_V15(
+    const pd_OptionContributionStrategy_V15_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringOptionProxyType_V15(
     const pd_OptionProxyType_V15_t* v,
     char* outValue,
@@ -266,6 +291,13 @@ parser_error_t _toStringOptionProxyType_V15(
 
 parser_error_t _toStringOptionTimepoint_V15(
     const pd_OptionTimepoint_V15_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringParaId_V15(
+    const pd_ParaId_V15_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,

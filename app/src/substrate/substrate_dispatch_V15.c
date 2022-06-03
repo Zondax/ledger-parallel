@@ -1217,6 +1217,160 @@ __Z_INLINE parser_error_t _readMethod_prices_reset_price_V15(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_crowdloans_create_vault_V15(
+    parser_context_t* c, pd_crowdloans_create_vault_V15_t* m)
+{
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    CHECK_ERROR(_readAssetIdOfT_V15(c, &m->ctoken))
+    CHECK_ERROR(_readLeasePeriod_V15(c, &m->lease_start))
+    CHECK_ERROR(_readLeasePeriod_V15(c, &m->lease_end))
+    CHECK_ERROR(_readContributionStrategy_V15(c, &m->contribution_strategy))
+    CHECK_ERROR(_readCompactBalance(c, &m->cap))
+    CHECK_ERROR(_readBlockNumber(c, &m->end_block))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_update_vault_V15(
+    parser_context_t* c, pd_crowdloans_update_vault_V15_t* m)
+{
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    CHECK_ERROR(_readOptionBalance(c, &m->cap))
+    CHECK_ERROR(_readOptionBlockNumber(c, &m->end_block))
+    CHECK_ERROR(_readOptionContributionStrategy_V15(c, &m->contribution_strategy))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_open_V15(
+    parser_context_t* c, pd_crowdloans_open_V15_t* m)
+{
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_contribute_V15(
+    parser_context_t* c, pd_crowdloans_contribute_V15_t* m)
+{
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    CHECK_ERROR(_readCompactBalance(c, &m->amount))
+    CHECK_ERROR(_readVecu8(c, &m->referral_code))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_set_vrf_V15(
+    parser_context_t* c, pd_crowdloans_set_vrf_V15_t* m)
+{
+    CHECK_ERROR(_readbool(c, &m->flag))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_close_V15(
+    parser_context_t* c, pd_crowdloans_close_V15_t* m)
+{
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_reopen_V15(
+    parser_context_t* c, pd_crowdloans_reopen_V15_t* m)
+{
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_auction_succeeded_V15(
+    parser_context_t* c, pd_crowdloans_auction_succeeded_V15_t* m)
+{
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_auction_failed_V15(
+    parser_context_t* c, pd_crowdloans_auction_failed_V15_t* m)
+{
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_claim_V15(
+    parser_context_t* c, pd_crowdloans_claim_V15_t* m)
+{
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    CHECK_ERROR(_readLeasePeriod_V15(c, &m->lease_start))
+    CHECK_ERROR(_readLeasePeriod_V15(c, &m->lease_end))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_claim_for_V15(
+    parser_context_t* c, pd_crowdloans_claim_for_V15_t* m)
+{
+    CHECK_ERROR(_readLookupasStaticLookupSource_V15(c, &m->dest))
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    CHECK_ERROR(_readLeasePeriod_V15(c, &m->lease_start))
+    CHECK_ERROR(_readLeasePeriod_V15(c, &m->lease_end))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_withdraw_V15(
+    parser_context_t* c, pd_crowdloans_withdraw_V15_t* m)
+{
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    CHECK_ERROR(_readLeasePeriod_V15(c, &m->lease_start))
+    CHECK_ERROR(_readLeasePeriod_V15(c, &m->lease_end))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_withdraw_for_V15(
+    parser_context_t* c, pd_crowdloans_withdraw_for_V15_t* m)
+{
+    CHECK_ERROR(_readLookupasStaticLookupSource_V15(c, &m->dest))
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    CHECK_ERROR(_readLeasePeriod_V15(c, &m->lease_start))
+    CHECK_ERROR(_readLeasePeriod_V15(c, &m->lease_end))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_redeem_V15(
+    parser_context_t* c, pd_crowdloans_redeem_V15_t* m)
+{
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    CHECK_ERROR(_readLeasePeriod_V15(c, &m->lease_start))
+    CHECK_ERROR(_readLeasePeriod_V15(c, &m->lease_end))
+    CHECK_ERROR(_readCompactBalance(c, &m->amount))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_slot_expired_V15(
+    parser_context_t* c, pd_crowdloans_slot_expired_V15_t* m)
+{
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_migrate_pending_V15(
+    parser_context_t* c, pd_crowdloans_migrate_pending_V15_t* m)
+{
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_refund_V15(
+    parser_context_t* c, pd_crowdloans_refund_V15_t* m)
+{
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    CHECK_ERROR(_readLeasePeriod_V15(c, &m->lease_start))
+    CHECK_ERROR(_readLeasePeriod_V15(c, &m->lease_end))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_dissolve_vault_V15(
+    parser_context_t* c, pd_crowdloans_dissolve_vault_V15_t* m)
+{
+    CHECK_ERROR(_readParaId_V15(c, &m->crowdloan))
+    CHECK_ERROR(_readLeasePeriod_V15(c, &m->lease_start))
+    CHECK_ERROR(_readLeasePeriod_V15(c, &m->lease_end))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_liquidstaking_stake_V15(
     parser_context_t* c, pd_liquidstaking_stake_V15_t* m)
 {
@@ -2401,6 +2555,60 @@ parser_error_t _readMethod_V15(
     case 13057: /* module 51 call 1 */
         CHECK_ERROR(_readMethod_prices_reset_price_V15(c, &method->basic.prices_reset_price_V15))
         break;
+    case 13312: /* module 52 call 0 */
+        CHECK_ERROR(_readMethod_crowdloans_create_vault_V15(c, &method->basic.crowdloans_create_vault_V15))
+        break;
+    case 13313: /* module 52 call 1 */
+        CHECK_ERROR(_readMethod_crowdloans_update_vault_V15(c, &method->basic.crowdloans_update_vault_V15))
+        break;
+    case 13314: /* module 52 call 2 */
+        CHECK_ERROR(_readMethod_crowdloans_open_V15(c, &method->basic.crowdloans_open_V15))
+        break;
+    case 13315: /* module 52 call 3 */
+        CHECK_ERROR(_readMethod_crowdloans_contribute_V15(c, &method->basic.crowdloans_contribute_V15))
+        break;
+    case 13316: /* module 52 call 4 */
+        CHECK_ERROR(_readMethod_crowdloans_set_vrf_V15(c, &method->basic.crowdloans_set_vrf_V15))
+        break;
+    case 13317: /* module 52 call 5 */
+        CHECK_ERROR(_readMethod_crowdloans_close_V15(c, &method->basic.crowdloans_close_V15))
+        break;
+    case 13318: /* module 52 call 6 */
+        CHECK_ERROR(_readMethod_crowdloans_reopen_V15(c, &method->basic.crowdloans_reopen_V15))
+        break;
+    case 13319: /* module 52 call 7 */
+        CHECK_ERROR(_readMethod_crowdloans_auction_succeeded_V15(c, &method->basic.crowdloans_auction_succeeded_V15))
+        break;
+    case 13320: /* module 52 call 8 */
+        CHECK_ERROR(_readMethod_crowdloans_auction_failed_V15(c, &method->basic.crowdloans_auction_failed_V15))
+        break;
+    case 13321: /* module 52 call 9 */
+        CHECK_ERROR(_readMethod_crowdloans_claim_V15(c, &method->basic.crowdloans_claim_V15))
+        break;
+    case 13322: /* module 52 call 10 */
+        CHECK_ERROR(_readMethod_crowdloans_claim_for_V15(c, &method->basic.crowdloans_claim_for_V15))
+        break;
+    case 13323: /* module 52 call 11 */
+        CHECK_ERROR(_readMethod_crowdloans_withdraw_V15(c, &method->basic.crowdloans_withdraw_V15))
+        break;
+    case 13324: /* module 52 call 12 */
+        CHECK_ERROR(_readMethod_crowdloans_withdraw_for_V15(c, &method->basic.crowdloans_withdraw_for_V15))
+        break;
+    case 13325: /* module 52 call 13 */
+        CHECK_ERROR(_readMethod_crowdloans_redeem_V15(c, &method->basic.crowdloans_redeem_V15))
+        break;
+    case 13326: /* module 52 call 14 */
+        CHECK_ERROR(_readMethod_crowdloans_slot_expired_V15(c, &method->basic.crowdloans_slot_expired_V15))
+        break;
+    case 13327: /* module 52 call 15 */
+        CHECK_ERROR(_readMethod_crowdloans_migrate_pending_V15(c, &method->basic.crowdloans_migrate_pending_V15))
+        break;
+    case 13329: /* module 52 call 17 */
+        CHECK_ERROR(_readMethod_crowdloans_refund_V15(c, &method->basic.crowdloans_refund_V15))
+        break;
+    case 13330: /* module 52 call 18 */
+        CHECK_ERROR(_readMethod_crowdloans_dissolve_vault_V15(c, &method->basic.crowdloans_dissolve_vault_V15))
+        break;
     case 15360: /* module 60 call 0 */
         CHECK_ERROR(_readMethod_liquidstaking_stake_V15(c, &method->basic.liquidstaking_stake_V15))
         break;
@@ -2737,6 +2945,8 @@ const char* _getMethod_ModuleName_V15(uint8_t moduleIdx)
         return STR_MO_LOANS;
     case 51:
         return STR_MO_PRICES;
+    case 52:
+        return STR_MO_CROWDLOANS;
     case 60:
         return STR_MO_LIQUIDSTAKING;
     case 70:
@@ -3093,6 +3303,42 @@ const char* _getMethod_Name_V15_ParserFull(uint16_t callPrivIdx)
         return STR_ME_SET_PRICE;
     case 13057: /* module 51 call 1 */
         return STR_ME_RESET_PRICE;
+    case 13312: /* module 52 call 0 */
+        return STR_ME_CREATE_VAULT;
+    case 13313: /* module 52 call 1 */
+        return STR_ME_UPDATE_VAULT;
+    case 13314: /* module 52 call 2 */
+        return STR_ME_OPEN;
+    case 13315: /* module 52 call 3 */
+        return STR_ME_CONTRIBUTE;
+    case 13316: /* module 52 call 4 */
+        return STR_ME_SET_VRF;
+    case 13317: /* module 52 call 5 */
+        return STR_ME_CLOSE;
+    case 13318: /* module 52 call 6 */
+        return STR_ME_REOPEN;
+    case 13319: /* module 52 call 7 */
+        return STR_ME_AUCTION_SUCCEEDED;
+    case 13320: /* module 52 call 8 */
+        return STR_ME_AUCTION_FAILED;
+    case 13321: /* module 52 call 9 */
+        return STR_ME_CLAIM;
+    case 13322: /* module 52 call 10 */
+        return STR_ME_CLAIM_FOR;
+    case 13323: /* module 52 call 11 */
+        return STR_ME_WITHDRAW;
+    case 13324: /* module 52 call 12 */
+        return STR_ME_WITHDRAW_FOR;
+    case 13325: /* module 52 call 13 */
+        return STR_ME_REDEEM;
+    case 13326: /* module 52 call 14 */
+        return STR_ME_SLOT_EXPIRED;
+    case 13327: /* module 52 call 15 */
+        return STR_ME_MIGRATE_PENDING;
+    case 13329: /* module 52 call 17 */
+        return STR_ME_REFUND;
+    case 13330: /* module 52 call 18 */
+        return STR_ME_DISSOLVE_VAULT;
     case 15360: /* module 60 call 0 */
         return STR_ME_STAKE;
     case 15361: /* module 60 call 1 */
@@ -3595,6 +3841,42 @@ uint8_t _getMethod_NumItems_V15(uint8_t moduleIdx, uint8_t callIdx)
         return 2;
     case 13057: /* module 51 call 1 */
         return 1;
+    case 13312: /* module 52 call 0 */
+        return 7;
+    case 13313: /* module 52 call 1 */
+        return 4;
+    case 13314: /* module 52 call 2 */
+        return 1;
+    case 13315: /* module 52 call 3 */
+        return 3;
+    case 13316: /* module 52 call 4 */
+        return 1;
+    case 13317: /* module 52 call 5 */
+        return 1;
+    case 13318: /* module 52 call 6 */
+        return 1;
+    case 13319: /* module 52 call 7 */
+        return 1;
+    case 13320: /* module 52 call 8 */
+        return 1;
+    case 13321: /* module 52 call 9 */
+        return 3;
+    case 13322: /* module 52 call 10 */
+        return 4;
+    case 13323: /* module 52 call 11 */
+        return 3;
+    case 13324: /* module 52 call 12 */
+        return 4;
+    case 13325: /* module 52 call 13 */
+        return 4;
+    case 13326: /* module 52 call 14 */
+        return 1;
+    case 13327: /* module 52 call 15 */
+        return 1;
+    case 13329: /* module 52 call 17 */
+        return 3;
+    case 13330: /* module 52 call 18 */
+        return 3;
     case 15360: /* module 60 call 0 */
         return 1;
     case 15361: /* module 60 call 1 */
@@ -5129,6 +5411,188 @@ const char* _getMethod_ItemName_V15(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         switch (itemIdx) {
         case 0:
             return STR_IT_asset_id;
+        default:
+            return NULL;
+        }
+    case 13312: /* module 52 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_crowdloan;
+        case 1:
+            return STR_IT_ctoken;
+        case 2:
+            return STR_IT_lease_start;
+        case 3:
+            return STR_IT_lease_end;
+        case 4:
+            return STR_IT_contribution_strategy;
+        case 5:
+            return STR_IT_cap;
+        case 6:
+            return STR_IT_end_block;
+        default:
+            return NULL;
+        }
+    case 13313: /* module 52 call 1 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_crowdloan;
+        case 1:
+            return STR_IT_cap;
+        case 2:
+            return STR_IT_end_block;
+        case 3:
+            return STR_IT_contribution_strategy;
+        default:
+            return NULL;
+        }
+    case 13314: /* module 52 call 2 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_crowdloan;
+        default:
+            return NULL;
+        }
+    case 13315: /* module 52 call 3 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_crowdloan;
+        case 1:
+            return STR_IT_amount;
+        case 2:
+            return STR_IT_referral_code;
+        default:
+            return NULL;
+        }
+    case 13316: /* module 52 call 4 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_flag;
+        default:
+            return NULL;
+        }
+    case 13317: /* module 52 call 5 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_crowdloan;
+        default:
+            return NULL;
+        }
+    case 13318: /* module 52 call 6 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_crowdloan;
+        default:
+            return NULL;
+        }
+    case 13319: /* module 52 call 7 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_crowdloan;
+        default:
+            return NULL;
+        }
+    case 13320: /* module 52 call 8 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_crowdloan;
+        default:
+            return NULL;
+        }
+    case 13321: /* module 52 call 9 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_crowdloan;
+        case 1:
+            return STR_IT_lease_start;
+        case 2:
+            return STR_IT_lease_end;
+        default:
+            return NULL;
+        }
+    case 13322: /* module 52 call 10 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_dest;
+        case 1:
+            return STR_IT_crowdloan;
+        case 2:
+            return STR_IT_lease_start;
+        case 3:
+            return STR_IT_lease_end;
+        default:
+            return NULL;
+        }
+    case 13323: /* module 52 call 11 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_crowdloan;
+        case 1:
+            return STR_IT_lease_start;
+        case 2:
+            return STR_IT_lease_end;
+        default:
+            return NULL;
+        }
+    case 13324: /* module 52 call 12 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_dest;
+        case 1:
+            return STR_IT_crowdloan;
+        case 2:
+            return STR_IT_lease_start;
+        case 3:
+            return STR_IT_lease_end;
+        default:
+            return NULL;
+        }
+    case 13325: /* module 52 call 13 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_crowdloan;
+        case 1:
+            return STR_IT_lease_start;
+        case 2:
+            return STR_IT_lease_end;
+        case 3:
+            return STR_IT_amount;
+        default:
+            return NULL;
+        }
+    case 13326: /* module 52 call 14 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_crowdloan;
+        default:
+            return NULL;
+        }
+    case 13327: /* module 52 call 15 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_crowdloan;
+        default:
+            return NULL;
+        }
+    case 13329: /* module 52 call 17 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_crowdloan;
+        case 1:
+            return STR_IT_lease_start;
+        case 2:
+            return STR_IT_lease_end;
+        default:
+            return NULL;
+        }
+    case 13330: /* module 52 call 18 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_crowdloan;
+        case 1:
+            return STR_IT_lease_start;
+        case 2:
+            return STR_IT_lease_end;
         default:
             return NULL;
         }
@@ -8143,6 +8607,326 @@ parser_error_t _getMethod_ItemValue_V15(
         default:
             return parser_no_data;
         }
+    case 13312: /* module 52 call 0 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_create_vault_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_create_vault_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* crowdloans_create_vault_V15 - ctoken */;
+            return _toStringAssetIdOfT_V15(
+                &m->basic.crowdloans_create_vault_V15.ctoken,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* crowdloans_create_vault_V15 - lease_start */;
+            return _toStringLeasePeriod_V15(
+                &m->basic.crowdloans_create_vault_V15.lease_start,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* crowdloans_create_vault_V15 - lease_end */;
+            return _toStringLeasePeriod_V15(
+                &m->basic.crowdloans_create_vault_V15.lease_end,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* crowdloans_create_vault_V15 - contribution_strategy */;
+            return _toStringContributionStrategy_V15(
+                &m->basic.crowdloans_create_vault_V15.contribution_strategy,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 5: /* crowdloans_create_vault_V15 - cap */;
+            return _toStringCompactBalance(
+                &m->basic.crowdloans_create_vault_V15.cap,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 6: /* crowdloans_create_vault_V15 - end_block */;
+            return _toStringBlockNumber(
+                &m->basic.crowdloans_create_vault_V15.end_block,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13313: /* module 52 call 1 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_update_vault_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_update_vault_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* crowdloans_update_vault_V15 - cap */;
+            return _toStringOptionBalance(
+                &m->basic.crowdloans_update_vault_V15.cap,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* crowdloans_update_vault_V15 - end_block */;
+            return _toStringOptionBlockNumber(
+                &m->basic.crowdloans_update_vault_V15.end_block,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* crowdloans_update_vault_V15 - contribution_strategy */;
+            return _toStringOptionContributionStrategy_V15(
+                &m->basic.crowdloans_update_vault_V15.contribution_strategy,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13314: /* module 52 call 2 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_open_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_open_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13315: /* module 52 call 3 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_contribute_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_contribute_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* crowdloans_contribute_V15 - amount */;
+            return _toStringCompactBalance(
+                &m->basic.crowdloans_contribute_V15.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* crowdloans_contribute_V15 - referral_code */;
+            return _toStringVecu8(
+                &m->basic.crowdloans_contribute_V15.referral_code,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13316: /* module 52 call 4 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_set_vrf_V15 - flag */;
+            return _toStringbool(
+                &m->basic.crowdloans_set_vrf_V15.flag,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13317: /* module 52 call 5 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_close_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_close_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13318: /* module 52 call 6 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_reopen_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_reopen_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13319: /* module 52 call 7 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_auction_succeeded_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_auction_succeeded_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13320: /* module 52 call 8 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_auction_failed_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_auction_failed_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13321: /* module 52 call 9 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_claim_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_claim_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* crowdloans_claim_V15 - lease_start */;
+            return _toStringLeasePeriod_V15(
+                &m->basic.crowdloans_claim_V15.lease_start,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* crowdloans_claim_V15 - lease_end */;
+            return _toStringLeasePeriod_V15(
+                &m->basic.crowdloans_claim_V15.lease_end,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13322: /* module 52 call 10 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_claim_for_V15 - dest */;
+            return _toStringLookupasStaticLookupSource_V15(
+                &m->basic.crowdloans_claim_for_V15.dest,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* crowdloans_claim_for_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_claim_for_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* crowdloans_claim_for_V15 - lease_start */;
+            return _toStringLeasePeriod_V15(
+                &m->basic.crowdloans_claim_for_V15.lease_start,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* crowdloans_claim_for_V15 - lease_end */;
+            return _toStringLeasePeriod_V15(
+                &m->basic.crowdloans_claim_for_V15.lease_end,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13323: /* module 52 call 11 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_withdraw_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_withdraw_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* crowdloans_withdraw_V15 - lease_start */;
+            return _toStringLeasePeriod_V15(
+                &m->basic.crowdloans_withdraw_V15.lease_start,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* crowdloans_withdraw_V15 - lease_end */;
+            return _toStringLeasePeriod_V15(
+                &m->basic.crowdloans_withdraw_V15.lease_end,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13324: /* module 52 call 12 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_withdraw_for_V15 - dest */;
+            return _toStringLookupasStaticLookupSource_V15(
+                &m->basic.crowdloans_withdraw_for_V15.dest,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* crowdloans_withdraw_for_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_withdraw_for_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* crowdloans_withdraw_for_V15 - lease_start */;
+            return _toStringLeasePeriod_V15(
+                &m->basic.crowdloans_withdraw_for_V15.lease_start,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* crowdloans_withdraw_for_V15 - lease_end */;
+            return _toStringLeasePeriod_V15(
+                &m->basic.crowdloans_withdraw_for_V15.lease_end,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13325: /* module 52 call 13 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_redeem_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_redeem_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* crowdloans_redeem_V15 - lease_start */;
+            return _toStringLeasePeriod_V15(
+                &m->basic.crowdloans_redeem_V15.lease_start,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* crowdloans_redeem_V15 - lease_end */;
+            return _toStringLeasePeriod_V15(
+                &m->basic.crowdloans_redeem_V15.lease_end,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* crowdloans_redeem_V15 - amount */;
+            return _toStringCompactBalance(
+                &m->basic.crowdloans_redeem_V15.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13326: /* module 52 call 14 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_slot_expired_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_slot_expired_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13327: /* module 52 call 15 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_migrate_pending_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_migrate_pending_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13329: /* module 52 call 17 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_refund_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_refund_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* crowdloans_refund_V15 - lease_start */;
+            return _toStringLeasePeriod_V15(
+                &m->basic.crowdloans_refund_V15.lease_start,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* crowdloans_refund_V15 - lease_end */;
+            return _toStringLeasePeriod_V15(
+                &m->basic.crowdloans_refund_V15.lease_end,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13330: /* module 52 call 18 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_dissolve_vault_V15 - crowdloan */;
+            return _toStringParaId_V15(
+                &m->basic.crowdloans_dissolve_vault_V15.crowdloan,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* crowdloans_dissolve_vault_V15 - lease_start */;
+            return _toStringLeasePeriod_V15(
+                &m->basic.crowdloans_dissolve_vault_V15.lease_start,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* crowdloans_dissolve_vault_V15 - lease_end */;
+            return _toStringLeasePeriod_V15(
+                &m->basic.crowdloans_dissolve_vault_V15.lease_end,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 15360: /* module 60 call 0 */
         switch (itemIdx) {
         case 0: /* liquidstaking_stake_V15 - amount */;
@@ -9563,6 +10347,24 @@ bool _getMethod_IsNestingSupported_V15(uint8_t moduleIdx, uint8_t callIdx)
     case 12820: // Loans:Reduce incentive reserves
     case 13056: // Prices:Set price
     case 13057: // Prices:Reset price
+    case 13312: // Crowdloans:Create vault
+    case 13313: // Crowdloans:Update vault
+    case 13314: // Crowdloans:Open
+    case 13315: // Crowdloans:Contribute
+    case 13316: // Crowdloans:Set vrf
+    case 13317: // Crowdloans:Close
+    case 13318: // Crowdloans:Reopen
+    case 13319: // Crowdloans:Auction succeeded
+    case 13320: // Crowdloans:Auction failed
+    case 13321: // Crowdloans:Claim
+    case 13322: // Crowdloans:Claim for
+    case 13323: // Crowdloans:Withdraw
+    case 13324: // Crowdloans:Withdraw for
+    case 13325: // Crowdloans:Redeem
+    case 13326: // Crowdloans:Slot expired
+    case 13327: // Crowdloans:Migrate pending
+    case 13329: // Crowdloans:Refund
+    case 13330: // Crowdloans:Dissolve vault
     case 15360: // LiquidStaking:Stake
     case 15361: // LiquidStaking:Unstake
     case 15362: // LiquidStaking:Update reserve factor
