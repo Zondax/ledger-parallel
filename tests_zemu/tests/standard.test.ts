@@ -22,7 +22,7 @@ import { APP_SEED, models } from './common'
 import ed25519 from 'ed25519-supercop'
 // @ts-ignore
 import { blake2bFinal, blake2bInit, blake2bUpdate } from 'blakejs'
-import { txBalances_transfer, txSession_setKeys } from './zemu_blobs'
+import { txBalances_transfer, txProxy_proxy, txSession_setKeys } from './zemu_blobs'
 
 const defaultOptions = {
   ...DEFAULT_START_OPTIONS,
@@ -238,47 +238,6 @@ describe('Standard', function () {
     }
   })
 
-  // test.each(models)('sign large nomination', async function (m) {
-  //   const sim = new Zemu(m.path)
-  //   try {
-  //     await sim.start({ ...defaultOptions, model: m.name })
-  //     const app = newParallelApp(sim.getTransport())
-  //     const pathAccount = 0x80000000
-  //     const pathChange = 0x80000000
-  //     const pathIndex = 0x80000000
-
-  //     const txBlob = Buffer.from(txNomination, 'hex')
-
-  //     const responseAddr = await app.getAddress(pathAccount, pathChange, pathIndex)
-  //     const pubKey = Buffer.from(responseAddr.pubKey, 'hex')
-
-  //     // do not wait here.. we need to navigate
-  //     const signatureRequest = app.sign(pathAccount, pathChange, pathIndex, txBlob)
-  //     // Wait until we are not in the main menu
-  //     await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
-
-  //     await sim.compareSnapshotsAndApprove('.', `${m.prefix.toLowerCase()}-sign_large_nomination`)
-
-  //     const signatureResponse = await signatureRequest
-  //     console.log(signatureResponse)
-
-  //     expect(signatureResponse.return_code).toEqual(0x9000)
-  //     expect(signatureResponse.error_message).toEqual('No errors')
-
-  //     // Now verify the signature
-  //     let prehash = txBlob
-  //     if (txBlob.length > 256) {
-  //       const context = blake2bInit(32)
-  //       blake2bUpdate(context, txBlob)
-  //       prehash = Buffer.from(blake2bFinal(context))
-  //     }
-  //     const valid = ed25519.verify(signatureResponse.signature.slice(1), prehash, pubKey)
-  //     expect(valid).toEqual(true)
-  //   } finally {
-  //     await sim.close()
-  //   }
-  // })
-
   test.each(models)('set keys', async function (m) {
     const sim = new Zemu(m.path)
     try {
@@ -299,6 +258,45 @@ describe('Standard', function () {
       await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
 
       await sim.compareSnapshotsAndApprove('.', `${m.prefix.toLowerCase()}-set-keys`)
+
+      const signatureResponse = await signatureRequest
+      console.log(signatureResponse)
+
+      expect(signatureResponse.return_code).toEqual(0x9000)
+      expect(signatureResponse.error_message).toEqual('No errors')
+
+      // Now verify the signature
+      let prehash = txBlob
+      if (txBlob.length > 256) {
+        const context = blake2bInit(32)
+        blake2bUpdate(context, txBlob)
+        prehash = Buffer.from(blake2bFinal(context))
+      }
+      const valid = ed25519.verify(signatureResponse.signature.slice(1), prehash, pubKey)
+      expect(valid).toEqual(true)
+    } finally {
+      await sim.close()
+    }
+  })
+
+  test.each(models)('Proxy proxy balances transfer', async function (m) {
+    const sim = new Zemu(m.path)
+    try {
+      await sim.start({ ...defaultOptions, model: m.name })
+      const app = newParallelApp(sim.getTransport())
+      const pathAccount = 0x80000000
+      const pathChange = 0x80000000
+      const pathIndex = 0x80000000
+
+      const txBlob = Buffer.from(txProxy_proxy, 'hex')
+
+      const responseAddr = await app.getAddress(pathAccount, pathChange, pathIndex)
+      const pubKey = Buffer.from(responseAddr.pubKey, 'hex')
+
+      // do not wait here.. we need to navigate
+      const signatureRequest = app.sign(pathAccount, pathChange, pathIndex, txBlob)
+      await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
+      await sim.compareSnapshotsAndApprove('.', `${m.prefix.toLowerCase()}-proxy_balances_transfer`)
 
       const signatureResponse = await signatureRequest
       console.log(signatureResponse)
