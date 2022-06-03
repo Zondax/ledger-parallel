@@ -61,8 +61,6 @@ typedef enum {
 #define COIN_NAME "Parallel"
 #define COIN_TICKER "PARA "
 
-#define COIN_SECRET_REQUIRED_CLICKS 0
-
 #define MENU_MAIN_APP_LINE1 "Parallel"
 #define MENU_MAIN_APP_LINE2 "Ready"
 #define MENU_MAIN_APP_LINE2_SECRET "PARA RECOVERY"

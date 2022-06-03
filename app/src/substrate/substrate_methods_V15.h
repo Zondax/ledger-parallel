@@ -46,6 +46,7 @@ extern "C" {
 #define PD_CALL_VESTING_V15 46
 #define PD_CALL_LOANS_V15 50
 #define PD_CALL_PRICES_V15 51
+#define PD_CALL_CROWDLOANS_V15 52
 #define PD_CALL_LIQUIDSTAKING_V15 60
 #define PD_CALL_GENERALCOUNCILMEMBERSHIP_V15 70
 #define PD_CALL_TECHNICALCOMMITTEEMEMBERSHIP_V15 71
@@ -863,6 +864,124 @@ typedef struct {
     pd_CurrencyId_V15_t asset_id;
 } pd_prices_reset_price_V15_t;
 
+#define PD_CALL_CROWDLOANS_CREATE_VAULT_V15 0
+typedef struct {
+    pd_ParaId_V15_t crowdloan;
+    pd_AssetIdOfT_V15_t ctoken;
+    pd_LeasePeriod_V15_t lease_start;
+    pd_LeasePeriod_V15_t lease_end;
+    pd_ContributionStrategy_V15_t contribution_strategy;
+    pd_CompactBalance_t cap;
+    pd_BlockNumber_t end_block;
+} pd_crowdloans_create_vault_V15_t;
+
+#define PD_CALL_CROWDLOANS_UPDATE_VAULT_V15 1
+typedef struct {
+    pd_ParaId_V15_t crowdloan;
+    pd_OptionBalance_t cap;
+    pd_OptionBlockNumber_t end_block;
+    pd_OptionContributionStrategy_V15_t contribution_strategy;
+} pd_crowdloans_update_vault_V15_t;
+
+#define PD_CALL_CROWDLOANS_OPEN_V15 2
+typedef struct {
+    pd_ParaId_V15_t crowdloan;
+} pd_crowdloans_open_V15_t;
+
+#define PD_CALL_CROWDLOANS_CONTRIBUTE_V15 3
+typedef struct {
+    pd_ParaId_V15_t crowdloan;
+    pd_CompactBalance_t amount;
+    pd_Vecu8_t referral_code;
+} pd_crowdloans_contribute_V15_t;
+
+#define PD_CALL_CROWDLOANS_SET_VRF_V15 4
+typedef struct {
+    pd_bool_t flag;
+} pd_crowdloans_set_vrf_V15_t;
+
+#define PD_CALL_CROWDLOANS_CLOSE_V15 5
+typedef struct {
+    pd_ParaId_V15_t crowdloan;
+} pd_crowdloans_close_V15_t;
+
+#define PD_CALL_CROWDLOANS_REOPEN_V15 6
+typedef struct {
+    pd_ParaId_V15_t crowdloan;
+} pd_crowdloans_reopen_V15_t;
+
+#define PD_CALL_CROWDLOANS_AUCTION_SUCCEEDED_V15 7
+typedef struct {
+    pd_ParaId_V15_t crowdloan;
+} pd_crowdloans_auction_succeeded_V15_t;
+
+#define PD_CALL_CROWDLOANS_AUCTION_FAILED_V15 8
+typedef struct {
+    pd_ParaId_V15_t crowdloan;
+} pd_crowdloans_auction_failed_V15_t;
+
+#define PD_CALL_CROWDLOANS_CLAIM_V15 9
+typedef struct {
+    pd_ParaId_V15_t crowdloan;
+    pd_LeasePeriod_V15_t lease_start;
+    pd_LeasePeriod_V15_t lease_end;
+} pd_crowdloans_claim_V15_t;
+
+#define PD_CALL_CROWDLOANS_CLAIM_FOR_V15 10
+typedef struct {
+    pd_LookupasStaticLookupSource_V15_t dest;
+    pd_ParaId_V15_t crowdloan;
+    pd_LeasePeriod_V15_t lease_start;
+    pd_LeasePeriod_V15_t lease_end;
+} pd_crowdloans_claim_for_V15_t;
+
+#define PD_CALL_CROWDLOANS_WITHDRAW_V15 11
+typedef struct {
+    pd_ParaId_V15_t crowdloan;
+    pd_LeasePeriod_V15_t lease_start;
+    pd_LeasePeriod_V15_t lease_end;
+} pd_crowdloans_withdraw_V15_t;
+
+#define PD_CALL_CROWDLOANS_WITHDRAW_FOR_V15 12
+typedef struct {
+    pd_LookupasStaticLookupSource_V15_t dest;
+    pd_ParaId_V15_t crowdloan;
+    pd_LeasePeriod_V15_t lease_start;
+    pd_LeasePeriod_V15_t lease_end;
+} pd_crowdloans_withdraw_for_V15_t;
+
+#define PD_CALL_CROWDLOANS_REDEEM_V15 13
+typedef struct {
+    pd_ParaId_V15_t crowdloan;
+    pd_LeasePeriod_V15_t lease_start;
+    pd_LeasePeriod_V15_t lease_end;
+    pd_CompactBalance_t amount;
+} pd_crowdloans_redeem_V15_t;
+
+#define PD_CALL_CROWDLOANS_SLOT_EXPIRED_V15 14
+typedef struct {
+    pd_ParaId_V15_t crowdloan;
+} pd_crowdloans_slot_expired_V15_t;
+
+#define PD_CALL_CROWDLOANS_MIGRATE_PENDING_V15 15
+typedef struct {
+    pd_ParaId_V15_t crowdloan;
+} pd_crowdloans_migrate_pending_V15_t;
+
+#define PD_CALL_CROWDLOANS_REFUND_V15 17
+typedef struct {
+    pd_ParaId_V15_t crowdloan;
+    pd_LeasePeriod_V15_t lease_start;
+    pd_LeasePeriod_V15_t lease_end;
+} pd_crowdloans_refund_V15_t;
+
+#define PD_CALL_CROWDLOANS_DISSOLVE_VAULT_V15 18
+typedef struct {
+    pd_ParaId_V15_t crowdloan;
+    pd_LeasePeriod_V15_t lease_start;
+    pd_LeasePeriod_V15_t lease_end;
+} pd_crowdloans_dissolve_vault_V15_t;
+
 #define PD_CALL_LIQUIDSTAKING_STAKE_V15 0
 typedef struct {
     pd_Compactu128_t amount;
@@ -1534,6 +1653,24 @@ typedef union {
     pd_loans_reduce_incentive_reserves_V15_t loans_reduce_incentive_reserves_V15;
     pd_prices_set_price_V15_t prices_set_price_V15;
     pd_prices_reset_price_V15_t prices_reset_price_V15;
+    pd_crowdloans_create_vault_V15_t crowdloans_create_vault_V15;
+    pd_crowdloans_update_vault_V15_t crowdloans_update_vault_V15;
+    pd_crowdloans_open_V15_t crowdloans_open_V15;
+    pd_crowdloans_contribute_V15_t crowdloans_contribute_V15;
+    pd_crowdloans_set_vrf_V15_t crowdloans_set_vrf_V15;
+    pd_crowdloans_close_V15_t crowdloans_close_V15;
+    pd_crowdloans_reopen_V15_t crowdloans_reopen_V15;
+    pd_crowdloans_auction_succeeded_V15_t crowdloans_auction_succeeded_V15;
+    pd_crowdloans_auction_failed_V15_t crowdloans_auction_failed_V15;
+    pd_crowdloans_claim_V15_t crowdloans_claim_V15;
+    pd_crowdloans_claim_for_V15_t crowdloans_claim_for_V15;
+    pd_crowdloans_withdraw_V15_t crowdloans_withdraw_V15;
+    pd_crowdloans_withdraw_for_V15_t crowdloans_withdraw_for_V15;
+    pd_crowdloans_redeem_V15_t crowdloans_redeem_V15;
+    pd_crowdloans_slot_expired_V15_t crowdloans_slot_expired_V15;
+    pd_crowdloans_migrate_pending_V15_t crowdloans_migrate_pending_V15;
+    pd_crowdloans_refund_V15_t crowdloans_refund_V15;
+    pd_crowdloans_dissolve_vault_V15_t crowdloans_dissolve_vault_V15;
     pd_liquidstaking_stake_V15_t liquidstaking_stake_V15;
     pd_liquidstaking_unstake_V15_t liquidstaking_unstake_V15;
     pd_liquidstaking_update_reserve_factor_V15_t liquidstaking_update_reserve_factor_V15;
