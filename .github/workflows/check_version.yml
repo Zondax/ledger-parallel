@@ -43,6 +43,7 @@ jobs:
   check_app_version:
     needs: get_version
     runs-on: ubuntu-latest
+    if: ${{ github.actor != 'dependabot' }}
     steps:
       - id: checkTag
         uses: mukunku/tag-exists-action@v1.0.0
