@@ -1,4 +1,4 @@
-# Parallel  15.186.x
+# Parallel  16.187.x
 
 ## System
 
@@ -28,6 +28,7 @@
 |As derivative |    |   |   | `u16` index <br/>`Call` call <br/> |
 |Batch all | :heavy_check_mark:  | :heavy_check_mark: |   | `VecCall` calls <br/> |
 |Dispatch as |    |   |   | `BoxPalletsOrigin` as_origin <br/>`Call` call <br/> |
+|Force batch | :heavy_check_mark:  | :heavy_check_mark: |   | `VecCall` calls <br/> |
 
 ## Multisig
 
@@ -114,15 +115,6 @@
 |Remove sub |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` sub <br/> |
 |Quit sub |    | :heavy_check_mark: |   |  |
 
-## Sudo
-
-| Name        | Light | XL | Nesting | Arguments |
-| :---------- |:------------:|:--------:|:--------:|:--------|
-|Sudo |    | :heavy_check_mark: |   | `Call` call <br/> |
-|Sudo unchecked weight |    | :heavy_check_mark: |   | `Call` call <br/>`Weight` weight <br/> |
-|Set key |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` new_ <br/> |
-|Sudo as |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` who <br/>`Call` call <br/> |
-
 ## Democracy
 
 | Name        | Light | XL | Nesting | Arguments |
@@ -182,6 +174,7 @@
 |Propose spend |    | :heavy_check_mark: |   | `CompactBalance` amount <br/>`LookupasStaticLookupSource` beneficiary <br/> |
 |Reject proposal |    | :heavy_check_mark: |   | `Compactu32` proposal_id <br/> |
 |Approve proposal |    | :heavy_check_mark: |   | `Compactu32` proposal_id <br/> |
+|Remove approval |    | :heavy_check_mark: |   | `Compactu32` proposal_id <br/> |
 
 ## Scheduler
 
@@ -207,7 +200,7 @@
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Service overweight |    |   |   | `OverweightIndex` index <br/>`Weight` weight_limit <br/> |
+|Service overweight |    | :heavy_check_mark: |   | `OverweightIndex` index <br/>`Weight` weight_limit <br/> |
 |Suspend xcm execution |    | :heavy_check_mark: |   |  |
 |Resume xcm execution |    | :heavy_check_mark: |   |  |
 |Update suspend threshold |    | :heavy_check_mark: |   | `u32` new_ <br/> |
@@ -221,7 +214,7 @@
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Service overweight |    |   |   | `OverweightIndex` index <br/>`Weight` weight_limit <br/> |
+|Service overweight |    | :heavy_check_mark: |   | `OverweightIndex` index <br/>`Weight` weight_limit <br/> |
 
 ## PolkadotXcm
 
@@ -276,7 +269,7 @@
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Transfer |    |   |   | `CurrencyId` currency_id <br/>`Balance` amount <br/>`BoxVersionedMultiLocation` dest <br/>`Weight` dest_weight <br/> |
+|Transfer |    | :heavy_check_mark: |   | `CurrencyId` currency_id <br/>`Balance` amount <br/>`BoxVersionedMultiLocation` dest <br/>`Weight` dest_weight <br/> |
 |Transfer multiasset |    |   |   | `BoxVersionedMultiAsset` asset <br/>`BoxVersionedMultiLocation` dest <br/>`Weight` dest_weight <br/> |
 |Transfer with fee |    |   |   | `CurrencyId` currency_id <br/>`Balance` amount <br/>`Balance` fee <br/>`BoxVersionedMultiLocation` dest <br/>`Weight` dest_weight <br/> |
 |Transfer multiasset with fee |    |   |   | `BoxVersionedMultiAsset` asset <br/>`BoxVersionedMultiAsset` fee <br/>`BoxVersionedMultiLocation` dest <br/>`Weight` dest_weight <br/> |
@@ -305,11 +298,11 @@
 |Add market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`MarketBalanceOfT` market <br/> |
 |Activate market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/> |
 |Update rate model |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`InterestRateModel` rate_model <br/> |
-|Update market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Ratio` collateral_factor <br/>`Ratio` liquidation_threshold <br/>`Ratio` reserve_factor <br/>`Ratio` close_factor <br/>`Ratio` liquidate_incentive_reserved_factor <br/>`Rate` liquidate_incentive <br/>`Compactu128` supply_cap <br/>`Compactu128` borrow_cap <br/> |
+|Update market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`OptionRatio` collateral_factor <br/>`OptionRatio` liquidation_threshold <br/>`OptionRatio` reserve_factor <br/>`OptionRatio` close_factor <br/>`OptionRatio` liquidate_incentive_reserved_factor <br/>`OptionRate` liquidate_incentive <br/>`OptionBalance` supply_cap <br/>`OptionBalance` borrow_cap <br/> |
 |Force update market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`MarketBalanceOfT` market <br/> |
 |Add reward |    | :heavy_check_mark: |   | `Balance` amount <br/> |
 |Withdraw missing reward |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` target_account <br/>`Balance` amount <br/> |
-|Update market reward speed |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Balance` supply_reward_per_block <br/>`Balance` borrow_reward_per_block <br/> |
+|Update market reward speed |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`OptionBalance` supply_reward_per_block <br/>`OptionBalance` borrow_reward_per_block <br/> |
 |Claim reward |    | :heavy_check_mark: |   |  |
 |Claim reward for market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/> |
 |Mint |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Compactu128` mint_amount <br/> |
@@ -323,6 +316,7 @@
 |Add reserves |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` payer <br/>`AssetIdOfT` asset_id <br/>`Compactu128` add_amount <br/> |
 |Reduce reserves |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` receiver <br/>`AssetIdOfT` asset_id <br/>`Compactu128` reduce_amount <br/> |
 |Reduce incentive reserves |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` receiver <br/>`AssetIdOfT` asset_id <br/>`Compactu128` redeem_amount <br/> |
+|Update liquidation free collateral |    | :heavy_check_mark: |   | `VecAssetIdOf` collaterals <br/> |
 
 ## Prices
 
@@ -354,6 +348,7 @@
 |Notification received |    |   |   | `QueryId` query_id <br/>`Response` response <br/> |
 |Refund |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
 |Dissolve vault |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
+|Refund for |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` dest <br/>`ParaId` crowdloan <br/>`ChildStorageKind` kind <br/>`CompactBalance` amount <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
 
 ## LiquidStaking
 
@@ -516,18 +511,6 @@
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
 |Update xcm weight fee |    |   |   | `XcmCall` xcm_call <br/>`XcmWeightFeeMiscWeightBalanceOfT` xcm_weight_fee_misc <br/> |
-|Withdraw |    |   |   | `ParaId` para_id <br/>`AccountIdOfT` para_account_id <br/>`BoxCallIdOfT` notify <br/> |
-|Contribute |    |   |   | `ParaId` para_id <br/>`Balance` amount <br/>`AccountIdOfT` who <br/>`BoxCallIdOfT` notify <br/> |
-|Bond |    |   |   | `Balance` amount <br/>`RewardDestinationAccountIdOfT` payee <br/>`AccountIdOfT` stash <br/>`u16` index <br/>`BoxCallIdOfT` notify <br/> |
-|Bond extra |    |   |   | `Balance` amount <br/>`AccountIdOfT` stash <br/>`u16` index <br/>`BoxCallIdOfT` notify <br/> |
-|Unbond |    |   |   | `Balance` amount <br/>`u16` index <br/>`BoxCallIdOfT` notify <br/> |
-|Rebond |    |   |   | `Balance` amount <br/>`u16` index <br/>`BoxCallIdOfT` notify <br/> |
-|Withdraw Unbonded |    |   |   | `u32` num_slashing_spans <br/>`AccountIdOfT` para_account_id <br/>`u16` index <br/>`BoxCallIdOfT` notify <br/> |
-|Nominate |    |   |   | `VecAccountIdOfT` targets <br/>`u16` index <br/>`BoxCallIdOfT` notify <br/> |
-|Send as sovereign |    |   |   | `BoxVersionedMultiLocation` dest <br/>`BoxVersionedXcmTuple` message <br/> |
-|Ump transact |    |   |   | `DoubleEncodedTuple` call <br/>`Weight` weight <br/>`BoxMultiLocation` beneficiary <br/>`Balance` fees <br/> |
-|Add proxy |    |   |   | `AccountId` delegate <br/>`OptionProxyType` proxy_type <br/>`BlockNumber` delay <br/>`BoxCallIdOfT` notify <br/> |
-|Remove proxy |    |   |   | `AccountId` delegate <br/>`OptionProxyType` proxy_type <br/>`BlockNumber` delay <br/>`BoxCallIdOfT` notify <br/> |
 
 ## Streaming
 
