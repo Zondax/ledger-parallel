@@ -63,7 +63,6 @@ typedef enum {
 
 #define MENU_MAIN_APP_LINE1 "Parallel"
 #define MENU_MAIN_APP_LINE2 "Ready"
-#define MENU_MAIN_APP_LINE2_SECRET "PARA RECOVERY"
 #define APPVERSION_LINE1 "Parallel"
 #define APPVERSION_LINE2 "v" APPVERSION
 
