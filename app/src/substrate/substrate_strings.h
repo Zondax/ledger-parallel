@@ -404,6 +404,7 @@ static const char* STR_IT_query_id = "Query id";
 static const char* STR_IT_response = "Response";
 static const char* STR_IT_kind = "Kind";
 static const char* STR_IT_liquid_amount = "Liquid amount";
+static const char* STR_IT_unstake_provider = "Unstake provider";
 static const char* STR_IT_derivative_index = "Derivative index";
 static const char* STR_IT_payee = "Payee";
 static const char* STR_IT_num_slashing_spans = "Num slashing spans";

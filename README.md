@@ -28,7 +28,7 @@ Please:
 - **Do not use in production**
 - **Do not use a Ledger device with funds for development purposes.**
 - **Have a separate and marked device that is used ONLY for development and testing**
-# Parallel  16.187.x
+# Parallel  17.188.x
 
 ## System
 
@@ -385,7 +385,7 @@ Please:
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
 |Stake |    | :heavy_check_mark: |   | `Compactu128` amount <br/> |
-|Unstake |    | :heavy_check_mark: |   | `Compactu128` liquid_amount <br/> |
+|Unstake |    | :heavy_check_mark: |   | `Compactu128` liquid_amount <br/>`UnstakeProvider` unstake_provider <br/> |
 |Update reserve factor |    | :heavy_check_mark: |   | `Ratio` reserve_factor <br/> |
 |Update staking ledger cap |    | :heavy_check_mark: |   | `Compactu128` cap <br/> |
 |Bond |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/>`RewardDestination` payee <br/> |
