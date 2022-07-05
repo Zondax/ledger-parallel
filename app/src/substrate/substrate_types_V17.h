@@ -359,8 +359,8 @@ typedef struct {
 } pd_AssetIdOfAssetIdOf_V17_t;
 
 typedef struct {
-    pd_Balance_t balance1;
-    pd_Balance_t balance2;
+    pd_u128_t balance1;
+    pd_u128_t balance2;
 } pd_BalanceOfBalanceOf_V17_t;
 
 typedef struct {
