@@ -887,6 +887,27 @@ parser_error_t _readWeight_V17(parser_context_t* c, pd_Weight_V17_t* v)
     return parser_ok;
 }
 
+parser_error_t _readXcmCall_V17(parser_context_t* c, pd_XcmCall_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    if (v->value == 9) {
+        CHECK_ERROR(_readMultiLocationV1_V17(c, &v->sibling))
+    }
+    if (v->value > 12) {
+        return parser_value_out_of_range;
+    }
+    return parser_ok;
+}
+
+parser_error_t _readXcmWeightFeeMiscWeightBalanceOfT_V17(parser_context_t* c, pd_XcmWeightFeeMiscWeightBalanceOfT_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt64(c, &v->weight))
+    CHECK_ERROR(_readBalance(c, &v->fee))
+    return parser_ok;
+}
+
 parser_error_t _readu8_array_32_V17(parser_context_t* c, pd_u8_array_32_V17_t* v) {
     GEN_DEF_READARRAY(32)
 }
@@ -3452,6 +3473,98 @@ parser_error_t _toStringWeight_V17(
     uint8_t* pageCount)
 {
     return _toStringu64(&v->value, outValue, outValueLen, pageIdx, pageCount);
+}
+
+parser_error_t _toStringXcmCall_V17(
+    const pd_XcmCall_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    *pageCount = 1;
+    switch (v->value) {
+    case 0:
+        snprintf(outValue, outValueLen, "Bond");
+        break;
+    case 1:
+        snprintf(outValue, outValueLen, "BondExtra");
+        break;
+    case 2:
+        snprintf(outValue, outValueLen, "Unbond");
+        break;
+    case 3:
+        snprintf(outValue, outValueLen, "Rebond");
+        break;
+    case 4:
+        snprintf(outValue, outValueLen, "WithdrawUnbonded");
+        break;
+    case 5:
+        snprintf(outValue, outValueLen, "Nominate");
+        break;
+    case 6:
+        snprintf(outValue, outValueLen, "Contribute");
+        break;
+    case 7:
+        snprintf(outValue, outValueLen, "Withdraw");
+        break;
+    case 8:
+        snprintf(outValue, outValueLen, "AddMemo");
+        break;
+    case 9:
+        CHECK_ERROR(_toStringMultiLocationV1_V17(&v->sibling, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 10:
+        snprintf(outValue, outValueLen, "Proxy");
+        break;
+    case 11:
+        snprintf(outValue, outValueLen, "AddProxy");
+        break;
+    case 12:
+        snprintf(outValue, outValueLen, "RemoveProxy");
+        break;
+    default:
+        return parser_print_not_supported;
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringXcmWeightFeeMiscWeightBalanceOfT_V17(
+    const pd_XcmWeightFeeMiscWeightBalanceOfT_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    // First measure number of pages
+    uint8_t pages[2] = { 0 };
+    CHECK_ERROR(_toStringu64(&v->weight, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringBalance(&v->fee, outValue, outValueLen, 0, &pages[1]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringu64(&v->weight, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringBalance(&v->fee, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
 }
 
 parser_error_t _toStringu8_array_32_V17(

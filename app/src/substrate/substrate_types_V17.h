@@ -454,6 +454,16 @@ typedef struct {
 } pd_VecVestingScheduleOf_V17_t;
 
 typedef struct {
+    uint8_t value;
+    pd_MultiLocationV1_V17_t sibling;
+} pd_XcmCall_V17_t;
+
+typedef struct {
+    uint64_t weight;
+    pd_Balance_t fee;
+} pd_XcmWeightFeeMiscWeightBalanceOfT_V17_t;
+
+typedef struct {
     uint32_t value;
 } pd_AssetIdOfT_V17_t;
 

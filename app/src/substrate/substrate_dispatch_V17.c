@@ -861,6 +861,14 @@ __Z_INLINE parser_error_t _readMethod_treasury_approve_proposal_V17(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_treasury_spend_V17(
+    parser_context_t* c, pd_treasury_spend_V17_t* m)
+{
+    CHECK_ERROR(_readCompactBalance(c, &m->amount))
+    CHECK_ERROR(_readLookupasStaticLookupSource_V17(c, &m->beneficiary))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_treasury_remove_approval_V17(
     parser_context_t* c, pd_treasury_remove_approval_V17_t* m)
 {
@@ -1003,7 +1011,7 @@ __Z_INLINE parser_error_t _readMethod_xtokens_transfer_V17(
     parser_context_t* c, pd_xtokens_transfer_V17_t* m)
 {
     CHECK_ERROR(_readCurrencyId_V17(c, &m->currency_id))
-    CHECK_ERROR(_readBalance(c, &m->amount))
+    CHECK_ERROR(_readu128(c, &m->amount))
     CHECK_ERROR(_readBoxVersionedMultiLocation_V17(c, &m->dest))
     CHECK_ERROR(_readWeight_V17(c, &m->dest_weight))
     return parser_ok;
@@ -2052,7 +2060,7 @@ __Z_INLINE parser_error_t _readMethod_farming_deposit_V17(
     CHECK_ERROR(_readAssetIdOfT_V17(c, &m->asset))
     CHECK_ERROR(_readAssetIdOfT_V17(c, &m->reward_asset))
     CHECK_ERROR(_readBlockNumber(c, &m->lock_duration))
-    CHECK_ERROR(_readBalance(c, &m->amount))
+    CHECK_ERROR(_readu128(c, &m->amount))
     return parser_ok;
 }
 
@@ -2062,7 +2070,7 @@ __Z_INLINE parser_error_t _readMethod_farming_withdraw_V17(
     CHECK_ERROR(_readAssetIdOfT_V17(c, &m->asset))
     CHECK_ERROR(_readAssetIdOfT_V17(c, &m->reward_asset))
     CHECK_ERROR(_readBlockNumber(c, &m->lock_duration))
-    CHECK_ERROR(_readBalance(c, &m->amount))
+    CHECK_ERROR(_readu128(c, &m->amount))
     return parser_ok;
 }
 
@@ -2091,8 +2099,16 @@ __Z_INLINE parser_error_t _readMethod_farming_dispatch_reward_V17(
     CHECK_ERROR(_readAssetIdOfT_V17(c, &m->reward_asset))
     CHECK_ERROR(_readBlockNumber(c, &m->lock_duration))
     CHECK_ERROR(_readLookupasStaticLookupSource_V17(c, &m->payer))
-    CHECK_ERROR(_readBalance(c, &m->amount))
+    CHECK_ERROR(_readu128(c, &m->amount))
     CHECK_ERROR(_readBlockNumber(c, &m->reward_duration))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_xcmhelper_update_xcm_weight_fee_V17(
+    parser_context_t* c, pd_xcmhelper_update_xcm_weight_fee_V17_t* m)
+{
+    CHECK_ERROR(_readXcmCall_V17(c, &m->xcm_call))
+    CHECK_ERROR(_readXcmWeightFeeMiscWeightBalanceOfT_V17(c, &m->xcm_weight_fee_misc))
     return parser_ok;
 }
 
@@ -2445,6 +2461,9 @@ parser_error_t _readMethod_V17(
         CHECK_ERROR(_readMethod_treasury_approve_proposal_V17(c, &method->basic.treasury_approve_proposal_V17))
         break;
     case 3587: /* module 14 call 3 */
+        CHECK_ERROR(_readMethod_treasury_spend_V17(c, &method->basic.treasury_spend_V17))
+        break;
+    case 3588: /* module 14 call 4 */
         CHECK_ERROR(_readMethod_treasury_remove_approval_V17(c, &method->basic.treasury_remove_approval_V17))
         break;
     case 4096: /* module 16 call 0 */
@@ -2520,70 +2539,70 @@ parser_error_t _readMethod_V17(
         CHECK_ERROR(_readMethod_vesting_claim_for_V17(c, &method->basic.vesting_claim_for_V17))
         break;
     case 12800: /* module 50 call 0 */
-        CHECK_ERROR(_readMethod_loans_add_market_V17(c, &method->basic.loans_add_market_V17))
+        CHECK_ERROR(_readMethod_loans_add_market_V17(c, &method->nested.loans_add_market_V17))
         break;
     case 12801: /* module 50 call 1 */
-        CHECK_ERROR(_readMethod_loans_activate_market_V17(c, &method->basic.loans_activate_market_V17))
+        CHECK_ERROR(_readMethod_loans_activate_market_V17(c, &method->nested.loans_activate_market_V17))
         break;
     case 12802: /* module 50 call 2 */
-        CHECK_ERROR(_readMethod_loans_update_rate_model_V17(c, &method->basic.loans_update_rate_model_V17))
+        CHECK_ERROR(_readMethod_loans_update_rate_model_V17(c, &method->nested.loans_update_rate_model_V17))
         break;
     case 12803: /* module 50 call 3 */
-        CHECK_ERROR(_readMethod_loans_update_market_V17(c, &method->basic.loans_update_market_V17))
+        CHECK_ERROR(_readMethod_loans_update_market_V17(c, &method->nested.loans_update_market_V17))
         break;
     case 12804: /* module 50 call 4 */
-        CHECK_ERROR(_readMethod_loans_force_update_market_V17(c, &method->basic.loans_force_update_market_V17))
+        CHECK_ERROR(_readMethod_loans_force_update_market_V17(c, &method->nested.loans_force_update_market_V17))
         break;
     case 12805: /* module 50 call 5 */
-        CHECK_ERROR(_readMethod_loans_add_reward_V17(c, &method->basic.loans_add_reward_V17))
+        CHECK_ERROR(_readMethod_loans_add_reward_V17(c, &method->nested.loans_add_reward_V17))
         break;
     case 12806: /* module 50 call 6 */
-        CHECK_ERROR(_readMethod_loans_withdraw_missing_reward_V17(c, &method->basic.loans_withdraw_missing_reward_V17))
+        CHECK_ERROR(_readMethod_loans_withdraw_missing_reward_V17(c, &method->nested.loans_withdraw_missing_reward_V17))
         break;
     case 12807: /* module 50 call 7 */
-        CHECK_ERROR(_readMethod_loans_update_market_reward_speed_V17(c, &method->basic.loans_update_market_reward_speed_V17))
+        CHECK_ERROR(_readMethod_loans_update_market_reward_speed_V17(c, &method->nested.loans_update_market_reward_speed_V17))
         break;
     case 12808: /* module 50 call 8 */
-        CHECK_ERROR(_readMethod_loans_claim_reward_V17(c, &method->basic.loans_claim_reward_V17))
+        CHECK_ERROR(_readMethod_loans_claim_reward_V17(c, &method->nested.loans_claim_reward_V17))
         break;
     case 12809: /* module 50 call 9 */
-        CHECK_ERROR(_readMethod_loans_claim_reward_for_market_V17(c, &method->basic.loans_claim_reward_for_market_V17))
+        CHECK_ERROR(_readMethod_loans_claim_reward_for_market_V17(c, &method->nested.loans_claim_reward_for_market_V17))
         break;
     case 12810: /* module 50 call 10 */
-        CHECK_ERROR(_readMethod_loans_mint_V17(c, &method->basic.loans_mint_V17))
+        CHECK_ERROR(_readMethod_loans_mint_V17(c, &method->nested.loans_mint_V17))
         break;
     case 12811: /* module 50 call 11 */
-        CHECK_ERROR(_readMethod_loans_redeem_V17(c, &method->basic.loans_redeem_V17))
+        CHECK_ERROR(_readMethod_loans_redeem_V17(c, &method->nested.loans_redeem_V17))
         break;
     case 12812: /* module 50 call 12 */
-        CHECK_ERROR(_readMethod_loans_redeem_all_V17(c, &method->basic.loans_redeem_all_V17))
+        CHECK_ERROR(_readMethod_loans_redeem_all_V17(c, &method->nested.loans_redeem_all_V17))
         break;
     case 12813: /* module 50 call 13 */
-        CHECK_ERROR(_readMethod_loans_borrow_V17(c, &method->basic.loans_borrow_V17))
+        CHECK_ERROR(_readMethod_loans_borrow_V17(c, &method->nested.loans_borrow_V17))
         break;
     case 12814: /* module 50 call 14 */
-        CHECK_ERROR(_readMethod_loans_repay_borrow_V17(c, &method->basic.loans_repay_borrow_V17))
+        CHECK_ERROR(_readMethod_loans_repay_borrow_V17(c, &method->nested.loans_repay_borrow_V17))
         break;
     case 12815: /* module 50 call 15 */
-        CHECK_ERROR(_readMethod_loans_repay_borrow_all_V17(c, &method->basic.loans_repay_borrow_all_V17))
+        CHECK_ERROR(_readMethod_loans_repay_borrow_all_V17(c, &method->nested.loans_repay_borrow_all_V17))
         break;
     case 12816: /* module 50 call 16 */
-        CHECK_ERROR(_readMethod_loans_collateral_asset_V17(c, &method->basic.loans_collateral_asset_V17))
+        CHECK_ERROR(_readMethod_loans_collateral_asset_V17(c, &method->nested.loans_collateral_asset_V17))
         break;
     case 12817: /* module 50 call 17 */
-        CHECK_ERROR(_readMethod_loans_liquidate_borrow_V17(c, &method->basic.loans_liquidate_borrow_V17))
+        CHECK_ERROR(_readMethod_loans_liquidate_borrow_V17(c, &method->nested.loans_liquidate_borrow_V17))
         break;
     case 12818: /* module 50 call 18 */
-        CHECK_ERROR(_readMethod_loans_add_reserves_V17(c, &method->basic.loans_add_reserves_V17))
+        CHECK_ERROR(_readMethod_loans_add_reserves_V17(c, &method->nested.loans_add_reserves_V17))
         break;
     case 12819: /* module 50 call 19 */
-        CHECK_ERROR(_readMethod_loans_reduce_reserves_V17(c, &method->basic.loans_reduce_reserves_V17))
+        CHECK_ERROR(_readMethod_loans_reduce_reserves_V17(c, &method->nested.loans_reduce_reserves_V17))
         break;
     case 12820: /* module 50 call 20 */
-        CHECK_ERROR(_readMethod_loans_reduce_incentive_reserves_V17(c, &method->basic.loans_reduce_incentive_reserves_V17))
+        CHECK_ERROR(_readMethod_loans_reduce_incentive_reserves_V17(c, &method->nested.loans_reduce_incentive_reserves_V17))
         break;
     case 12821: /* module 50 call 21 */
-        CHECK_ERROR(_readMethod_loans_update_liquidation_free_collateral_V17(c, &method->basic.loans_update_liquidation_free_collateral_V17))
+        CHECK_ERROR(_readMethod_loans_update_liquidation_free_collateral_V17(c, &method->nested.loans_update_liquidation_free_collateral_V17))
         break;
     case 13056: /* module 51 call 0 */
         CHECK_ERROR(_readMethod_prices_set_price_V17(c, &method->basic.prices_set_price_V17))
@@ -2649,64 +2668,64 @@ parser_error_t _readMethod_V17(
         CHECK_ERROR(_readMethod_crowdloans_refund_for_V17(c, &method->basic.crowdloans_refund_for_V17))
         break;
     case 15360: /* module 60 call 0 */
-        CHECK_ERROR(_readMethod_liquidstaking_stake_V17(c, &method->basic.liquidstaking_stake_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_stake_V17(c, &method->nested.liquidstaking_stake_V17))
         break;
     case 15361: /* module 60 call 1 */
-        CHECK_ERROR(_readMethod_liquidstaking_unstake_V17(c, &method->basic.liquidstaking_unstake_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_unstake_V17(c, &method->nested.liquidstaking_unstake_V17))
         break;
     case 15362: /* module 60 call 2 */
-        CHECK_ERROR(_readMethod_liquidstaking_update_reserve_factor_V17(c, &method->basic.liquidstaking_update_reserve_factor_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_update_reserve_factor_V17(c, &method->nested.liquidstaking_update_reserve_factor_V17))
         break;
     case 15363: /* module 60 call 3 */
-        CHECK_ERROR(_readMethod_liquidstaking_update_staking_ledger_cap_V17(c, &method->basic.liquidstaking_update_staking_ledger_cap_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_update_staking_ledger_cap_V17(c, &method->nested.liquidstaking_update_staking_ledger_cap_V17))
         break;
     case 15364: /* module 60 call 4 */
-        CHECK_ERROR(_readMethod_liquidstaking_bond_V17(c, &method->basic.liquidstaking_bond_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_bond_V17(c, &method->nested.liquidstaking_bond_V17))
         break;
     case 15365: /* module 60 call 5 */
-        CHECK_ERROR(_readMethod_liquidstaking_bond_extra_V17(c, &method->basic.liquidstaking_bond_extra_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_bond_extra_V17(c, &method->nested.liquidstaking_bond_extra_V17))
         break;
     case 15366: /* module 60 call 6 */
-        CHECK_ERROR(_readMethod_liquidstaking_unbond_V17(c, &method->basic.liquidstaking_unbond_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_unbond_V17(c, &method->nested.liquidstaking_unbond_V17))
         break;
     case 15367: /* module 60 call 7 */
-        CHECK_ERROR(_readMethod_liquidstaking_rebond_V17(c, &method->basic.liquidstaking_rebond_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_rebond_V17(c, &method->nested.liquidstaking_rebond_V17))
         break;
     case 15368: /* module 60 call 8 */
-        CHECK_ERROR(_readMethod_liquidstaking_withdraw_unbonded_V17(c, &method->basic.liquidstaking_withdraw_unbonded_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_withdraw_unbonded_V17(c, &method->nested.liquidstaking_withdraw_unbonded_V17))
         break;
     case 15369: /* module 60 call 9 */
-        CHECK_ERROR(_readMethod_liquidstaking_nominate_V17(c, &method->basic.liquidstaking_nominate_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_nominate_V17(c, &method->nested.liquidstaking_nominate_V17))
         break;
     case 15371: /* module 60 call 11 */
-        CHECK_ERROR(_readMethod_liquidstaking_claim_for_V17(c, &method->basic.liquidstaking_claim_for_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_claim_for_V17(c, &method->nested.liquidstaking_claim_for_V17))
         break;
     case 15372: /* module 60 call 12 */
-        CHECK_ERROR(_readMethod_liquidstaking_force_set_era_start_block_V17(c, &method->basic.liquidstaking_force_set_era_start_block_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_force_set_era_start_block_V17(c, &method->nested.liquidstaking_force_set_era_start_block_V17))
         break;
     case 15373: /* module 60 call 13 */
-        CHECK_ERROR(_readMethod_liquidstaking_force_set_current_era_V17(c, &method->basic.liquidstaking_force_set_current_era_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_force_set_current_era_V17(c, &method->nested.liquidstaking_force_set_current_era_V17))
         break;
     case 15374: /* module 60 call 14 */
-        CHECK_ERROR(_readMethod_liquidstaking_force_advance_era_V17(c, &method->basic.liquidstaking_force_advance_era_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_force_advance_era_V17(c, &method->nested.liquidstaking_force_advance_era_V17))
         break;
     case 15375: /* module 60 call 15 */
-        CHECK_ERROR(_readMethod_liquidstaking_force_matching_V17(c, &method->basic.liquidstaking_force_matching_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_force_matching_V17(c, &method->nested.liquidstaking_force_matching_V17))
         break;
     case 15376: /* module 60 call 16 */
-        CHECK_ERROR(_readMethod_liquidstaking_force_set_staking_ledger_V17(c, &method->basic.liquidstaking_force_set_staking_ledger_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_force_set_staking_ledger_V17(c, &method->nested.liquidstaking_force_set_staking_ledger_V17))
         break;
     case 15377: /* module 60 call 17 */
-        CHECK_ERROR(_readMethod_liquidstaking_set_current_era_V17(c, &method->basic.liquidstaking_set_current_era_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_set_current_era_V17(c, &method->nested.liquidstaking_set_current_era_V17))
         break;
     case 15378: /* module 60 call 18 */
-        CHECK_ERROR(_readMethod_liquidstaking_set_staking_ledger_V17(c, &method->basic.liquidstaking_set_staking_ledger_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_set_staking_ledger_V17(c, &method->nested.liquidstaking_set_staking_ledger_V17))
         break;
     case 15379: /* module 60 call 19 */
-        CHECK_ERROR(_readMethod_liquidstaking_reduce_reserves_V17(c, &method->basic.liquidstaking_reduce_reserves_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_reduce_reserves_V17(c, &method->nested.liquidstaking_reduce_reserves_V17))
         break;
     case 15380: /* module 60 call 20 */
-        CHECK_ERROR(_readMethod_liquidstaking_cancel_unstake_V17(c, &method->basic.liquidstaking_cancel_unstake_V17))
+        CHECK_ERROR(_readMethod_liquidstaking_cancel_unstake_V17(c, &method->nested.liquidstaking_cancel_unstake_V17))
         break;
     case 17920: /* module 70 call 0 */
         CHECK_ERROR(_readMethod_generalcouncilmembership_add_member_V17(c, &method->basic.generalcouncilmembership_add_member_V17))
@@ -2918,6 +2937,9 @@ parser_error_t _readMethod_V17(
     case 23560: /* module 92 call 8 */
         CHECK_ERROR(_readMethod_farming_dispatch_reward_V17(c, &method->basic.farming_dispatch_reward_V17))
         break;
+    case 23808: /* module 93 call 0 */
+        CHECK_ERROR(_readMethod_xcmhelper_update_xcm_weight_fee_V17(c, &method->basic.xcmhelper_update_xcm_weight_fee_V17))
+        break;
     case 24067: /* module 94 call 3 */
         CHECK_ERROR(_readMethod_streaming_set_minimum_deposit_V17(c, &method->basic.streaming_set_minimum_deposit_V17))
         break;
@@ -3014,6 +3036,8 @@ const char* _getMethod_ModuleName_V17(uint8_t moduleIdx)
         return STR_MO_EMERGENCYSHUTDOWN;
     case 92:
         return STR_MO_FARMING;
+    case 93:
+        return STR_MO_XCMHELPER;
     case 94:
         return STR_MO_STREAMING;
     case 20:
@@ -3251,6 +3275,8 @@ const char* _getMethod_Name_V17_ParserFull(uint16_t callPrivIdx)
     case 3586: /* module 14 call 2 */
         return STR_ME_APPROVE_PROPOSAL;
     case 3587: /* module 14 call 3 */
+        return STR_ME_SPEND;
+    case 3588: /* module 14 call 4 */
         return STR_ME_REMOVE_APPROVAL;
     case 4096: /* module 16 call 0 */
         return STR_ME_NOTE_PREIMAGE;
@@ -3566,6 +3592,8 @@ const char* _getMethod_Name_V17_ParserFull(uint16_t callPrivIdx)
         return STR_ME_CLAIM;
     case 23560: /* module 92 call 8 */
         return STR_ME_DISPATCH_REWARD;
+    case 23808: /* module 93 call 0 */
+        return STR_ME_UPDATE_XCM_WEIGHT_FEE;
     case 24067: /* module 94 call 3 */
         return STR_ME_SET_MINIMUM_DEPOSIT;
     case 5122: /* module 20 call 2 */
@@ -3795,6 +3823,8 @@ uint8_t _getMethod_NumItems_V17(uint8_t moduleIdx, uint8_t callIdx)
     case 3586: /* module 14 call 2 */
         return 1;
     case 3587: /* module 14 call 3 */
+        return 2;
+    case 3588: /* module 14 call 4 */
         return 1;
     case 4096: /* module 16 call 0 */
         return 1;
@@ -4110,6 +4140,8 @@ uint8_t _getMethod_NumItems_V17(uint8_t moduleIdx, uint8_t callIdx)
         return 3;
     case 23560: /* module 92 call 8 */
         return 6;
+    case 23808: /* module 93 call 0 */
+        return 2;
     case 24067: /* module 94 call 3 */
         return 2;
     case 5122: /* module 20 call 2 */
@@ -5085,6 +5117,15 @@ const char* _getMethod_ItemName_V17(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
             return NULL;
         }
     case 3587: /* module 14 call 3 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_amount;
+        case 1:
+            return STR_IT_beneficiary;
+        default:
+            return NULL;
+        }
+    case 3588: /* module 14 call 4 */
         switch (itemIdx) {
         case 0:
             return STR_IT_proposal_id;
@@ -6445,6 +6486,15 @@ const char* _getMethod_ItemName_V17(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
             return STR_IT_amount;
         case 5:
             return STR_IT_reward_duration;
+        default:
+            return NULL;
+        }
+    case 23808: /* module 93 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_xcm_call;
+        case 1:
+            return STR_IT_xcm_weight_fee_misc;
         default:
             return NULL;
         }
@@ -8096,6 +8146,21 @@ parser_error_t _getMethod_ItemValue_V17(
         }
     case 3587: /* module 14 call 3 */
         switch (itemIdx) {
+        case 0: /* treasury_spend_V17 - amount */;
+            return _toStringCompactBalance(
+                &m->basic.treasury_spend_V17.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* treasury_spend_V17 - beneficiary */;
+            return _toStringLookupasStaticLookupSource_V17(
+                &m->basic.treasury_spend_V17.beneficiary,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 3588: /* module 14 call 4 */
+        switch (itemIdx) {
         case 0: /* treasury_remove_approval_V17 - proposal_id */;
             return _toStringCompactu32(
                 &m->basic.treasury_remove_approval_V17.proposal_id,
@@ -8292,7 +8357,7 @@ parser_error_t _getMethod_ItemValue_V17(
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* xtokens_transfer_V17 - amount */;
-            return _toStringBalance(
+            return _toStringu128(
                 &m->basic.xtokens_transfer_V17.amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
@@ -8358,12 +8423,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_add_market_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_add_market_V17.asset_id,
+                &m->nested.loans_add_market_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* loans_add_market_V17 - market */;
             return _toStringMarketBalanceOfT_V17(
-                &m->basic.loans_add_market_V17.market,
+                &m->nested.loans_add_market_V17.market,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8373,7 +8438,7 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_activate_market_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_activate_market_V17.asset_id,
+                &m->nested.loans_activate_market_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8383,12 +8448,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_update_rate_model_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_update_rate_model_V17.asset_id,
+                &m->nested.loans_update_rate_model_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* loans_update_rate_model_V17 - rate_model */;
             return _toStringInterestRateModel_V17(
-                &m->basic.loans_update_rate_model_V17.rate_model,
+                &m->nested.loans_update_rate_model_V17.rate_model,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8398,47 +8463,47 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_update_market_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_update_market_V17.asset_id,
+                &m->nested.loans_update_market_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* loans_update_market_V17 - collateral_factor */;
             return _toStringOptionRatio_V17(
-                &m->basic.loans_update_market_V17.collateral_factor,
+                &m->nested.loans_update_market_V17.collateral_factor,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 2: /* loans_update_market_V17 - liquidation_threshold */;
             return _toStringOptionRatio_V17(
-                &m->basic.loans_update_market_V17.liquidation_threshold,
+                &m->nested.loans_update_market_V17.liquidation_threshold,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 3: /* loans_update_market_V17 - reserve_factor */;
             return _toStringOptionRatio_V17(
-                &m->basic.loans_update_market_V17.reserve_factor,
+                &m->nested.loans_update_market_V17.reserve_factor,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 4: /* loans_update_market_V17 - close_factor */;
             return _toStringOptionRatio_V17(
-                &m->basic.loans_update_market_V17.close_factor,
+                &m->nested.loans_update_market_V17.close_factor,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 5: /* loans_update_market_V17 - liquidate_incentive_reserved_factor */;
             return _toStringOptionRatio_V17(
-                &m->basic.loans_update_market_V17.liquidate_incentive_reserved_factor,
+                &m->nested.loans_update_market_V17.liquidate_incentive_reserved_factor,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 6: /* loans_update_market_V17 - liquidate_incentive */;
             return _toStringOptionRate_V17(
-                &m->basic.loans_update_market_V17.liquidate_incentive,
+                &m->nested.loans_update_market_V17.liquidate_incentive,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 7: /* loans_update_market_V17 - supply_cap */;
             return _toStringOptionBalance(
-                &m->basic.loans_update_market_V17.supply_cap,
+                &m->nested.loans_update_market_V17.supply_cap,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 8: /* loans_update_market_V17 - borrow_cap */;
             return _toStringOptionBalance(
-                &m->basic.loans_update_market_V17.borrow_cap,
+                &m->nested.loans_update_market_V17.borrow_cap,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8448,12 +8513,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_force_update_market_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_force_update_market_V17.asset_id,
+                &m->nested.loans_force_update_market_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* loans_force_update_market_V17 - market */;
             return _toStringMarketBalanceOfT_V17(
-                &m->basic.loans_force_update_market_V17.market,
+                &m->nested.loans_force_update_market_V17.market,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8463,7 +8528,7 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_add_reward_V17 - amount */;
             return _toStringBalance(
-                &m->basic.loans_add_reward_V17.amount,
+                &m->nested.loans_add_reward_V17.amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8473,12 +8538,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_withdraw_missing_reward_V17 - target_account */;
             return _toStringLookupasStaticLookupSource_V17(
-                &m->basic.loans_withdraw_missing_reward_V17.target_account,
+                &m->nested.loans_withdraw_missing_reward_V17.target_account,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* loans_withdraw_missing_reward_V17 - amount */;
             return _toStringBalance(
-                &m->basic.loans_withdraw_missing_reward_V17.amount,
+                &m->nested.loans_withdraw_missing_reward_V17.amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8488,17 +8553,17 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_update_market_reward_speed_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_update_market_reward_speed_V17.asset_id,
+                &m->nested.loans_update_market_reward_speed_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* loans_update_market_reward_speed_V17 - supply_reward_per_block */;
             return _toStringOptionBalance(
-                &m->basic.loans_update_market_reward_speed_V17.supply_reward_per_block,
+                &m->nested.loans_update_market_reward_speed_V17.supply_reward_per_block,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 2: /* loans_update_market_reward_speed_V17 - borrow_reward_per_block */;
             return _toStringOptionBalance(
-                &m->basic.loans_update_market_reward_speed_V17.borrow_reward_per_block,
+                &m->nested.loans_update_market_reward_speed_V17.borrow_reward_per_block,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8513,7 +8578,7 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_claim_reward_for_market_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_claim_reward_for_market_V17.asset_id,
+                &m->nested.loans_claim_reward_for_market_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8523,12 +8588,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_mint_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_mint_V17.asset_id,
+                &m->nested.loans_mint_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* loans_mint_V17 - mint_amount */;
             return _toStringCompactu128(
-                &m->basic.loans_mint_V17.mint_amount,
+                &m->nested.loans_mint_V17.mint_amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8538,12 +8603,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_redeem_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_redeem_V17.asset_id,
+                &m->nested.loans_redeem_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* loans_redeem_V17 - redeem_amount */;
             return _toStringCompactu128(
-                &m->basic.loans_redeem_V17.redeem_amount,
+                &m->nested.loans_redeem_V17.redeem_amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8553,7 +8618,7 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_redeem_all_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_redeem_all_V17.asset_id,
+                &m->nested.loans_redeem_all_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8563,12 +8628,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_borrow_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_borrow_V17.asset_id,
+                &m->nested.loans_borrow_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* loans_borrow_V17 - borrow_amount */;
             return _toStringCompactu128(
-                &m->basic.loans_borrow_V17.borrow_amount,
+                &m->nested.loans_borrow_V17.borrow_amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8578,12 +8643,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_repay_borrow_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_repay_borrow_V17.asset_id,
+                &m->nested.loans_repay_borrow_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* loans_repay_borrow_V17 - repay_amount */;
             return _toStringCompactu128(
-                &m->basic.loans_repay_borrow_V17.repay_amount,
+                &m->nested.loans_repay_borrow_V17.repay_amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8593,7 +8658,7 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_repay_borrow_all_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_repay_borrow_all_V17.asset_id,
+                &m->nested.loans_repay_borrow_all_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8603,12 +8668,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_collateral_asset_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_collateral_asset_V17.asset_id,
+                &m->nested.loans_collateral_asset_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* loans_collateral_asset_V17 - enable */;
             return _toStringbool(
-                &m->basic.loans_collateral_asset_V17.enable,
+                &m->nested.loans_collateral_asset_V17.enable,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8618,22 +8683,22 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_liquidate_borrow_V17 - borrower */;
             return _toStringAccountId_V17(
-                &m->basic.loans_liquidate_borrow_V17.borrower,
+                &m->nested.loans_liquidate_borrow_V17.borrower,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* loans_liquidate_borrow_V17 - liquidation_asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_liquidate_borrow_V17.liquidation_asset_id,
+                &m->nested.loans_liquidate_borrow_V17.liquidation_asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 2: /* loans_liquidate_borrow_V17 - repay_amount */;
             return _toStringCompactu128(
-                &m->basic.loans_liquidate_borrow_V17.repay_amount,
+                &m->nested.loans_liquidate_borrow_V17.repay_amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 3: /* loans_liquidate_borrow_V17 - collateral_asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_liquidate_borrow_V17.collateral_asset_id,
+                &m->nested.loans_liquidate_borrow_V17.collateral_asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8643,17 +8708,17 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_add_reserves_V17 - payer */;
             return _toStringLookupasStaticLookupSource_V17(
-                &m->basic.loans_add_reserves_V17.payer,
+                &m->nested.loans_add_reserves_V17.payer,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* loans_add_reserves_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_add_reserves_V17.asset_id,
+                &m->nested.loans_add_reserves_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 2: /* loans_add_reserves_V17 - add_amount */;
             return _toStringCompactu128(
-                &m->basic.loans_add_reserves_V17.add_amount,
+                &m->nested.loans_add_reserves_V17.add_amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8663,17 +8728,17 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_reduce_reserves_V17 - receiver */;
             return _toStringLookupasStaticLookupSource_V17(
-                &m->basic.loans_reduce_reserves_V17.receiver,
+                &m->nested.loans_reduce_reserves_V17.receiver,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* loans_reduce_reserves_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_reduce_reserves_V17.asset_id,
+                &m->nested.loans_reduce_reserves_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 2: /* loans_reduce_reserves_V17 - reduce_amount */;
             return _toStringCompactu128(
-                &m->basic.loans_reduce_reserves_V17.reduce_amount,
+                &m->nested.loans_reduce_reserves_V17.reduce_amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8683,17 +8748,17 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_reduce_incentive_reserves_V17 - receiver */;
             return _toStringLookupasStaticLookupSource_V17(
-                &m->basic.loans_reduce_incentive_reserves_V17.receiver,
+                &m->nested.loans_reduce_incentive_reserves_V17.receiver,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* loans_reduce_incentive_reserves_V17 - asset_id */;
             return _toStringAssetIdOfT_V17(
-                &m->basic.loans_reduce_incentive_reserves_V17.asset_id,
+                &m->nested.loans_reduce_incentive_reserves_V17.asset_id,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 2: /* loans_reduce_incentive_reserves_V17 - redeem_amount */;
             return _toStringCompactu128(
-                &m->basic.loans_reduce_incentive_reserves_V17.redeem_amount,
+                &m->nested.loans_reduce_incentive_reserves_V17.redeem_amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -8703,7 +8768,7 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* loans_update_liquidation_free_collateral_V17 - collaterals */;
             return _toStringVecAssetIdOf_V17(
-                &m->basic.loans_update_liquidation_free_collateral_V17.collaterals,
+                &m->nested.loans_update_liquidation_free_collateral_V17.collaterals,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9093,7 +9158,7 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_stake_V17 - amount */;
             return _toStringCompactu128(
-                &m->basic.liquidstaking_stake_V17.amount,
+                &m->nested.liquidstaking_stake_V17.amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9103,12 +9168,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_unstake_V17 - liquid_amount */;
             return _toStringCompactu128(
-                &m->basic.liquidstaking_unstake_V17.liquid_amount,
+                &m->nested.liquidstaking_unstake_V17.liquid_amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* liquidstaking_unstake_V17 - unstake_provider */;
             return _toStringUnstakeProvider_V17(
-                &m->basic.liquidstaking_unstake_V17.unstake_provider,
+                &m->nested.liquidstaking_unstake_V17.unstake_provider,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9118,7 +9183,7 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_update_reserve_factor_V17 - reserve_factor */;
             return _toStringRatio_V17(
-                &m->basic.liquidstaking_update_reserve_factor_V17.reserve_factor,
+                &m->nested.liquidstaking_update_reserve_factor_V17.reserve_factor,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9128,7 +9193,7 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_update_staking_ledger_cap_V17 - cap */;
             return _toStringCompactu128(
-                &m->basic.liquidstaking_update_staking_ledger_cap_V17.cap,
+                &m->nested.liquidstaking_update_staking_ledger_cap_V17.cap,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9138,17 +9203,17 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_bond_V17 - derivative_index */;
             return _toStringDerivativeIndex_V17(
-                &m->basic.liquidstaking_bond_V17.derivative_index,
+                &m->nested.liquidstaking_bond_V17.derivative_index,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* liquidstaking_bond_V17 - amount */;
             return _toStringCompactu128(
-                &m->basic.liquidstaking_bond_V17.amount,
+                &m->nested.liquidstaking_bond_V17.amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 2: /* liquidstaking_bond_V17 - payee */;
             return _toStringRewardDestination_V17(
-                &m->basic.liquidstaking_bond_V17.payee,
+                &m->nested.liquidstaking_bond_V17.payee,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9158,12 +9223,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_bond_extra_V17 - derivative_index */;
             return _toStringDerivativeIndex_V17(
-                &m->basic.liquidstaking_bond_extra_V17.derivative_index,
+                &m->nested.liquidstaking_bond_extra_V17.derivative_index,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* liquidstaking_bond_extra_V17 - amount */;
             return _toStringCompactu128(
-                &m->basic.liquidstaking_bond_extra_V17.amount,
+                &m->nested.liquidstaking_bond_extra_V17.amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9173,12 +9238,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_unbond_V17 - derivative_index */;
             return _toStringDerivativeIndex_V17(
-                &m->basic.liquidstaking_unbond_V17.derivative_index,
+                &m->nested.liquidstaking_unbond_V17.derivative_index,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* liquidstaking_unbond_V17 - amount */;
             return _toStringCompactu128(
-                &m->basic.liquidstaking_unbond_V17.amount,
+                &m->nested.liquidstaking_unbond_V17.amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9188,12 +9253,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_rebond_V17 - derivative_index */;
             return _toStringDerivativeIndex_V17(
-                &m->basic.liquidstaking_rebond_V17.derivative_index,
+                &m->nested.liquidstaking_rebond_V17.derivative_index,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* liquidstaking_rebond_V17 - amount */;
             return _toStringCompactu128(
-                &m->basic.liquidstaking_rebond_V17.amount,
+                &m->nested.liquidstaking_rebond_V17.amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9203,12 +9268,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_withdraw_unbonded_V17 - derivative_index */;
             return _toStringDerivativeIndex_V17(
-                &m->basic.liquidstaking_withdraw_unbonded_V17.derivative_index,
+                &m->nested.liquidstaking_withdraw_unbonded_V17.derivative_index,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* liquidstaking_withdraw_unbonded_V17 - num_slashing_spans */;
             return _toStringu32(
-                &m->basic.liquidstaking_withdraw_unbonded_V17.num_slashing_spans,
+                &m->nested.liquidstaking_withdraw_unbonded_V17.num_slashing_spans,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9218,12 +9283,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_nominate_V17 - derivative_index */;
             return _toStringDerivativeIndex_V17(
-                &m->basic.liquidstaking_nominate_V17.derivative_index,
+                &m->nested.liquidstaking_nominate_V17.derivative_index,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* liquidstaking_nominate_V17 - targets */;
             return _toStringVecAccountId_V17(
-                &m->basic.liquidstaking_nominate_V17.targets,
+                &m->nested.liquidstaking_nominate_V17.targets,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9233,7 +9298,7 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_claim_for_V17 - dest */;
             return _toStringLookupasStaticLookupSource_V17(
-                &m->basic.liquidstaking_claim_for_V17.dest,
+                &m->nested.liquidstaking_claim_for_V17.dest,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9243,7 +9308,7 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_force_set_era_start_block_V17 - block_number */;
             return _toStringBlockNumber(
-                &m->basic.liquidstaking_force_set_era_start_block_V17.block_number,
+                &m->nested.liquidstaking_force_set_era_start_block_V17.block_number,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9253,7 +9318,7 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_force_set_current_era_V17 - era */;
             return _toStringEraIndex_V17(
-                &m->basic.liquidstaking_force_set_current_era_V17.era,
+                &m->nested.liquidstaking_force_set_current_era_V17.era,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9263,7 +9328,7 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_force_advance_era_V17 - offset */;
             return _toStringEraIndex_V17(
-                &m->basic.liquidstaking_force_advance_era_V17.offset,
+                &m->nested.liquidstaking_force_advance_era_V17.offset,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9278,12 +9343,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_force_set_staking_ledger_V17 - derivative_index */;
             return _toStringDerivativeIndex_V17(
-                &m->basic.liquidstaking_force_set_staking_ledger_V17.derivative_index,
+                &m->nested.liquidstaking_force_set_staking_ledger_V17.derivative_index,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* liquidstaking_force_set_staking_ledger_V17 - staking_ledger */;
             return _toStringStakingLedgerAccountIdBalanceOfT_V17(
-                &m->basic.liquidstaking_force_set_staking_ledger_V17.staking_ledger,
+                &m->nested.liquidstaking_force_set_staking_ledger_V17.staking_ledger,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9293,12 +9358,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_set_current_era_V17 - era */;
             return _toStringEraIndex_V17(
-                &m->basic.liquidstaking_set_current_era_V17.era,
+                &m->nested.liquidstaking_set_current_era_V17.era,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* liquidstaking_set_current_era_V17 - proof */;
             return _toStringVecVecu8(
-                &m->basic.liquidstaking_set_current_era_V17.proof,
+                &m->nested.liquidstaking_set_current_era_V17.proof,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9308,17 +9373,17 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_set_staking_ledger_V17 - derivative_index */;
             return _toStringDerivativeIndex_V17(
-                &m->basic.liquidstaking_set_staking_ledger_V17.derivative_index,
+                &m->nested.liquidstaking_set_staking_ledger_V17.derivative_index,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* liquidstaking_set_staking_ledger_V17 - staking_ledger */;
             return _toStringStakingLedgerAccountIdBalanceOfT_V17(
-                &m->basic.liquidstaking_set_staking_ledger_V17.staking_ledger,
+                &m->nested.liquidstaking_set_staking_ledger_V17.staking_ledger,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 2: /* liquidstaking_set_staking_ledger_V17 - proof */;
             return _toStringVecVecu8(
-                &m->basic.liquidstaking_set_staking_ledger_V17.proof,
+                &m->nested.liquidstaking_set_staking_ledger_V17.proof,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9328,12 +9393,12 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_reduce_reserves_V17 - receiver */;
             return _toStringLookupasStaticLookupSource_V17(
-                &m->basic.liquidstaking_reduce_reserves_V17.receiver,
+                &m->nested.liquidstaking_reduce_reserves_V17.receiver,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 1: /* liquidstaking_reduce_reserves_V17 - reduce_amount */;
             return _toStringCompactu128(
-                &m->basic.liquidstaking_reduce_reserves_V17.reduce_amount,
+                &m->nested.liquidstaking_reduce_reserves_V17.reduce_amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -9343,7 +9408,7 @@ parser_error_t _getMethod_ItemValue_V17(
         switch (itemIdx) {
         case 0: /* liquidstaking_cancel_unstake_V17 - amount */;
             return _toStringCompactu128(
-                &m->basic.liquidstaking_cancel_unstake_V17.amount,
+                &m->nested.liquidstaking_cancel_unstake_V17.amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -10212,7 +10277,7 @@ parser_error_t _getMethod_ItemValue_V17(
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 3: /* farming_deposit_V17 - amount */;
-            return _toStringBalance(
+            return _toStringu128(
                 &m->basic.farming_deposit_V17.amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
@@ -10237,7 +10302,7 @@ parser_error_t _getMethod_ItemValue_V17(
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 3: /* farming_withdraw_V17 - amount */;
-            return _toStringBalance(
+            return _toStringu128(
                 &m->basic.farming_withdraw_V17.amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
@@ -10307,13 +10372,28 @@ parser_error_t _getMethod_ItemValue_V17(
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 4: /* farming_dispatch_reward_V17 - amount */;
-            return _toStringBalance(
+            return _toStringu128(
                 &m->basic.farming_dispatch_reward_V17.amount,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         case 5: /* farming_dispatch_reward_V17 - reward_duration */;
             return _toStringBlockNumber(
                 &m->basic.farming_dispatch_reward_V17.reward_duration,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 23808: /* module 93 call 0 */
+        switch (itemIdx) {
+        case 0: /* xcmhelper_update_xcm_weight_fee_V17 - xcm_call */;
+            return _toStringXcmCall_V17(
+                &m->basic.xcmhelper_update_xcm_weight_fee_V17.xcm_call,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* xcmhelper_update_xcm_weight_fee_V17 - xcm_weight_fee_misc */;
+            return _toStringXcmWeightFeeMiscWeightBalanceOfT_V17(
+                &m->basic.xcmhelper_update_xcm_weight_fee_V17.xcm_weight_fee_misc,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -10465,7 +10545,8 @@ bool _getMethod_IsNestingSupported_V17(uint8_t moduleIdx, uint8_t callIdx)
     case 3584: // Treasury:Propose spend
     case 3585: // Treasury:Reject proposal
     case 3586: // Treasury:Approve proposal
-    case 3587: // Treasury:Remove approval
+    case 3587: // Treasury:Spend
+    case 3588: // Treasury:Remove approval
     case 4096: // Preimage:Note preimage
     case 4097: // Preimage:Unnote preimage
     case 4098: // Preimage:Request preimage
@@ -10492,28 +10573,6 @@ bool _getMethod_IsNestingSupported_V17(uint8_t moduleIdx, uint8_t callIdx)
     case 11777: // Vesting:Vested transfer
     case 11778: // Vesting:Update vesting schedules
     case 11779: // Vesting:Claim for
-    case 12800: // Loans:Add market
-    case 12801: // Loans:Activate market
-    case 12802: // Loans:Update rate model
-    case 12803: // Loans:Update market
-    case 12804: // Loans:Force update market
-    case 12805: // Loans:Add reward
-    case 12806: // Loans:Withdraw missing reward
-    case 12807: // Loans:Update market reward speed
-    case 12808: // Loans:Claim reward
-    case 12809: // Loans:Claim reward for market
-    case 12810: // Loans:Mint
-    case 12811: // Loans:Redeem
-    case 12812: // Loans:Redeem all
-    case 12813: // Loans:Borrow
-    case 12814: // Loans:Repay borrow
-    case 12815: // Loans:Repay borrow all
-    case 12816: // Loans:Collateral asset
-    case 12817: // Loans:Liquidate borrow
-    case 12818: // Loans:Add reserves
-    case 12819: // Loans:Reduce reserves
-    case 12820: // Loans:Reduce incentive reserves
-    case 12821: // Loans:Update liquidation free collateral
     case 13056: // Prices:Set price
     case 13057: // Prices:Reset price
     case 13312: // Crowdloans:Create vault
@@ -10535,26 +10594,6 @@ bool _getMethod_IsNestingSupported_V17(uint8_t moduleIdx, uint8_t callIdx)
     case 13329: // Crowdloans:Refund
     case 13330: // Crowdloans:Dissolve vault
     case 13331: // Crowdloans:Refund for
-    case 15360: // LiquidStaking:Stake
-    case 15361: // LiquidStaking:Unstake
-    case 15362: // LiquidStaking:Update reserve factor
-    case 15363: // LiquidStaking:Update staking ledger cap
-    case 15364: // LiquidStaking:Bond
-    case 15365: // LiquidStaking:Bond extra
-    case 15366: // LiquidStaking:Unbond
-    case 15367: // LiquidStaking:Rebond
-    case 15368: // LiquidStaking:Withdraw Unbonded
-    case 15369: // LiquidStaking:Nominate
-    case 15371: // LiquidStaking:Claim for
-    case 15372: // LiquidStaking:Force set era start block
-    case 15373: // LiquidStaking:Force set current era
-    case 15374: // LiquidStaking:Force advance era
-    case 15375: // LiquidStaking:Force matching
-    case 15376: // LiquidStaking:Force set staking ledger
-    case 15377: // LiquidStaking:Set current era
-    case 15378: // LiquidStaking:Set staking ledger
-    case 15379: // LiquidStaking:Reduce reserves
-    case 15380: // LiquidStaking:Cancel unstake
     case 17920: // GeneralCouncilMembership:Add member
     case 17921: // GeneralCouncilMembership:Remove member
     case 17922: // GeneralCouncilMembership:Swap member
@@ -10625,6 +10664,7 @@ bool _getMethod_IsNestingSupported_V17(uint8_t moduleIdx, uint8_t callIdx)
     case 23558: // Farming:Redeem
     case 23559: // Farming:Claim
     case 23560: // Farming:Dispatch reward
+    case 23808: // XcmHelper:Update xcm weight fee
     case 24067: // Streaming:Set minimum deposit
     case 5122: // ParachainSystem:Authorize upgrade
     case 5123: // ParachainSystem:Enact authorized upgrade
