@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  (c) 2019 - 2022 Zondax GmbH
+ *  (c) 2019 - 2022 Zondax AG
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -452,6 +452,16 @@ typedef struct {
     const uint8_t* _ptr;
     uint64_t _lenBuffer;
 } pd_VecVestingScheduleOf_V17_t;
+
+typedef struct {
+    uint8_t value;
+    pd_MultiLocationV1_V17_t sibling;
+} pd_XcmCall_V17_t;
+
+typedef struct {
+    uint64_t weight;
+    pd_Balance_t fee;
+} pd_XcmWeightFeeMiscWeightBalanceOfT_V17_t;
 
 typedef struct {
     uint32_t value;

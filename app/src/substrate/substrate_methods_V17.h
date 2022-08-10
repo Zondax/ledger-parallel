@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  (c) 2019 - 2022 Zondax GmbH
+ *  (c) 2019 - 2022 Zondax AG
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -61,6 +61,7 @@ extern "C" {
 #define PD_CALL_BRIDGE_V17 90
 #define PD_CALL_EMERGENCYSHUTDOWN_V17 91
 #define PD_CALL_FARMING_V17 92
+#define PD_CALL_XCMHELPER_V17 93
 #define PD_CALL_STREAMING_V17 94
 #define PD_CALL_PARACHAINSYSTEM_V17 20
 
@@ -603,7 +604,13 @@ typedef struct {
     pd_Compactu32_t proposal_id;
 } pd_treasury_approve_proposal_V17_t;
 
-#define PD_CALL_TREASURY_REMOVE_APPROVAL_V17 3
+#define PD_CALL_TREASURY_SPEND_V17 3
+typedef struct {
+    pd_CompactBalance_t amount;
+    pd_LookupasStaticLookupSource_V17_t beneficiary;
+} pd_treasury_spend_V17_t;
+
+#define PD_CALL_TREASURY_REMOVE_APPROVAL_V17 4
 typedef struct {
     pd_Compactu32_t proposal_id;
 } pd_treasury_remove_approval_V17_t;
@@ -704,7 +711,7 @@ typedef struct {
 #define PD_CALL_XTOKENS_TRANSFER_V17 0
 typedef struct {
     pd_CurrencyId_V17_t currency_id;
-    pd_Balance_t amount;
+    pd_u128_t amount;
     pd_BoxVersionedMultiLocation_V17_t dest;
     pd_Weight_V17_t dest_weight;
 } pd_xtokens_transfer_V17_t;
@@ -729,143 +736,6 @@ typedef struct {
 typedef struct {
     pd_LookupasStaticLookupSource_V17_t dest;
 } pd_vesting_claim_for_V17_t;
-
-#define PD_CALL_LOANS_ADD_MARKET_V17 0
-typedef struct {
-    pd_AssetIdOfT_V17_t asset_id;
-    pd_MarketBalanceOfT_V17_t market;
-} pd_loans_add_market_V17_t;
-
-#define PD_CALL_LOANS_ACTIVATE_MARKET_V17 1
-typedef struct {
-    pd_AssetIdOfT_V17_t asset_id;
-} pd_loans_activate_market_V17_t;
-
-#define PD_CALL_LOANS_UPDATE_RATE_MODEL_V17 2
-typedef struct {
-    pd_AssetIdOfT_V17_t asset_id;
-    pd_InterestRateModel_V17_t rate_model;
-} pd_loans_update_rate_model_V17_t;
-
-#define PD_CALL_LOANS_UPDATE_MARKET_V17 3
-typedef struct {
-    pd_AssetIdOfT_V17_t asset_id;
-    pd_OptionRatio_V17_t collateral_factor;
-    pd_OptionRatio_V17_t liquidation_threshold;
-    pd_OptionRatio_V17_t reserve_factor;
-    pd_OptionRatio_V17_t close_factor;
-    pd_OptionRatio_V17_t liquidate_incentive_reserved_factor;
-    pd_OptionRate_V17_t liquidate_incentive;
-    pd_OptionBalance_t supply_cap;
-    pd_OptionBalance_t borrow_cap;
-} pd_loans_update_market_V17_t;
-
-#define PD_CALL_LOANS_FORCE_UPDATE_MARKET_V17 4
-typedef struct {
-    pd_AssetIdOfT_V17_t asset_id;
-    pd_MarketBalanceOfT_V17_t market;
-} pd_loans_force_update_market_V17_t;
-
-#define PD_CALL_LOANS_ADD_REWARD_V17 5
-typedef struct {
-    pd_Balance_t amount;
-} pd_loans_add_reward_V17_t;
-
-#define PD_CALL_LOANS_WITHDRAW_MISSING_REWARD_V17 6
-typedef struct {
-    pd_LookupasStaticLookupSource_V17_t target_account;
-    pd_Balance_t amount;
-} pd_loans_withdraw_missing_reward_V17_t;
-
-#define PD_CALL_LOANS_UPDATE_MARKET_REWARD_SPEED_V17 7
-typedef struct {
-    pd_AssetIdOfT_V17_t asset_id;
-    pd_OptionBalance_t supply_reward_per_block;
-    pd_OptionBalance_t borrow_reward_per_block;
-} pd_loans_update_market_reward_speed_V17_t;
-
-#define PD_CALL_LOANS_CLAIM_REWARD_V17 8
-typedef struct {
-} pd_loans_claim_reward_V17_t;
-
-#define PD_CALL_LOANS_CLAIM_REWARD_FOR_MARKET_V17 9
-typedef struct {
-    pd_AssetIdOfT_V17_t asset_id;
-} pd_loans_claim_reward_for_market_V17_t;
-
-#define PD_CALL_LOANS_MINT_V17 10
-typedef struct {
-    pd_AssetIdOfT_V17_t asset_id;
-    pd_Compactu128_t mint_amount;
-} pd_loans_mint_V17_t;
-
-#define PD_CALL_LOANS_REDEEM_V17 11
-typedef struct {
-    pd_AssetIdOfT_V17_t asset_id;
-    pd_Compactu128_t redeem_amount;
-} pd_loans_redeem_V17_t;
-
-#define PD_CALL_LOANS_REDEEM_ALL_V17 12
-typedef struct {
-    pd_AssetIdOfT_V17_t asset_id;
-} pd_loans_redeem_all_V17_t;
-
-#define PD_CALL_LOANS_BORROW_V17 13
-typedef struct {
-    pd_AssetIdOfT_V17_t asset_id;
-    pd_Compactu128_t borrow_amount;
-} pd_loans_borrow_V17_t;
-
-#define PD_CALL_LOANS_REPAY_BORROW_V17 14
-typedef struct {
-    pd_AssetIdOfT_V17_t asset_id;
-    pd_Compactu128_t repay_amount;
-} pd_loans_repay_borrow_V17_t;
-
-#define PD_CALL_LOANS_REPAY_BORROW_ALL_V17 15
-typedef struct {
-    pd_AssetIdOfT_V17_t asset_id;
-} pd_loans_repay_borrow_all_V17_t;
-
-#define PD_CALL_LOANS_COLLATERAL_ASSET_V17 16
-typedef struct {
-    pd_AssetIdOfT_V17_t asset_id;
-    pd_bool_t enable;
-} pd_loans_collateral_asset_V17_t;
-
-#define PD_CALL_LOANS_LIQUIDATE_BORROW_V17 17
-typedef struct {
-    pd_AccountId_V17_t borrower;
-    pd_AssetIdOfT_V17_t liquidation_asset_id;
-    pd_Compactu128_t repay_amount;
-    pd_AssetIdOfT_V17_t collateral_asset_id;
-} pd_loans_liquidate_borrow_V17_t;
-
-#define PD_CALL_LOANS_ADD_RESERVES_V17 18
-typedef struct {
-    pd_LookupasStaticLookupSource_V17_t payer;
-    pd_AssetIdOfT_V17_t asset_id;
-    pd_Compactu128_t add_amount;
-} pd_loans_add_reserves_V17_t;
-
-#define PD_CALL_LOANS_REDUCE_RESERVES_V17 19
-typedef struct {
-    pd_LookupasStaticLookupSource_V17_t receiver;
-    pd_AssetIdOfT_V17_t asset_id;
-    pd_Compactu128_t reduce_amount;
-} pd_loans_reduce_reserves_V17_t;
-
-#define PD_CALL_LOANS_REDUCE_INCENTIVE_RESERVES_V17 20
-typedef struct {
-    pd_LookupasStaticLookupSource_V17_t receiver;
-    pd_AssetIdOfT_V17_t asset_id;
-    pd_Compactu128_t redeem_amount;
-} pd_loans_reduce_incentive_reserves_V17_t;
-
-#define PD_CALL_LOANS_UPDATE_LIQUIDATION_FREE_COLLATERAL_V17 21
-typedef struct {
-    pd_VecAssetIdOf_V17_t collaterals;
-} pd_loans_update_liquidation_free_collateral_V17_t;
 
 #define PD_CALL_PRICES_SET_PRICE_V17 0
 typedef struct {
@@ -1005,118 +875,6 @@ typedef struct {
     pd_LeasePeriod_V17_t lease_start;
     pd_LeasePeriod_V17_t lease_end;
 } pd_crowdloans_refund_for_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_STAKE_V17 0
-typedef struct {
-    pd_Compactu128_t amount;
-} pd_liquidstaking_stake_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_UNSTAKE_V17 1
-typedef struct {
-    pd_Compactu128_t liquid_amount;
-    pd_UnstakeProvider_V17_t unstake_provider;
-} pd_liquidstaking_unstake_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_UPDATE_RESERVE_FACTOR_V17 2
-typedef struct {
-    pd_Ratio_V17_t reserve_factor;
-} pd_liquidstaking_update_reserve_factor_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_UPDATE_STAKING_LEDGER_CAP_V17 3
-typedef struct {
-    pd_Compactu128_t cap;
-} pd_liquidstaking_update_staking_ledger_cap_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_BOND_V17 4
-typedef struct {
-    pd_DerivativeIndex_V17_t derivative_index;
-    pd_Compactu128_t amount;
-    pd_RewardDestination_V17_t payee;
-} pd_liquidstaking_bond_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_BOND_EXTRA_V17 5
-typedef struct {
-    pd_DerivativeIndex_V17_t derivative_index;
-    pd_Compactu128_t amount;
-} pd_liquidstaking_bond_extra_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_UNBOND_V17 6
-typedef struct {
-    pd_DerivativeIndex_V17_t derivative_index;
-    pd_Compactu128_t amount;
-} pd_liquidstaking_unbond_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_REBOND_V17 7
-typedef struct {
-    pd_DerivativeIndex_V17_t derivative_index;
-    pd_Compactu128_t amount;
-} pd_liquidstaking_rebond_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_WITHDRAW_UNBONDED_V17 8
-typedef struct {
-    pd_DerivativeIndex_V17_t derivative_index;
-    pd_u32_t num_slashing_spans;
-} pd_liquidstaking_withdraw_unbonded_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_NOMINATE_V17 9
-typedef struct {
-    pd_DerivativeIndex_V17_t derivative_index;
-    pd_VecAccountId_V17_t targets;
-} pd_liquidstaking_nominate_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_CLAIM_FOR_V17 11
-typedef struct {
-    pd_LookupasStaticLookupSource_V17_t dest;
-} pd_liquidstaking_claim_for_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_FORCE_SET_ERA_START_BLOCK_V17 12
-typedef struct {
-    pd_BlockNumber_t block_number;
-} pd_liquidstaking_force_set_era_start_block_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_FORCE_SET_CURRENT_ERA_V17 13
-typedef struct {
-    pd_EraIndex_V17_t era;
-} pd_liquidstaking_force_set_current_era_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_FORCE_ADVANCE_ERA_V17 14
-typedef struct {
-    pd_EraIndex_V17_t offset;
-} pd_liquidstaking_force_advance_era_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_FORCE_MATCHING_V17 15
-typedef struct {
-} pd_liquidstaking_force_matching_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_FORCE_SET_STAKING_LEDGER_V17 16
-typedef struct {
-    pd_DerivativeIndex_V17_t derivative_index;
-    pd_StakingLedgerAccountIdBalanceOfT_V17_t staking_ledger;
-} pd_liquidstaking_force_set_staking_ledger_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_SET_CURRENT_ERA_V17 17
-typedef struct {
-    pd_EraIndex_V17_t era;
-    pd_VecVecu8_t proof;
-} pd_liquidstaking_set_current_era_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_SET_STAKING_LEDGER_V17 18
-typedef struct {
-    pd_DerivativeIndex_V17_t derivative_index;
-    pd_StakingLedgerAccountIdBalanceOfT_V17_t staking_ledger;
-    pd_VecVecu8_t proof;
-} pd_liquidstaking_set_staking_ledger_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_REDUCE_RESERVES_V17 19
-typedef struct {
-    pd_LookupasStaticLookupSource_V17_t receiver;
-    pd_Compactu128_t reduce_amount;
-} pd_liquidstaking_reduce_reserves_V17_t;
-
-#define PD_CALL_LIQUIDSTAKING_CANCEL_UNSTAKE_V17 20
-typedef struct {
-    pd_Compactu128_t amount;
-} pd_liquidstaking_cancel_unstake_V17_t;
 
 #define PD_CALL_GENERALCOUNCILMEMBERSHIP_ADD_MEMBER_V17 0
 typedef struct {
@@ -1487,7 +1245,7 @@ typedef struct {
     pd_AssetIdOfT_V17_t asset;
     pd_AssetIdOfT_V17_t reward_asset;
     pd_BlockNumber_t lock_duration;
-    pd_Balance_t amount;
+    pd_u128_t amount;
 } pd_farming_deposit_V17_t;
 
 #define PD_CALL_FARMING_WITHDRAW_V17 5
@@ -1495,7 +1253,7 @@ typedef struct {
     pd_AssetIdOfT_V17_t asset;
     pd_AssetIdOfT_V17_t reward_asset;
     pd_BlockNumber_t lock_duration;
-    pd_Balance_t amount;
+    pd_u128_t amount;
 } pd_farming_withdraw_V17_t;
 
 #define PD_CALL_FARMING_REDEEM_V17 6
@@ -1518,9 +1276,15 @@ typedef struct {
     pd_AssetIdOfT_V17_t reward_asset;
     pd_BlockNumber_t lock_duration;
     pd_LookupasStaticLookupSource_V17_t payer;
-    pd_Balance_t amount;
+    pd_u128_t amount;
     pd_BlockNumber_t reward_duration;
 } pd_farming_dispatch_reward_V17_t;
+
+#define PD_CALL_XCMHELPER_UPDATE_XCM_WEIGHT_FEE_V17 0
+typedef struct {
+    pd_XcmCall_V17_t xcm_call;
+    pd_XcmWeightFeeMiscWeightBalanceOfT_V17_t xcm_weight_fee_misc;
+} pd_xcmhelper_update_xcm_weight_fee_V17_t;
 
 #define PD_CALL_STREAMING_SET_MINIMUM_DEPOSIT_V17 3
 typedef struct {
@@ -1631,6 +1395,7 @@ typedef union {
     pd_treasury_propose_spend_V17_t treasury_propose_spend_V17;
     pd_treasury_reject_proposal_V17_t treasury_reject_proposal_V17;
     pd_treasury_approve_proposal_V17_t treasury_approve_proposal_V17;
+    pd_treasury_spend_V17_t treasury_spend_V17;
     pd_treasury_remove_approval_V17_t treasury_remove_approval_V17;
     pd_preimage_note_preimage_V17_t preimage_note_preimage_V17;
     pd_preimage_unnote_preimage_V17_t preimage_unnote_preimage_V17;
@@ -1656,28 +1421,6 @@ typedef union {
     pd_vesting_vested_transfer_V17_t vesting_vested_transfer_V17;
     pd_vesting_update_vesting_schedules_V17_t vesting_update_vesting_schedules_V17;
     pd_vesting_claim_for_V17_t vesting_claim_for_V17;
-    pd_loans_add_market_V17_t loans_add_market_V17;
-    pd_loans_activate_market_V17_t loans_activate_market_V17;
-    pd_loans_update_rate_model_V17_t loans_update_rate_model_V17;
-    pd_loans_update_market_V17_t loans_update_market_V17;
-    pd_loans_force_update_market_V17_t loans_force_update_market_V17;
-    pd_loans_add_reward_V17_t loans_add_reward_V17;
-    pd_loans_withdraw_missing_reward_V17_t loans_withdraw_missing_reward_V17;
-    pd_loans_update_market_reward_speed_V17_t loans_update_market_reward_speed_V17;
-    pd_loans_claim_reward_V17_t loans_claim_reward_V17;
-    pd_loans_claim_reward_for_market_V17_t loans_claim_reward_for_market_V17;
-    pd_loans_mint_V17_t loans_mint_V17;
-    pd_loans_redeem_V17_t loans_redeem_V17;
-    pd_loans_redeem_all_V17_t loans_redeem_all_V17;
-    pd_loans_borrow_V17_t loans_borrow_V17;
-    pd_loans_repay_borrow_V17_t loans_repay_borrow_V17;
-    pd_loans_repay_borrow_all_V17_t loans_repay_borrow_all_V17;
-    pd_loans_collateral_asset_V17_t loans_collateral_asset_V17;
-    pd_loans_liquidate_borrow_V17_t loans_liquidate_borrow_V17;
-    pd_loans_add_reserves_V17_t loans_add_reserves_V17;
-    pd_loans_reduce_reserves_V17_t loans_reduce_reserves_V17;
-    pd_loans_reduce_incentive_reserves_V17_t loans_reduce_incentive_reserves_V17;
-    pd_loans_update_liquidation_free_collateral_V17_t loans_update_liquidation_free_collateral_V17;
     pd_prices_set_price_V17_t prices_set_price_V17;
     pd_prices_reset_price_V17_t prices_reset_price_V17;
     pd_crowdloans_create_vault_V17_t crowdloans_create_vault_V17;
@@ -1699,26 +1442,6 @@ typedef union {
     pd_crowdloans_refund_V17_t crowdloans_refund_V17;
     pd_crowdloans_dissolve_vault_V17_t crowdloans_dissolve_vault_V17;
     pd_crowdloans_refund_for_V17_t crowdloans_refund_for_V17;
-    pd_liquidstaking_stake_V17_t liquidstaking_stake_V17;
-    pd_liquidstaking_unstake_V17_t liquidstaking_unstake_V17;
-    pd_liquidstaking_update_reserve_factor_V17_t liquidstaking_update_reserve_factor_V17;
-    pd_liquidstaking_update_staking_ledger_cap_V17_t liquidstaking_update_staking_ledger_cap_V17;
-    pd_liquidstaking_bond_V17_t liquidstaking_bond_V17;
-    pd_liquidstaking_bond_extra_V17_t liquidstaking_bond_extra_V17;
-    pd_liquidstaking_unbond_V17_t liquidstaking_unbond_V17;
-    pd_liquidstaking_rebond_V17_t liquidstaking_rebond_V17;
-    pd_liquidstaking_withdraw_unbonded_V17_t liquidstaking_withdraw_unbonded_V17;
-    pd_liquidstaking_nominate_V17_t liquidstaking_nominate_V17;
-    pd_liquidstaking_claim_for_V17_t liquidstaking_claim_for_V17;
-    pd_liquidstaking_force_set_era_start_block_V17_t liquidstaking_force_set_era_start_block_V17;
-    pd_liquidstaking_force_set_current_era_V17_t liquidstaking_force_set_current_era_V17;
-    pd_liquidstaking_force_advance_era_V17_t liquidstaking_force_advance_era_V17;
-    pd_liquidstaking_force_matching_V17_t liquidstaking_force_matching_V17;
-    pd_liquidstaking_force_set_staking_ledger_V17_t liquidstaking_force_set_staking_ledger_V17;
-    pd_liquidstaking_set_current_era_V17_t liquidstaking_set_current_era_V17;
-    pd_liquidstaking_set_staking_ledger_V17_t liquidstaking_set_staking_ledger_V17;
-    pd_liquidstaking_reduce_reserves_V17_t liquidstaking_reduce_reserves_V17;
-    pd_liquidstaking_cancel_unstake_V17_t liquidstaking_cancel_unstake_V17;
     pd_generalcouncilmembership_add_member_V17_t generalcouncilmembership_add_member_V17;
     pd_generalcouncilmembership_remove_member_V17_t generalcouncilmembership_remove_member_V17;
     pd_generalcouncilmembership_swap_member_V17_t generalcouncilmembership_swap_member_V17;
@@ -1789,6 +1512,7 @@ typedef union {
     pd_farming_redeem_V17_t farming_redeem_V17;
     pd_farming_claim_V17_t farming_claim_V17;
     pd_farming_dispatch_reward_V17_t farming_dispatch_reward_V17;
+    pd_xcmhelper_update_xcm_weight_fee_V17_t xcmhelper_update_xcm_weight_fee_V17;
     pd_streaming_set_minimum_deposit_V17_t streaming_set_minimum_deposit_V17;
     pd_parachainsystem_authorize_upgrade_V17_t parachainsystem_authorize_upgrade_V17;
     pd_parachainsystem_enact_authorized_upgrade_V17_t parachainsystem_enact_authorized_upgrade_V17;
@@ -1892,6 +1616,255 @@ typedef struct {
     pd_Call_t call;
 } pd_proxy_proxy_V17_t;
 
+#define PD_CALL_LOANS_ADD_MARKET_V17 0
+typedef struct {
+    pd_AssetIdOfT_V17_t asset_id;
+    pd_MarketBalanceOfT_V17_t market;
+} pd_loans_add_market_V17_t;
+
+#define PD_CALL_LOANS_ACTIVATE_MARKET_V17 1
+typedef struct {
+    pd_AssetIdOfT_V17_t asset_id;
+} pd_loans_activate_market_V17_t;
+
+#define PD_CALL_LOANS_UPDATE_RATE_MODEL_V17 2
+typedef struct {
+    pd_AssetIdOfT_V17_t asset_id;
+    pd_InterestRateModel_V17_t rate_model;
+} pd_loans_update_rate_model_V17_t;
+
+#define PD_CALL_LOANS_UPDATE_MARKET_V17 3
+typedef struct {
+    pd_AssetIdOfT_V17_t asset_id;
+    pd_OptionRatio_V17_t collateral_factor;
+    pd_OptionRatio_V17_t liquidation_threshold;
+    pd_OptionRatio_V17_t reserve_factor;
+    pd_OptionRatio_V17_t close_factor;
+    pd_OptionRatio_V17_t liquidate_incentive_reserved_factor;
+    pd_OptionRate_V17_t liquidate_incentive;
+    pd_OptionBalance_t supply_cap;
+    pd_OptionBalance_t borrow_cap;
+} pd_loans_update_market_V17_t;
+
+#define PD_CALL_LOANS_FORCE_UPDATE_MARKET_V17 4
+typedef struct {
+    pd_AssetIdOfT_V17_t asset_id;
+    pd_MarketBalanceOfT_V17_t market;
+} pd_loans_force_update_market_V17_t;
+
+#define PD_CALL_LOANS_ADD_REWARD_V17 5
+typedef struct {
+    pd_Balance_t amount;
+} pd_loans_add_reward_V17_t;
+
+#define PD_CALL_LOANS_WITHDRAW_MISSING_REWARD_V17 6
+typedef struct {
+    pd_LookupasStaticLookupSource_V17_t target_account;
+    pd_Balance_t amount;
+} pd_loans_withdraw_missing_reward_V17_t;
+
+#define PD_CALL_LOANS_UPDATE_MARKET_REWARD_SPEED_V17 7
+typedef struct {
+    pd_AssetIdOfT_V17_t asset_id;
+    pd_OptionBalance_t supply_reward_per_block;
+    pd_OptionBalance_t borrow_reward_per_block;
+} pd_loans_update_market_reward_speed_V17_t;
+
+#define PD_CALL_LOANS_CLAIM_REWARD_V17 8
+typedef struct {
+} pd_loans_claim_reward_V17_t;
+
+#define PD_CALL_LOANS_CLAIM_REWARD_FOR_MARKET_V17 9
+typedef struct {
+    pd_AssetIdOfT_V17_t asset_id;
+} pd_loans_claim_reward_for_market_V17_t;
+
+#define PD_CALL_LOANS_MINT_V17 10
+typedef struct {
+    pd_AssetIdOfT_V17_t asset_id;
+    pd_Compactu128_t mint_amount;
+} pd_loans_mint_V17_t;
+
+#define PD_CALL_LOANS_REDEEM_V17 11
+typedef struct {
+    pd_AssetIdOfT_V17_t asset_id;
+    pd_Compactu128_t redeem_amount;
+} pd_loans_redeem_V17_t;
+
+#define PD_CALL_LOANS_REDEEM_ALL_V17 12
+typedef struct {
+    pd_AssetIdOfT_V17_t asset_id;
+} pd_loans_redeem_all_V17_t;
+
+#define PD_CALL_LOANS_BORROW_V17 13
+typedef struct {
+    pd_AssetIdOfT_V17_t asset_id;
+    pd_Compactu128_t borrow_amount;
+} pd_loans_borrow_V17_t;
+
+#define PD_CALL_LOANS_REPAY_BORROW_V17 14
+typedef struct {
+    pd_AssetIdOfT_V17_t asset_id;
+    pd_Compactu128_t repay_amount;
+} pd_loans_repay_borrow_V17_t;
+
+#define PD_CALL_LOANS_REPAY_BORROW_ALL_V17 15
+typedef struct {
+    pd_AssetIdOfT_V17_t asset_id;
+} pd_loans_repay_borrow_all_V17_t;
+
+#define PD_CALL_LOANS_COLLATERAL_ASSET_V17 16
+typedef struct {
+    pd_AssetIdOfT_V17_t asset_id;
+    pd_bool_t enable;
+} pd_loans_collateral_asset_V17_t;
+
+#define PD_CALL_LOANS_LIQUIDATE_BORROW_V17 17
+typedef struct {
+    pd_AccountId_V17_t borrower;
+    pd_AssetIdOfT_V17_t liquidation_asset_id;
+    pd_Compactu128_t repay_amount;
+    pd_AssetIdOfT_V17_t collateral_asset_id;
+} pd_loans_liquidate_borrow_V17_t;
+
+#define PD_CALL_LOANS_ADD_RESERVES_V17 18
+typedef struct {
+    pd_LookupasStaticLookupSource_V17_t payer;
+    pd_AssetIdOfT_V17_t asset_id;
+    pd_Compactu128_t add_amount;
+} pd_loans_add_reserves_V17_t;
+
+#define PD_CALL_LOANS_REDUCE_RESERVES_V17 19
+typedef struct {
+    pd_LookupasStaticLookupSource_V17_t receiver;
+    pd_AssetIdOfT_V17_t asset_id;
+    pd_Compactu128_t reduce_amount;
+} pd_loans_reduce_reserves_V17_t;
+
+#define PD_CALL_LOANS_REDUCE_INCENTIVE_RESERVES_V17 20
+typedef struct {
+    pd_LookupasStaticLookupSource_V17_t receiver;
+    pd_AssetIdOfT_V17_t asset_id;
+    pd_Compactu128_t redeem_amount;
+} pd_loans_reduce_incentive_reserves_V17_t;
+
+#define PD_CALL_LOANS_UPDATE_LIQUIDATION_FREE_COLLATERAL_V17 21
+typedef struct {
+    pd_VecAssetIdOf_V17_t collaterals;
+} pd_loans_update_liquidation_free_collateral_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_STAKE_V17 0
+typedef struct {
+    pd_Compactu128_t amount;
+} pd_liquidstaking_stake_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_UNSTAKE_V17 1
+typedef struct {
+    pd_Compactu128_t liquid_amount;
+    pd_UnstakeProvider_V17_t unstake_provider;
+} pd_liquidstaking_unstake_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_UPDATE_RESERVE_FACTOR_V17 2
+typedef struct {
+    pd_Ratio_V17_t reserve_factor;
+} pd_liquidstaking_update_reserve_factor_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_UPDATE_STAKING_LEDGER_CAP_V17 3
+typedef struct {
+    pd_Compactu128_t cap;
+} pd_liquidstaking_update_staking_ledger_cap_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_BOND_V17 4
+typedef struct {
+    pd_DerivativeIndex_V17_t derivative_index;
+    pd_Compactu128_t amount;
+    pd_RewardDestination_V17_t payee;
+} pd_liquidstaking_bond_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_BOND_EXTRA_V17 5
+typedef struct {
+    pd_DerivativeIndex_V17_t derivative_index;
+    pd_Compactu128_t amount;
+} pd_liquidstaking_bond_extra_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_UNBOND_V17 6
+typedef struct {
+    pd_DerivativeIndex_V17_t derivative_index;
+    pd_Compactu128_t amount;
+} pd_liquidstaking_unbond_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_REBOND_V17 7
+typedef struct {
+    pd_DerivativeIndex_V17_t derivative_index;
+    pd_Compactu128_t amount;
+} pd_liquidstaking_rebond_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_WITHDRAW_UNBONDED_V17 8
+typedef struct {
+    pd_DerivativeIndex_V17_t derivative_index;
+    pd_u32_t num_slashing_spans;
+} pd_liquidstaking_withdraw_unbonded_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_NOMINATE_V17 9
+typedef struct {
+    pd_DerivativeIndex_V17_t derivative_index;
+    pd_VecAccountId_V17_t targets;
+} pd_liquidstaking_nominate_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_CLAIM_FOR_V17 11
+typedef struct {
+    pd_LookupasStaticLookupSource_V17_t dest;
+} pd_liquidstaking_claim_for_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_FORCE_SET_ERA_START_BLOCK_V17 12
+typedef struct {
+    pd_BlockNumber_t block_number;
+} pd_liquidstaking_force_set_era_start_block_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_FORCE_SET_CURRENT_ERA_V17 13
+typedef struct {
+    pd_EraIndex_V17_t era;
+} pd_liquidstaking_force_set_current_era_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_FORCE_ADVANCE_ERA_V17 14
+typedef struct {
+    pd_EraIndex_V17_t offset;
+} pd_liquidstaking_force_advance_era_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_FORCE_MATCHING_V17 15
+typedef struct {
+} pd_liquidstaking_force_matching_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_FORCE_SET_STAKING_LEDGER_V17 16
+typedef struct {
+    pd_DerivativeIndex_V17_t derivative_index;
+    pd_StakingLedgerAccountIdBalanceOfT_V17_t staking_ledger;
+} pd_liquidstaking_force_set_staking_ledger_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_SET_CURRENT_ERA_V17 17
+typedef struct {
+    pd_EraIndex_V17_t era;
+    pd_VecVecu8_t proof;
+} pd_liquidstaking_set_current_era_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_SET_STAKING_LEDGER_V17 18
+typedef struct {
+    pd_DerivativeIndex_V17_t derivative_index;
+    pd_StakingLedgerAccountIdBalanceOfT_V17_t staking_ledger;
+    pd_VecVecu8_t proof;
+} pd_liquidstaking_set_staking_ledger_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_REDUCE_RESERVES_V17 19
+typedef struct {
+    pd_LookupasStaticLookupSource_V17_t receiver;
+    pd_Compactu128_t reduce_amount;
+} pd_liquidstaking_reduce_reserves_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_CANCEL_UNSTAKE_V17 20
+typedef struct {
+    pd_Compactu128_t amount;
+} pd_liquidstaking_cancel_unstake_V17_t;
+
 #endif
 
 typedef union {
@@ -1911,6 +1884,48 @@ typedef union {
     pd_multisig_cancel_as_multi_V17_t multisig_cancel_as_multi_V17;
     pd_balances_set_balance_V17_t balances_set_balance_V17;
     pd_proxy_proxy_V17_t proxy_proxy_V17;
+    pd_loans_add_market_V17_t loans_add_market_V17;
+    pd_loans_activate_market_V17_t loans_activate_market_V17;
+    pd_loans_update_rate_model_V17_t loans_update_rate_model_V17;
+    pd_loans_update_market_V17_t loans_update_market_V17;
+    pd_loans_force_update_market_V17_t loans_force_update_market_V17;
+    pd_loans_add_reward_V17_t loans_add_reward_V17;
+    pd_loans_withdraw_missing_reward_V17_t loans_withdraw_missing_reward_V17;
+    pd_loans_update_market_reward_speed_V17_t loans_update_market_reward_speed_V17;
+    pd_loans_claim_reward_V17_t loans_claim_reward_V17;
+    pd_loans_claim_reward_for_market_V17_t loans_claim_reward_for_market_V17;
+    pd_loans_mint_V17_t loans_mint_V17;
+    pd_loans_redeem_V17_t loans_redeem_V17;
+    pd_loans_redeem_all_V17_t loans_redeem_all_V17;
+    pd_loans_borrow_V17_t loans_borrow_V17;
+    pd_loans_repay_borrow_V17_t loans_repay_borrow_V17;
+    pd_loans_repay_borrow_all_V17_t loans_repay_borrow_all_V17;
+    pd_loans_collateral_asset_V17_t loans_collateral_asset_V17;
+    pd_loans_liquidate_borrow_V17_t loans_liquidate_borrow_V17;
+    pd_loans_add_reserves_V17_t loans_add_reserves_V17;
+    pd_loans_reduce_reserves_V17_t loans_reduce_reserves_V17;
+    pd_loans_reduce_incentive_reserves_V17_t loans_reduce_incentive_reserves_V17;
+    pd_loans_update_liquidation_free_collateral_V17_t loans_update_liquidation_free_collateral_V17;
+    pd_liquidstaking_stake_V17_t liquidstaking_stake_V17;
+    pd_liquidstaking_unstake_V17_t liquidstaking_unstake_V17;
+    pd_liquidstaking_update_reserve_factor_V17_t liquidstaking_update_reserve_factor_V17;
+    pd_liquidstaking_update_staking_ledger_cap_V17_t liquidstaking_update_staking_ledger_cap_V17;
+    pd_liquidstaking_bond_V17_t liquidstaking_bond_V17;
+    pd_liquidstaking_bond_extra_V17_t liquidstaking_bond_extra_V17;
+    pd_liquidstaking_unbond_V17_t liquidstaking_unbond_V17;
+    pd_liquidstaking_rebond_V17_t liquidstaking_rebond_V17;
+    pd_liquidstaking_withdraw_unbonded_V17_t liquidstaking_withdraw_unbonded_V17;
+    pd_liquidstaking_nominate_V17_t liquidstaking_nominate_V17;
+    pd_liquidstaking_claim_for_V17_t liquidstaking_claim_for_V17;
+    pd_liquidstaking_force_set_era_start_block_V17_t liquidstaking_force_set_era_start_block_V17;
+    pd_liquidstaking_force_set_current_era_V17_t liquidstaking_force_set_current_era_V17;
+    pd_liquidstaking_force_advance_era_V17_t liquidstaking_force_advance_era_V17;
+    pd_liquidstaking_force_matching_V17_t liquidstaking_force_matching_V17;
+    pd_liquidstaking_force_set_staking_ledger_V17_t liquidstaking_force_set_staking_ledger_V17;
+    pd_liquidstaking_set_current_era_V17_t liquidstaking_set_current_era_V17;
+    pd_liquidstaking_set_staking_ledger_V17_t liquidstaking_set_staking_ledger_V17;
+    pd_liquidstaking_reduce_reserves_V17_t liquidstaking_reduce_reserves_V17;
+    pd_liquidstaking_cancel_unstake_V17_t liquidstaking_cancel_unstake_V17;
 #endif
 } pd_MethodNested_V17_t;
 

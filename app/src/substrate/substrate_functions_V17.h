@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  (c) 2019 - 2022 Zondax GmbH
+ *  (c) 2019 - 2022 Zondax AG
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -113,6 +113,8 @@ parser_error_t _readVecUnlockChunk_V17(parser_context_t* c, pd_VecUnlockChunk_V1
 parser_error_t _readVecVestingScheduleOf_V17(parser_context_t* c, pd_VecVestingScheduleOf_V17_t* v);
 parser_error_t _readVestingScheduleOf_V17(parser_context_t* c, pd_VestingScheduleOf_V17_t* v);
 parser_error_t _readWeight_V17(parser_context_t* c, pd_Weight_V17_t* v);
+parser_error_t _readXcmCall_V17(parser_context_t* c, pd_XcmCall_V17_t* v);
+parser_error_t _readXcmWeightFeeMiscWeightBalanceOfT_V17(parser_context_t* c, pd_XcmWeightFeeMiscWeightBalanceOfT_V17_t* v);
 parser_error_t _readu8_array_32_V17(parser_context_t* c, pd_u8_array_32_V17_t* v);
 
 // toString functions
@@ -720,6 +722,20 @@ parser_error_t _toStringVestingScheduleOf_V17(
 
 parser_error_t _toStringWeight_V17(
     const pd_Weight_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringXcmCall_V17(
+    const pd_XcmCall_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringXcmWeightFeeMiscWeightBalanceOfT_V17(
+    const pd_XcmWeightFeeMiscWeightBalanceOfT_V17_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,

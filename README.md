@@ -28,7 +28,7 @@ Please:
 - **Do not use in production**
 - **Do not use a Ledger device with funds for development purposes.**
 - **Have a separate and marked device that is used ONLY for development and testing**
-# Parallel  17.189.x
+# Parallel  17.190.x
 
 ## System
 
@@ -204,6 +204,7 @@ Please:
 |Propose spend |    | :heavy_check_mark: |   | `CompactBalance` amount <br/>`LookupasStaticLookupSource` beneficiary <br/> |
 |Reject proposal |    | :heavy_check_mark: |   | `Compactu32` proposal_id <br/> |
 |Approve proposal |    | :heavy_check_mark: |   | `Compactu32` proposal_id <br/> |
+|Spend |    | :heavy_check_mark: |   | `CompactBalance` amount <br/>`LookupasStaticLookupSource` beneficiary <br/> |
 |Remove approval |    | :heavy_check_mark: |   | `Compactu32` proposal_id <br/> |
 
 ## Scheduler
@@ -299,11 +300,11 @@ Please:
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Transfer |    | :heavy_check_mark: |   | `CurrencyId` currency_id <br/>`Balance` amount <br/>`BoxVersionedMultiLocation` dest <br/>`Weight` dest_weight <br/> |
+|Transfer |    | :heavy_check_mark: |   | `CurrencyId` currency_id <br/>`u128` amount <br/>`BoxVersionedMultiLocation` dest <br/>`Weight` dest_weight <br/> |
 |Transfer multiasset |    |   |   | `BoxVersionedMultiAsset` asset <br/>`BoxVersionedMultiLocation` dest <br/>`Weight` dest_weight <br/> |
-|Transfer with fee |    |   |   | `CurrencyId` currency_id <br/>`Balance` amount <br/>`Balance` fee <br/>`BoxVersionedMultiLocation` dest <br/>`Weight` dest_weight <br/> |
+|Transfer with fee |    |   |   | `CurrencyId` currency_id <br/>`u128` amount <br/>`u128` fee <br/>`BoxVersionedMultiLocation` dest <br/>`Weight` dest_weight <br/> |
 |Transfer multiasset with fee |    |   |   | `BoxVersionedMultiAsset` asset <br/>`BoxVersionedMultiAsset` fee <br/>`BoxVersionedMultiLocation` dest <br/>`Weight` dest_weight <br/> |
-|Transfer multicurrencies |    |   |   | `VecTupleCurrencyIdBalance` currencies <br/>`u32` fee_item <br/>`BoxVersionedMultiLocation` dest <br/>`Weight` dest_weight <br/> |
+|Transfer multicurrencies |    |   |   | `VecTupleCurrencyIdu128` currencies <br/>`u32` fee_item <br/>`BoxVersionedMultiLocation` dest <br/>`Weight` dest_weight <br/> |
 |Transfer multiassets |    |   |   | `BoxVersionedMultiAssets` assets <br/>`u32` fee_item <br/>`BoxVersionedMultiLocation` dest <br/>`Weight` dest_weight <br/> |
 
 ## OrmlXcm
@@ -325,28 +326,28 @@ Please:
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Add market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`MarketBalanceOfT` market <br/> |
-|Activate market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/> |
-|Update rate model |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`InterestRateModel` rate_model <br/> |
-|Update market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`OptionRatio` collateral_factor <br/>`OptionRatio` liquidation_threshold <br/>`OptionRatio` reserve_factor <br/>`OptionRatio` close_factor <br/>`OptionRatio` liquidate_incentive_reserved_factor <br/>`OptionRate` liquidate_incentive <br/>`OptionBalance` supply_cap <br/>`OptionBalance` borrow_cap <br/> |
-|Force update market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`MarketBalanceOfT` market <br/> |
-|Add reward |    | :heavy_check_mark: |   | `Balance` amount <br/> |
-|Withdraw missing reward |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` target_account <br/>`Balance` amount <br/> |
-|Update market reward speed |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`OptionBalance` supply_reward_per_block <br/>`OptionBalance` borrow_reward_per_block <br/> |
-|Claim reward |    | :heavy_check_mark: |   |  |
-|Claim reward for market |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/> |
-|Mint |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Compactu128` mint_amount <br/> |
-|Redeem |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Compactu128` redeem_amount <br/> |
-|Redeem all |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/> |
-|Borrow |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Compactu128` borrow_amount <br/> |
-|Repay borrow |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Compactu128` repay_amount <br/> |
-|Repay borrow all |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/> |
-|Collateral asset |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`bool` enable <br/> |
-|Liquidate borrow |    | :heavy_check_mark: |   | `AccountId` borrower <br/>`AssetIdOfT` liquidation_asset_id <br/>`Compactu128` repay_amount <br/>`AssetIdOfT` collateral_asset_id <br/> |
-|Add reserves |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` payer <br/>`AssetIdOfT` asset_id <br/>`Compactu128` add_amount <br/> |
-|Reduce reserves |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` receiver <br/>`AssetIdOfT` asset_id <br/>`Compactu128` reduce_amount <br/> |
-|Reduce incentive reserves |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` receiver <br/>`AssetIdOfT` asset_id <br/>`Compactu128` redeem_amount <br/> |
-|Update liquidation free collateral |    | :heavy_check_mark: |   | `VecAssetIdOf` collaterals <br/> |
+|Add market |    | :heavy_check_mark: | :heavy_check_mark: | `AssetIdOfT` asset_id <br/>`MarketBalanceOfT` market <br/> |
+|Activate market |    | :heavy_check_mark: | :heavy_check_mark: | `AssetIdOfT` asset_id <br/> |
+|Update rate model |    | :heavy_check_mark: | :heavy_check_mark: | `AssetIdOfT` asset_id <br/>`InterestRateModel` rate_model <br/> |
+|Update market |    | :heavy_check_mark: | :heavy_check_mark: | `AssetIdOfT` asset_id <br/>`OptionRatio` collateral_factor <br/>`OptionRatio` liquidation_threshold <br/>`OptionRatio` reserve_factor <br/>`OptionRatio` close_factor <br/>`OptionRatio` liquidate_incentive_reserved_factor <br/>`OptionRate` liquidate_incentive <br/>`OptionBalance` supply_cap <br/>`OptionBalance` borrow_cap <br/> |
+|Force update market |    | :heavy_check_mark: | :heavy_check_mark: | `AssetIdOfT` asset_id <br/>`MarketBalanceOfT` market <br/> |
+|Add reward |    | :heavy_check_mark: | :heavy_check_mark: | `Balance` amount <br/> |
+|Withdraw missing reward |    | :heavy_check_mark: | :heavy_check_mark: | `LookupasStaticLookupSource` target_account <br/>`Balance` amount <br/> |
+|Update market reward speed |    | :heavy_check_mark: | :heavy_check_mark: | `AssetIdOfT` asset_id <br/>`OptionBalance` supply_reward_per_block <br/>`OptionBalance` borrow_reward_per_block <br/> |
+|Claim reward |    | :heavy_check_mark: | :heavy_check_mark: |  |
+|Claim reward for market |    | :heavy_check_mark: | :heavy_check_mark: | `AssetIdOfT` asset_id <br/> |
+|Mint |    | :heavy_check_mark: | :heavy_check_mark: | `AssetIdOfT` asset_id <br/>`Compactu128` mint_amount <br/> |
+|Redeem |    | :heavy_check_mark: | :heavy_check_mark: | `AssetIdOfT` asset_id <br/>`Compactu128` redeem_amount <br/> |
+|Redeem all |    | :heavy_check_mark: | :heavy_check_mark: | `AssetIdOfT` asset_id <br/> |
+|Borrow |    | :heavy_check_mark: | :heavy_check_mark: | `AssetIdOfT` asset_id <br/>`Compactu128` borrow_amount <br/> |
+|Repay borrow |    | :heavy_check_mark: | :heavy_check_mark: | `AssetIdOfT` asset_id <br/>`Compactu128` repay_amount <br/> |
+|Repay borrow all |    | :heavy_check_mark: | :heavy_check_mark: | `AssetIdOfT` asset_id <br/> |
+|Collateral asset |    | :heavy_check_mark: | :heavy_check_mark: | `AssetIdOfT` asset_id <br/>`bool` enable <br/> |
+|Liquidate borrow |    | :heavy_check_mark: | :heavy_check_mark: | `AccountId` borrower <br/>`AssetIdOfT` liquidation_asset_id <br/>`Compactu128` repay_amount <br/>`AssetIdOfT` collateral_asset_id <br/> |
+|Add reserves |    | :heavy_check_mark: | :heavy_check_mark: | `LookupasStaticLookupSource` payer <br/>`AssetIdOfT` asset_id <br/>`Compactu128` add_amount <br/> |
+|Reduce reserves |    | :heavy_check_mark: | :heavy_check_mark: | `LookupasStaticLookupSource` receiver <br/>`AssetIdOfT` asset_id <br/>`Compactu128` reduce_amount <br/> |
+|Reduce incentive reserves |    | :heavy_check_mark: | :heavy_check_mark: | `LookupasStaticLookupSource` receiver <br/>`AssetIdOfT` asset_id <br/>`Compactu128` redeem_amount <br/> |
+|Update liquidation free collateral |    | :heavy_check_mark: | :heavy_check_mark: | `VecAssetIdOf` collaterals <br/> |
 
 ## Prices
 
@@ -384,27 +385,27 @@ Please:
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Stake |    | :heavy_check_mark: |   | `Compactu128` amount <br/> |
-|Unstake |    | :heavy_check_mark: |   | `Compactu128` liquid_amount <br/>`UnstakeProvider` unstake_provider <br/> |
-|Update reserve factor |    | :heavy_check_mark: |   | `Ratio` reserve_factor <br/> |
-|Update staking ledger cap |    | :heavy_check_mark: |   | `Compactu128` cap <br/> |
-|Bond |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/>`RewardDestination` payee <br/> |
-|Bond extra |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
-|Unbond |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
-|Rebond |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
-|Withdraw Unbonded |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`u32` num_slashing_spans <br/> |
-|Nominate |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`VecAccountId` targets <br/> |
+|Stake |    | :heavy_check_mark: | :heavy_check_mark: | `Compactu128` amount <br/> |
+|Unstake |    | :heavy_check_mark: | :heavy_check_mark: | `Compactu128` liquid_amount <br/>`UnstakeProvider` unstake_provider <br/> |
+|Update reserve factor |    | :heavy_check_mark: | :heavy_check_mark: | `Ratio` reserve_factor <br/> |
+|Update staking ledger cap |    | :heavy_check_mark: | :heavy_check_mark: | `Compactu128` cap <br/> |
+|Bond |    | :heavy_check_mark: | :heavy_check_mark: | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/>`RewardDestination` payee <br/> |
+|Bond extra |    | :heavy_check_mark: | :heavy_check_mark: | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
+|Unbond |    | :heavy_check_mark: | :heavy_check_mark: | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
+|Rebond |    | :heavy_check_mark: | :heavy_check_mark: | `DerivativeIndex` derivative_index <br/>`Compactu128` amount <br/> |
+|Withdraw Unbonded |    | :heavy_check_mark: | :heavy_check_mark: | `DerivativeIndex` derivative_index <br/>`u32` num_slashing_spans <br/> |
+|Nominate |    | :heavy_check_mark: | :heavy_check_mark: | `DerivativeIndex` derivative_index <br/>`VecAccountId` targets <br/> |
 |Notification received |    |   |   | `QueryId` query_id <br/>`Response` response <br/> |
-|Claim for |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` dest <br/> |
-|Force set era start block |    | :heavy_check_mark: |   | `BlockNumber` block_number <br/> |
-|Force set current era |    | :heavy_check_mark: |   | `EraIndex` era <br/> |
-|Force advance era |    | :heavy_check_mark: |   | `EraIndex` offset <br/> |
-|Force matching |    | :heavy_check_mark: |   |  |
-|Force set staking ledger |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`StakingLedgerAccountIdBalanceOfT` staking_ledger <br/> |
-|Set current era |    | :heavy_check_mark: |   | `EraIndex` era <br/>`VecVecu8` proof <br/> |
-|Set staking ledger |    | :heavy_check_mark: |   | `DerivativeIndex` derivative_index <br/>`StakingLedgerAccountIdBalanceOfT` staking_ledger <br/>`VecVecu8` proof <br/> |
-|Reduce reserves |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` receiver <br/>`Compactu128` reduce_amount <br/> |
-|Cancel unstake |    | :heavy_check_mark: |   | `Compactu128` amount <br/> |
+|Claim for |    | :heavy_check_mark: | :heavy_check_mark: | `LookupasStaticLookupSource` dest <br/> |
+|Force set era start block |    | :heavy_check_mark: | :heavy_check_mark: | `BlockNumber` block_number <br/> |
+|Force set current era |    | :heavy_check_mark: | :heavy_check_mark: | `EraIndex` era <br/> |
+|Force advance era |    | :heavy_check_mark: | :heavy_check_mark: | `EraIndex` offset <br/> |
+|Force matching |    | :heavy_check_mark: | :heavy_check_mark: |  |
+|Force set staking ledger |    | :heavy_check_mark: | :heavy_check_mark: | `DerivativeIndex` derivative_index <br/>`StakingLedgerAccountIdBalanceOfT` staking_ledger <br/> |
+|Set current era |    | :heavy_check_mark: | :heavy_check_mark: | `EraIndex` era <br/>`VecVecu8` proof <br/> |
+|Set staking ledger |    | :heavy_check_mark: | :heavy_check_mark: | `DerivativeIndex` derivative_index <br/>`StakingLedgerAccountIdBalanceOfT` staking_ledger <br/>`VecVecu8` proof <br/> |
+|Reduce reserves |    | :heavy_check_mark: | :heavy_check_mark: | `LookupasStaticLookupSource` receiver <br/>`Compactu128` reduce_amount <br/> |
+|Cancel unstake |    | :heavy_check_mark: | :heavy_check_mark: | `Compactu128` amount <br/> |
 
 ## GeneralCouncilMembership
 
@@ -530,17 +531,17 @@ Please:
 |Set pool status |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`bool` is_active <br/> |
 |Set pool cool down duration |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`BlockNumber` cool_down_duration <br/> |
 |Reset pool unlock height |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/> |
-|Deposit |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`Balance` amount <br/> |
-|Withdraw |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`Balance` amount <br/> |
+|Deposit |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`u128` amount <br/> |
+|Withdraw |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`u128` amount <br/> |
 |Redeem |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/> |
 |Claim |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/> |
-|Dispatch reward |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`LookupasStaticLookupSource` payer <br/>`Balance` amount <br/>`BlockNumber` reward_duration <br/> |
+|Dispatch reward |    | :heavy_check_mark: |   | `AssetIdOfT` asset <br/>`AssetIdOfT` reward_asset <br/>`BlockNumber` lock_duration <br/>`LookupasStaticLookupSource` payer <br/>`u128` amount <br/>`BlockNumber` reward_duration <br/> |
 
 ## XcmHelper
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Update xcm weight fee |    |   |   | `XcmCall` xcm_call <br/>`XcmWeightFeeMiscWeightBalanceOfT` xcm_weight_fee_misc <br/> |
+|Update xcm weight fee |    | :heavy_check_mark: |   | `XcmCall` xcm_call <br/>`XcmWeightFeeMiscWeightBalanceOfT` xcm_weight_fee_misc <br/> |
 
 ## Streaming
 

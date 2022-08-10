@@ -1,5 +1,5 @@
 /*******************************************************************************
- *  (c) 2019 - 2022 Zondax GmbH
+ *  (c) 2019 - 2022 Zondax AG
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -55,6 +55,7 @@ static const char* STR_MO_CURRENCYADAPTER = "Currencyadapter";
 static const char* STR_MO_BRIDGE = "Bridge";
 static const char* STR_MO_EMERGENCYSHUTDOWN = "Emergencyshutdown";
 static const char* STR_MO_FARMING = "Farming";
+static const char* STR_MO_XCMHELPER = "Xcmhelper";
 static const char* STR_MO_STREAMING = "Streaming";
 static const char* STR_MO_PARACHAINSYSTEM = "Parachainsystem";
 
@@ -151,6 +152,7 @@ static const char* STR_ME_DISAPPROVE_PROPOSAL = "Disapprove proposal";
 static const char* STR_ME_PROPOSE_SPEND = "Propose spend";
 static const char* STR_ME_REJECT_PROPOSAL = "Reject proposal";
 static const char* STR_ME_APPROVE_PROPOSAL = "Approve proposal";
+static const char* STR_ME_SPEND = "Spend";
 static const char* STR_ME_REMOVE_APPROVAL = "Remove approval";
 static const char* STR_ME_UNNOTE_PREIMAGE = "Unnote preimage";
 static const char* STR_ME_REQUEST_PREIMAGE = "Request preimage";
@@ -261,6 +263,7 @@ static const char* STR_ME_SET_POOL_COOL_DOWN_DURATION = "Set pool cool down dura
 static const char* STR_ME_RESET_POOL_UNLOCK_HEIGHT = "Reset pool unlock height";
 static const char* STR_ME_DEPOSIT = "Deposit";
 static const char* STR_ME_DISPATCH_REWARD = "Dispatch reward";
+static const char* STR_ME_UPDATE_XCM_WEIGHT_FEE = "Update xcm weight fee";
 static const char* STR_ME_SET_MINIMUM_DEPOSIT = "Set minimum deposit";
 static const char* STR_ME_AUTHORIZE_UPGRADE = "Authorize upgrade";
 static const char* STR_ME_ENACT_AUTHORIZED_UPGRADE = "Enact authorized upgrade";
@@ -445,6 +448,8 @@ static const char* STR_IT_lock_duration = "Lock duration";
 static const char* STR_IT_cool_down_duration = "Cool down duration";
 static const char* STR_IT_is_active = "Is active";
 static const char* STR_IT_reward_duration = "Reward duration";
+static const char* STR_IT_xcm_call = "Xcm call";
+static const char* STR_IT_xcm_weight_fee_misc = "Xcm weight fee misc";
 static const char* STR_IT_recipient = "Recipient";
 static const char* STR_IT_deposit = "Deposit";
 static const char* STR_IT_start_time = "Start time";
