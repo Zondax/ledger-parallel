@@ -102,8 +102,10 @@ parser_error_t _readReferendumIndex_V17(parser_context_t* c, pd_ReferendumIndex_
 parser_error_t _readRegistrarIndex_V17(parser_context_t* c, pd_RegistrarIndex_V17_t* v);
 parser_error_t _readRewardDestination_V17(parser_context_t* c, pd_RewardDestination_V17_t* v);
 parser_error_t _readStakingLedgerAccountIdBalanceOfT_V17(parser_context_t* c, pd_StakingLedgerAccountIdBalanceOfT_V17_t* v);
+parser_error_t _readStreamId_V17(parser_context_t* c, pd_StreamId_V17_t* v);
 parser_error_t _readTeleAccount_V17(parser_context_t* c, pd_TeleAccount_V17_t* v);
 parser_error_t _readTimepoint_V17(parser_context_t* c, pd_Timepoint_V17_t* v);
+parser_error_t _readTimestamp_V17(parser_context_t* c, pd_Timestamp_V17_t* v);
 parser_error_t _readUnlockChunk_V17(parser_context_t* c, pd_UnlockChunk_V17_t* v);
 parser_error_t _readUnstakeProvider_V17(parser_context_t* c, pd_UnstakeProvider_V17_t* v);
 parser_error_t _readVecAccountId_V17(parser_context_t* c, pd_VecAccountId_V17_t* v);
@@ -650,6 +652,13 @@ parser_error_t _toStringStakingLedgerAccountIdBalanceOfT_V17(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
+parser_error_t _toStringStreamId_V17(
+    const pd_StreamId_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringTeleAccount_V17(
     const pd_TeleAccount_V17_t* v,
     char* outValue,
@@ -659,6 +668,13 @@ parser_error_t _toStringTeleAccount_V17(
 
 parser_error_t _toStringTimepoint_V17(
     const pd_Timepoint_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringTimestamp_V17(
+    const pd_Timestamp_V17_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,

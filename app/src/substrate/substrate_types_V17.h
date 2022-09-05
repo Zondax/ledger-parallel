@@ -444,6 +444,10 @@ typedef struct {
 } pd_StakingLedgerAccountIdBalanceOfT_V17_t;
 
 typedef struct {
+    pd_u128_t value;
+} pd_StreamId_V17_t;
+
+typedef struct {
     pd_Vecu8_t value;
 } pd_TeleAccount_V17_t;
 
@@ -546,6 +550,10 @@ typedef struct {
 typedef struct {
     uint32_t value;
 } pd_RegistrarIndex_V17_t;
+
+typedef struct {
+    uint64_t value;
+} pd_Timestamp_V17_t;
 
 typedef struct {
     uint8_t value;

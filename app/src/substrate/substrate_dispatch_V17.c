@@ -1242,6 +1242,14 @@ __Z_INLINE parser_error_t _readMethod_prices_reset_price_V17(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_prices_set_foreign_asset_V17(
+    parser_context_t* c, pd_prices_set_foreign_asset_V17_t* m)
+{
+    CHECK_ERROR(_readCurrencyId_V17(c, &m->foreign_asset_id))
+    CHECK_ERROR(_readCurrencyId_V17(c, &m->asset_id))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_crowdloans_create_vault_V17(
     parser_context_t* c, pd_crowdloans_create_vault_V17_t* m)
 {
@@ -1405,6 +1413,13 @@ __Z_INLINE parser_error_t _readMethod_crowdloans_refund_for_V17(
     CHECK_ERROR(_readCompactBalance(c, &m->amount))
     CHECK_ERROR(_readLeasePeriod_V17(c, &m->lease_start))
     CHECK_ERROR(_readLeasePeriod_V17(c, &m->lease_end))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_crowdloans_update_proxy_V17(
+    parser_context_t* c, pd_crowdloans_update_proxy_V17_t* m)
+{
+    CHECK_ERROR(_readAccountId_V17(c, &m->proxy_address))
     return parser_ok;
 }
 
@@ -2112,6 +2127,33 @@ __Z_INLINE parser_error_t _readMethod_xcmhelper_update_xcm_weight_fee_V17(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_streaming_create_V17(
+    parser_context_t* c, pd_streaming_create_V17_t* m)
+{
+    CHECK_ERROR(_readAccountId_V17(c, &m->recipient))
+    CHECK_ERROR(_readBalance(c, &m->deposit))
+    CHECK_ERROR(_readAssetIdOfT_V17(c, &m->asset_id))
+    CHECK_ERROR(_readTimestamp_V17(c, &m->start_time))
+    CHECK_ERROR(_readTimestamp_V17(c, &m->end_time))
+    CHECK_ERROR(_readbool(c, &m->cancellable))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_streaming_cancel_V17(
+    parser_context_t* c, pd_streaming_cancel_V17_t* m)
+{
+    CHECK_ERROR(_readStreamId_V17(c, &m->stream_id))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_streaming_withdraw_V17(
+    parser_context_t* c, pd_streaming_withdraw_V17_t* m)
+{
+    CHECK_ERROR(_readStreamId_V17(c, &m->stream_id))
+    CHECK_ERROR(_readBalance(c, &m->amount))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_streaming_set_minimum_deposit_V17(
     parser_context_t* c, pd_streaming_set_minimum_deposit_V17_t* m)
 {
@@ -2610,6 +2652,9 @@ parser_error_t _readMethod_V17(
     case 13057: /* module 51 call 1 */
         CHECK_ERROR(_readMethod_prices_reset_price_V17(c, &method->basic.prices_reset_price_V17))
         break;
+    case 13058: /* module 51 call 2 */
+        CHECK_ERROR(_readMethod_prices_set_foreign_asset_V17(c, &method->basic.prices_set_foreign_asset_V17))
+        break;
     case 13312: /* module 52 call 0 */
         CHECK_ERROR(_readMethod_crowdloans_create_vault_V17(c, &method->basic.crowdloans_create_vault_V17))
         break;
@@ -2666,6 +2711,9 @@ parser_error_t _readMethod_V17(
         break;
     case 13331: /* module 52 call 19 */
         CHECK_ERROR(_readMethod_crowdloans_refund_for_V17(c, &method->basic.crowdloans_refund_for_V17))
+        break;
+    case 13332: /* module 52 call 20 */
+        CHECK_ERROR(_readMethod_crowdloans_update_proxy_V17(c, &method->basic.crowdloans_update_proxy_V17))
         break;
     case 15360: /* module 60 call 0 */
         CHECK_ERROR(_readMethod_liquidstaking_stake_V17(c, &method->nested.liquidstaking_stake_V17))
@@ -2939,6 +2987,15 @@ parser_error_t _readMethod_V17(
         break;
     case 23808: /* module 93 call 0 */
         CHECK_ERROR(_readMethod_xcmhelper_update_xcm_weight_fee_V17(c, &method->basic.xcmhelper_update_xcm_weight_fee_V17))
+        break;
+    case 24064: /* module 94 call 0 */
+        CHECK_ERROR(_readMethod_streaming_create_V17(c, &method->basic.streaming_create_V17))
+        break;
+    case 24065: /* module 94 call 1 */
+        CHECK_ERROR(_readMethod_streaming_cancel_V17(c, &method->basic.streaming_cancel_V17))
+        break;
+    case 24066: /* module 94 call 2 */
+        CHECK_ERROR(_readMethod_streaming_withdraw_V17(c, &method->basic.streaming_withdraw_V17))
         break;
     case 24067: /* module 94 call 3 */
         CHECK_ERROR(_readMethod_streaming_set_minimum_deposit_V17(c, &method->basic.streaming_set_minimum_deposit_V17))
@@ -3374,6 +3431,8 @@ const char* _getMethod_Name_V17_ParserFull(uint16_t callPrivIdx)
         return STR_ME_SET_PRICE;
     case 13057: /* module 51 call 1 */
         return STR_ME_RESET_PRICE;
+    case 13058: /* module 51 call 2 */
+        return STR_ME_SET_FOREIGN_ASSET;
     case 13312: /* module 52 call 0 */
         return STR_ME_CREATE_VAULT;
     case 13313: /* module 52 call 1 */
@@ -3412,6 +3471,8 @@ const char* _getMethod_Name_V17_ParserFull(uint16_t callPrivIdx)
         return STR_ME_DISSOLVE_VAULT;
     case 13331: /* module 52 call 19 */
         return STR_ME_REFUND_FOR;
+    case 13332: /* module 52 call 20 */
+        return STR_ME_UPDATE_PROXY;
     case 15360: /* module 60 call 0 */
         return STR_ME_STAKE;
     case 15361: /* module 60 call 1 */
@@ -3594,6 +3655,12 @@ const char* _getMethod_Name_V17_ParserFull(uint16_t callPrivIdx)
         return STR_ME_DISPATCH_REWARD;
     case 23808: /* module 93 call 0 */
         return STR_ME_UPDATE_XCM_WEIGHT_FEE;
+    case 24064: /* module 94 call 0 */
+        return STR_ME_CREATE;
+    case 24065: /* module 94 call 1 */
+        return STR_ME_CANCEL;
+    case 24066: /* module 94 call 2 */
+        return STR_ME_WITHDRAW;
     case 24067: /* module 94 call 3 */
         return STR_ME_SET_MINIMUM_DEPOSIT;
     case 5122: /* module 20 call 2 */
@@ -3922,6 +3989,8 @@ uint8_t _getMethod_NumItems_V17(uint8_t moduleIdx, uint8_t callIdx)
         return 2;
     case 13057: /* module 51 call 1 */
         return 1;
+    case 13058: /* module 51 call 2 */
+        return 2;
     case 13312: /* module 52 call 0 */
         return 7;
     case 13313: /* module 52 call 1 */
@@ -3960,6 +4029,8 @@ uint8_t _getMethod_NumItems_V17(uint8_t moduleIdx, uint8_t callIdx)
         return 3;
     case 13331: /* module 52 call 19 */
         return 6;
+    case 13332: /* module 52 call 20 */
+        return 1;
     case 15360: /* module 60 call 0 */
         return 1;
     case 15361: /* module 60 call 1 */
@@ -4141,6 +4212,12 @@ uint8_t _getMethod_NumItems_V17(uint8_t moduleIdx, uint8_t callIdx)
     case 23560: /* module 92 call 8 */
         return 6;
     case 23808: /* module 93 call 0 */
+        return 2;
+    case 24064: /* module 94 call 0 */
+        return 6;
+    case 24065: /* module 94 call 1 */
+        return 1;
+    case 24066: /* module 94 call 2 */
         return 2;
     case 24067: /* module 94 call 3 */
         return 2;
@@ -5528,6 +5605,15 @@ const char* _getMethod_ItemName_V17(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         default:
             return NULL;
         }
+    case 13058: /* module 51 call 2 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_foreign_asset_id;
+        case 1:
+            return STR_IT_asset_id;
+        default:
+            return NULL;
+        }
     case 13312: /* module 52 call 0 */
         switch (itemIdx) {
         case 0:
@@ -5724,6 +5810,13 @@ const char* _getMethod_ItemName_V17(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
             return STR_IT_lease_start;
         case 5:
             return STR_IT_lease_end;
+        default:
+            return NULL;
+        }
+    case 13332: /* module 52 call 20 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_proxy_address;
         default:
             return NULL;
         }
@@ -6495,6 +6588,39 @@ const char* _getMethod_ItemName_V17(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
             return STR_IT_xcm_call;
         case 1:
             return STR_IT_xcm_weight_fee_misc;
+        default:
+            return NULL;
+        }
+    case 24064: /* module 94 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_recipient;
+        case 1:
+            return STR_IT_deposit;
+        case 2:
+            return STR_IT_asset_id;
+        case 3:
+            return STR_IT_start_time;
+        case 4:
+            return STR_IT_end_time;
+        case 5:
+            return STR_IT_cancellable;
+        default:
+            return NULL;
+        }
+    case 24065: /* module 94 call 1 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_stream_id;
+        default:
+            return NULL;
+        }
+    case 24066: /* module 94 call 2 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_stream_id;
+        case 1:
+            return STR_IT_amount;
         default:
             return NULL;
         }
@@ -8799,6 +8925,21 @@ parser_error_t _getMethod_ItemValue_V17(
         default:
             return parser_no_data;
         }
+    case 13058: /* module 51 call 2 */
+        switch (itemIdx) {
+        case 0: /* prices_set_foreign_asset_V17 - foreign_asset_id */;
+            return _toStringCurrencyId_V17(
+                &m->basic.prices_set_foreign_asset_V17.foreign_asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* prices_set_foreign_asset_V17 - asset_id */;
+            return _toStringCurrencyId_V17(
+                &m->basic.prices_set_foreign_asset_V17.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 13312: /* module 52 call 0 */
         switch (itemIdx) {
         case 0: /* crowdloans_create_vault_V17 - crowdloan */;
@@ -9149,6 +9290,16 @@ parser_error_t _getMethod_ItemValue_V17(
         case 5: /* crowdloans_refund_for_V17 - lease_end */;
             return _toStringLeasePeriod_V17(
                 &m->basic.crowdloans_refund_for_V17.lease_end,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 13332: /* module 52 call 20 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_update_proxy_V17 - proxy_address */;
+            return _toStringAccountId_V17(
+                &m->basic.crowdloans_update_proxy_V17.proxy_address,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -10399,6 +10550,66 @@ parser_error_t _getMethod_ItemValue_V17(
         default:
             return parser_no_data;
         }
+    case 24064: /* module 94 call 0 */
+        switch (itemIdx) {
+        case 0: /* streaming_create_V17 - recipient */;
+            return _toStringAccountId_V17(
+                &m->basic.streaming_create_V17.recipient,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* streaming_create_V17 - deposit */;
+            return _toStringBalance(
+                &m->basic.streaming_create_V17.deposit,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* streaming_create_V17 - asset_id */;
+            return _toStringAssetIdOfT_V17(
+                &m->basic.streaming_create_V17.asset_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* streaming_create_V17 - start_time */;
+            return _toStringTimestamp_V17(
+                &m->basic.streaming_create_V17.start_time,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 4: /* streaming_create_V17 - end_time */;
+            return _toStringTimestamp_V17(
+                &m->basic.streaming_create_V17.end_time,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 5: /* streaming_create_V17 - cancellable */;
+            return _toStringbool(
+                &m->basic.streaming_create_V17.cancellable,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 24065: /* module 94 call 1 */
+        switch (itemIdx) {
+        case 0: /* streaming_cancel_V17 - stream_id */;
+            return _toStringStreamId_V17(
+                &m->basic.streaming_cancel_V17.stream_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 24066: /* module 94 call 2 */
+        switch (itemIdx) {
+        case 0: /* streaming_withdraw_V17 - stream_id */;
+            return _toStringStreamId_V17(
+                &m->basic.streaming_withdraw_V17.stream_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* streaming_withdraw_V17 - amount */;
+            return _toStringBalance(
+                &m->basic.streaming_withdraw_V17.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 24067: /* module 94 call 3 */
         switch (itemIdx) {
         case 0: /* streaming_set_minimum_deposit_V17 - asset_id */;
@@ -10575,6 +10786,7 @@ bool _getMethod_IsNestingSupported_V17(uint8_t moduleIdx, uint8_t callIdx)
     case 11779: // Vesting:Claim for
     case 13056: // Prices:Set price
     case 13057: // Prices:Reset price
+    case 13058: // Prices:Set foreign asset
     case 13312: // Crowdloans:Create vault
     case 13313: // Crowdloans:Update vault
     case 13314: // Crowdloans:Open
@@ -10594,6 +10806,7 @@ bool _getMethod_IsNestingSupported_V17(uint8_t moduleIdx, uint8_t callIdx)
     case 13329: // Crowdloans:Refund
     case 13330: // Crowdloans:Dissolve vault
     case 13331: // Crowdloans:Refund for
+    case 13332: // Crowdloans:Update proxy
     case 17920: // GeneralCouncilMembership:Add member
     case 17921: // GeneralCouncilMembership:Remove member
     case 17922: // GeneralCouncilMembership:Swap member
@@ -10665,6 +10878,9 @@ bool _getMethod_IsNestingSupported_V17(uint8_t moduleIdx, uint8_t callIdx)
     case 23559: // Farming:Claim
     case 23560: // Farming:Dispatch reward
     case 23808: // XcmHelper:Update xcm weight fee
+    case 24064: // Streaming:Create
+    case 24065: // Streaming:Cancel
+    case 24066: // Streaming:Withdraw
     case 24067: // Streaming:Set minimum deposit
     case 5122: // ParachainSystem:Authorize upgrade
     case 5123: // ParachainSystem:Enact authorized upgrade

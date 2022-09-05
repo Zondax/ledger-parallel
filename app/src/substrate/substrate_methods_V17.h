@@ -748,6 +748,12 @@ typedef struct {
     pd_CurrencyId_V17_t asset_id;
 } pd_prices_reset_price_V17_t;
 
+#define PD_CALL_PRICES_SET_FOREIGN_ASSET_V17 2
+typedef struct {
+    pd_CurrencyId_V17_t foreign_asset_id;
+    pd_CurrencyId_V17_t asset_id;
+} pd_prices_set_foreign_asset_V17_t;
+
 #define PD_CALL_CROWDLOANS_CREATE_VAULT_V17 0
 typedef struct {
     pd_ParaId_V17_t crowdloan;
@@ -875,6 +881,11 @@ typedef struct {
     pd_LeasePeriod_V17_t lease_start;
     pd_LeasePeriod_V17_t lease_end;
 } pd_crowdloans_refund_for_V17_t;
+
+#define PD_CALL_CROWDLOANS_UPDATE_PROXY_V17 20
+typedef struct {
+    pd_AccountId_V17_t proxy_address;
+} pd_crowdloans_update_proxy_V17_t;
 
 #define PD_CALL_GENERALCOUNCILMEMBERSHIP_ADD_MEMBER_V17 0
 typedef struct {
@@ -1286,6 +1297,27 @@ typedef struct {
     pd_XcmWeightFeeMiscWeightBalanceOfT_V17_t xcm_weight_fee_misc;
 } pd_xcmhelper_update_xcm_weight_fee_V17_t;
 
+#define PD_CALL_STREAMING_CREATE_V17 0
+typedef struct {
+    pd_AccountId_V17_t recipient;
+    pd_Balance_t deposit;
+    pd_AssetIdOfT_V17_t asset_id;
+    pd_Timestamp_V17_t start_time;
+    pd_Timestamp_V17_t end_time;
+    pd_bool_t cancellable;
+} pd_streaming_create_V17_t;
+
+#define PD_CALL_STREAMING_CANCEL_V17 1
+typedef struct {
+    pd_StreamId_V17_t stream_id;
+} pd_streaming_cancel_V17_t;
+
+#define PD_CALL_STREAMING_WITHDRAW_V17 2
+typedef struct {
+    pd_StreamId_V17_t stream_id;
+    pd_Balance_t amount;
+} pd_streaming_withdraw_V17_t;
+
 #define PD_CALL_STREAMING_SET_MINIMUM_DEPOSIT_V17 3
 typedef struct {
     pd_AssetIdOfT_V17_t asset_id;
@@ -1423,6 +1455,7 @@ typedef union {
     pd_vesting_claim_for_V17_t vesting_claim_for_V17;
     pd_prices_set_price_V17_t prices_set_price_V17;
     pd_prices_reset_price_V17_t prices_reset_price_V17;
+    pd_prices_set_foreign_asset_V17_t prices_set_foreign_asset_V17;
     pd_crowdloans_create_vault_V17_t crowdloans_create_vault_V17;
     pd_crowdloans_update_vault_V17_t crowdloans_update_vault_V17;
     pd_crowdloans_open_V17_t crowdloans_open_V17;
@@ -1442,6 +1475,7 @@ typedef union {
     pd_crowdloans_refund_V17_t crowdloans_refund_V17;
     pd_crowdloans_dissolve_vault_V17_t crowdloans_dissolve_vault_V17;
     pd_crowdloans_refund_for_V17_t crowdloans_refund_for_V17;
+    pd_crowdloans_update_proxy_V17_t crowdloans_update_proxy_V17;
     pd_generalcouncilmembership_add_member_V17_t generalcouncilmembership_add_member_V17;
     pd_generalcouncilmembership_remove_member_V17_t generalcouncilmembership_remove_member_V17;
     pd_generalcouncilmembership_swap_member_V17_t generalcouncilmembership_swap_member_V17;
@@ -1513,6 +1547,9 @@ typedef union {
     pd_farming_claim_V17_t farming_claim_V17;
     pd_farming_dispatch_reward_V17_t farming_dispatch_reward_V17;
     pd_xcmhelper_update_xcm_weight_fee_V17_t xcmhelper_update_xcm_weight_fee_V17;
+    pd_streaming_create_V17_t streaming_create_V17;
+    pd_streaming_cancel_V17_t streaming_cancel_V17;
+    pd_streaming_withdraw_V17_t streaming_withdraw_V17;
     pd_streaming_set_minimum_deposit_V17_t streaming_set_minimum_deposit_V17;
     pd_parachainsystem_authorize_upgrade_V17_t parachainsystem_authorize_upgrade_V17;
     pd_parachainsystem_enact_authorized_upgrade_V17_t parachainsystem_enact_authorized_upgrade_V17;

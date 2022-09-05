@@ -838,6 +838,13 @@ parser_error_t _readStakingLedgerAccountIdBalanceOfT_V17(parser_context_t* c, pd
     return parser_ok;
 }
 
+parser_error_t _readStreamId_V17(parser_context_t* c, pd_StreamId_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readu128(c, &v->value))
+    return parser_ok;
+}
+
 parser_error_t _readTeleAccount_V17(parser_context_t* c, pd_TeleAccount_V17_t* v)
 {
     CHECK_INPUT()
@@ -849,6 +856,13 @@ parser_error_t _readTimepoint_V17(parser_context_t* c, pd_Timepoint_V17_t* v)
 {
     CHECK_ERROR(_readBlockNumber(c, &v->height))
     CHECK_ERROR(_readu32(c, &v->index))
+    return parser_ok;
+}
+
+parser_error_t _readTimestamp_V17(parser_context_t* c, pd_Timestamp_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt64(c, &v->value))
     return parser_ok;
 }
 
@@ -3306,6 +3320,18 @@ parser_error_t _toStringStakingLedgerAccountIdBalanceOfT_V17(
     return parser_display_idx_out_of_range;
 }
 
+parser_error_t _toStringStreamId_V17(
+    const pd_StreamId_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    CHECK_ERROR(_toStringu128(&v->value, outValue, outValueLen, pageIdx, pageCount))
+    return parser_ok;
+}
+
 parser_error_t _toStringTeleAccount_V17(
     const pd_TeleAccount_V17_t* v,
     char* outValue,
@@ -3353,6 +3379,16 @@ parser_error_t _toStringTimepoint_V17(
     }
 
     return parser_display_idx_out_of_range;
+}
+
+parser_error_t _toStringTimestamp_V17(
+    const pd_Timestamp_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    return _toStringu64(&v->value, outValue, outValueLen, pageIdx, pageCount);
 }
 
 parser_error_t _toStringUnlockChunk_V17(
