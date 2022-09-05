@@ -28,7 +28,7 @@ Please:
 - **Do not use in production**
 - **Do not use a Ledger device with funds for development purposes.**
 - **Have a separate and marked device that is used ONLY for development and testing**
-# Parallel  17.190.x
+# Parallel  17.191.x
 
 ## System
 
@@ -355,6 +355,7 @@ Please:
 | :---------- |:------------:|:--------:|:--------:|:--------|
 |Set price |    | :heavy_check_mark: |   | `CurrencyId` asset_id <br/>`Price` price <br/> |
 |Reset price |    | :heavy_check_mark: |   | `CurrencyId` asset_id <br/> |
+|Set foreign asset |    | :heavy_check_mark: |   | `CurrencyId` foreign_asset_id <br/>`CurrencyId` asset_id <br/> |
 
 ## Crowdloans
 
@@ -380,6 +381,7 @@ Please:
 |Refund |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
 |Dissolve vault |    | :heavy_check_mark: |   | `ParaId` crowdloan <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
 |Refund for |    | :heavy_check_mark: |   | `LookupasStaticLookupSource` dest <br/>`ParaId` crowdloan <br/>`ChildStorageKind` kind <br/>`CompactBalance` amount <br/>`LeasePeriod` lease_start <br/>`LeasePeriod` lease_end <br/> |
+|Update proxy |    | :heavy_check_mark: |   | `AccountId` proxy_address <br/> |
 
 ## LiquidStaking
 
@@ -547,9 +549,9 @@ Please:
 
 | Name        | Light | XL | Nesting | Arguments |
 | :---------- |:------------:|:--------:|:--------:|:--------|
-|Create |    |   |   | `AccountOfT` recipient <br/>`Balance` deposit <br/>`AssetIdOfT` asset_id <br/>`Timestamp` start_time <br/>`Timestamp` end_time <br/>`bool` cancellable <br/> |
-|Cancel |    |   |   | `StreamId` stream_id <br/> |
-|Withdraw |    |   |   | `StreamId` stream_id <br/>`Balance` amount <br/> |
+|Create |    | :heavy_check_mark: |   | `AccountId` recipient <br/>`Balance` deposit <br/>`AssetIdOfT` asset_id <br/>`Timestamp` start_time <br/>`Timestamp` end_time <br/>`bool` cancellable <br/> |
+|Cancel |    | :heavy_check_mark: |   | `StreamId` stream_id <br/> |
+|Withdraw |    | :heavy_check_mark: |   | `StreamId` stream_id <br/>`Balance` amount <br/> |
 |Set minimum deposit |    | :heavy_check_mark: |   | `AssetIdOfT` asset_id <br/>`Balance` minimum_deposit <br/> |
 
 ## AssetRegistry
