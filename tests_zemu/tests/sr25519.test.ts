@@ -251,45 +251,4 @@ describe('SR25519', function () {
       await sim.close()
     }
   })
-
-  // test('sign large nomination', async function () {
-  //   const sim = new Zemu(APP_PATH)
-  //   try {
-  //     await sim.start({ ...defaultOptions })
-  //     const app = newParallelApp(sim.getTransport())
-  //     const pathAccount = 0x80000000
-  //     const pathChange = 0x80000000
-  //     const pathIndex = 0x80000000
-
-  //     const txBlob = Buffer.from(txStaking_nominate, 'hex')
-
-  //     const responseAddr = await app.getAddress(pathAccount, pathChange, pathIndex, false, 1)
-  //     const pubKey = Buffer.from(responseAddr.pubKey, 'hex')
-
-  //     // do not wait here.. we need to navigate
-  //     const signatureRequest = app.sign(pathAccount, pathChange, pathIndex, txBlob, 1)
-  //     // Wait until we are not in the main menu
-  //     await sim.waitUntilScreenIsNot(sim.getMainMenuSnapshot())
-  //     await sim.compareSnapshotsAndApprove('.', 's-sign_large_nomination')
-
-  //     const signatureResponse = await signatureRequest
-  //     console.log(signatureResponse)
-
-  //     expect(signatureResponse.return_code).toEqual(0x9000)
-  //     expect(signatureResponse.error_message).toEqual('No errors')
-
-  //     // Now verify the signature
-  //     let prehash = txBlob
-  //     if (txBlob.length > 256) {
-  //       const context = blake2bInit(32)
-  //       blake2bUpdate(context, txBlob)
-  //       prehash = Buffer.from(blake2bFinal(context))
-  //     }
-  //     const signingcontext = Buffer.from([])
-  //     const valid = addon.schnorrkel_verify(pubKey, signingcontext, prehash, signatureResponse.signature.slice(1))
-  //     expect(valid).toEqual(true)
-  //   } finally {
-  //     await sim.close()
-  //   }
-  // })
 })
