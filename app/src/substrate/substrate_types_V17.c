@@ -24,6 +24,22 @@
 #include <zxformat.h>
 #include <zxmacros.h>
 
+parser_error_t _readAbstractFungible_V17(parser_context_t* c, pd_AbstractFungible_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readBytes(c, &v->id))
+    CHECK_ERROR(_readCompactu128(c, &v->amount))
+    return parser_ok;
+}
+
+parser_error_t _readAbstractNonFungible_V17(parser_context_t* c, pd_AbstractNonFungible_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readBytes(c, &v->_class))
+    CHECK_ERROR(_readAssetInstance_V17(c, &v->instance))
+    return parser_ok;
+}
+
 parser_error_t _readAccountId32_V17(parser_context_t* c, pd_AccountId32_V17_t* v)
 {
     CHECK_INPUT()
@@ -52,6 +68,39 @@ parser_error_t _readAccountKey20_V17(parser_context_t* c, pd_AccountKey20_V17_t*
     return parser_ok;
 }
 
+parser_error_t _readAccountVoteSplit_V17(parser_context_t* c, pd_AccountVoteSplit_V17_t* v)
+{
+    CHECK_ERROR(_readBalanceOf(c, &v->aye));
+    CHECK_ERROR(_readBalanceOf(c, &v->nay));
+    return parser_ok;
+}
+
+parser_error_t _readAccountVoteStandard_V17(parser_context_t* c, pd_AccountVoteStandard_V17_t* v)
+{
+    CHECK_ERROR(_readVote_V17(c, &v->vote));
+    CHECK_ERROR(_readBalanceOf(c, &v->balance));
+    return parser_ok;
+}
+
+parser_error_t _readAccountVote_V17(parser_context_t* c, pd_AccountVote_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+
+    switch (v->value) {
+    case 0:
+        CHECK_ERROR(_readAccountVoteStandard_V17(c, &v->voteStandard))
+        break;
+    case 1:
+        CHECK_ERROR(_readAccountVoteSplit_V17(c, &v->voteSplit))
+        break;
+    default:
+        break;
+    }
+
+    return parser_ok;
+}
+
 parser_error_t _readAssetIdOfAssetIdOf_V17(parser_context_t* c, pd_AssetIdOfAssetIdOf_V17_t* v)
 {
     CHECK_INPUT()
@@ -71,6 +120,39 @@ parser_error_t _readAssetIdOf_V17(parser_context_t* c, pd_AssetIdOf_V17_t* v)
 {
     CHECK_INPUT()
     CHECK_ERROR(_readUInt32(c, &v->value))
+    return parser_ok;
+}
+
+parser_error_t _readAssetInstance_V17(parser_context_t* c, pd_AssetInstance_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    switch (v->value) {
+    case 0: // Undefined
+        // Empty
+        break;
+    case 1: // Index
+        CHECK_ERROR(_readCompactu128(c, &v->index))
+        break;
+    case 2: // array4
+        GEN_DEF_READARRAY(4)
+        break;
+    case 3: // array8
+        GEN_DEF_READARRAY(8)
+        break;
+    case 4: // array16
+        GEN_DEF_READARRAY(16)
+        break;
+    case 5: // array32
+        GEN_DEF_READARRAY(32)
+        break;
+    case 6: // blob
+        CHECK_ERROR(_readBytes(c, &v->blob))
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+
     return parser_ok;
 }
 
@@ -124,6 +206,33 @@ parser_error_t _readBodyPart_V17(parser_context_t* c, pd_BodyPart_V17_t* v)
     default:
         return parser_unexpected_value;
     }
+    return parser_ok;
+}
+
+parser_error_t _readBonusConfigBalanceOfT_V17(parser_context_t* c, pd_BonusConfigBalanceOfT_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readu128(c, &v->bonusPerToken))
+    CHECK_ERROR(_readUInt64(c, &v->startTime))
+    CHECK_ERROR(_readUInt64(c, &v->endTime))
+    return parser_ok;
+}
+
+parser_error_t _readBoxVersionedMultiAsset_V17(parser_context_t* c, pd_BoxVersionedMultiAsset_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    switch (v->value) {
+    case 0: // V0
+        CHECK_ERROR(_readMultiAssetV0_V17(c, &v->multiassetV0))
+        break;
+    case 1: // V1
+        CHECK_ERROR(_readMultiAssetV1_V17(c, &v->multiassetV1))
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+
     return parser_ok;
 }
 
@@ -199,6 +308,22 @@ parser_error_t _readCompactAccountIndex_V17(parser_context_t* c, pd_CompactAccou
     return _readCompactInt(c, &v->value);
 }
 
+parser_error_t _readConcreteFungible_V17(parser_context_t* c, pd_ConcreteFungible_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readMultiLocationV0_V17(c, &v->id))
+    CHECK_ERROR(_readCompactBalance(c, &v->amount))
+    return parser_ok;
+}
+
+parser_error_t _readConcreteNonFungible_V17(parser_context_t* c, pd_ConcreteNonFungible_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readMultiLocationV0_V17(c, &v->_class))
+    CHECK_ERROR(_readAssetInstance_V17(c, &v->instance))
+    return parser_ok;
+}
+
 parser_error_t _readContributionStrategy_V17(parser_context_t* c, pd_ContributionStrategy_V17_t* v)
 {
     CHECK_INPUT()
@@ -260,6 +385,24 @@ parser_error_t _readFraction_V17(parser_context_t* c, pd_Fraction_V17_t* v)
     CHECK_INPUT()
     CHECK_ERROR(_readCompactu32(c, &v->nom))
     CHECK_ERROR(_readCompactu32(c, &v->denom))
+    return parser_ok;
+}
+
+parser_error_t _readFungibility_V17(parser_context_t* c, pd_Fungibility_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    switch (v->value) {
+    case 0: // Undefined
+        CHECK_ERROR(_readCompactu128(c, &v->fungible))
+        break;
+    case 1: // Index
+        CHECK_ERROR(_readAssetInstance_V17(c, &v->nonFungible))
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+
     return parser_ok;
 }
 
@@ -698,6 +841,67 @@ parser_error_t _readMemberCount_V17(parser_context_t* c, pd_MemberCount_V17_t* v
     return parser_ok;
 }
 
+parser_error_t _readMultiAssetId_V17(parser_context_t* c, pd_MultiAssetId_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    switch (v->value) {
+    case 0: // Concrete
+        CHECK_ERROR(_readMultiLocationV1_V17(c, &v->concrete))
+        break;
+    case 1: // Abstract
+        CHECK_ERROR(_readBytes(c, &v->abstract))
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _readMultiAssetV0_V17(parser_context_t* c, pd_MultiAssetV0_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    switch (v->value) {
+    case 0: // None
+    case 1: // All
+    case 2: // AllFungible
+    case 3: // AllNonFungible
+        break;
+    case 4: // AllAbstractFungible
+    case 5: // AllAbstractNonFungible
+        CHECK_ERROR(_readBytes(c, &v->abstract))
+        break;
+    case 6: // AllConcreteFungible
+    case 7: // AllConcreteNonFungible
+        CHECK_ERROR(_readMultiLocationV0_V17(c, &v->concrete))
+        break;
+    case 8: // AbstractFungible
+        CHECK_ERROR(_readAbstractFungible_V17(c, &v->abstractFungible))
+        break;
+    case 9: // AbstractNonFungible
+        CHECK_ERROR(_readAbstractNonFungible_V17(c, &v->abstractNonFungible))
+        break;
+    case 10: // ConcreteFungible
+        CHECK_ERROR(_readConcreteFungible_V17(c, &v->concreteFungible))
+        break;
+    case 11: // ConcreteNonFungible
+        CHECK_ERROR(_readConcreteNonFungible_V17(c, &v->concreteNonFungible))
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _readMultiAssetV1_V17(parser_context_t* c, pd_MultiAssetV1_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readMultiAssetId_V17(c, &v->assetId))
+    CHECK_ERROR(_readFungibility_V17(c, &v->fungibility))
+    return parser_ok;
+}
+
 parser_error_t _readMultiLocationV0_V17(parser_context_t* c, pd_MultiLocationV0_V17_t* v)
 {
     CHECK_INPUT()
@@ -866,6 +1070,14 @@ parser_error_t _readTimestamp_V17(parser_context_t* c, pd_Timestamp_V17_t* v)
     return parser_ok;
 }
 
+parser_error_t _readTupleCurrencyIdu128_V17(parser_context_t* c, pd_TupleCurrencyIdu128_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readCurrencyId_V17(c, &v->currencyid))
+    CHECK_ERROR(_readu128(c, &v->amount))
+    return parser_ok;
+}
+
 parser_error_t _readUnlockChunk_V17(parser_context_t* c, pd_UnlockChunk_V17_t* v)
 {
     CHECK_INPUT()
@@ -878,7 +1090,7 @@ parser_error_t _readUnstakeProvider_V17(parser_context_t* c, pd_UnstakeProvider_
 {
     CHECK_INPUT()
     CHECK_ERROR(_readUInt8(c, &v->value))
-    if (v->value > 1) {
+    if (v->value > 2) {
         return parser_value_out_of_range;
     }
     return parser_ok;
@@ -892,6 +1104,18 @@ parser_error_t _readVestingScheduleOf_V17(parser_context_t* c, pd_VestingSchedul
     CHECK_ERROR(_readUInt32(c, &v->periodCount))
     CHECK_ERROR(_readCompactu128(c, &v->perPeriod));
     return parser_ok;
+}
+
+parser_error_t _readVote_V17(parser_context_t* c, pd_Vote_V17_t* v)
+{
+    CHECK_INPUT()
+    CHECK_ERROR(_readUInt8(c, &v->value))
+    const uint8_t aye = v->value & 0xF0;
+    const uint8_t conviction = v->value & 0x0F;
+    if ((aye == 0x80 || aye == 0x00) && conviction <= 0x06) {
+        return parser_ok;
+    }
+    return parser_value_out_of_range;
 }
 
 parser_error_t _readWeight_V17(parser_context_t* c, pd_Weight_V17_t* v)
@@ -936,6 +1160,10 @@ parser_error_t _readVecAssetIdOf_V17(parser_context_t* c, pd_VecAssetIdOf_V17_t*
 
 parser_error_t _readVecEraIndex_V17(parser_context_t* c, pd_VecEraIndex_V17_t* v) {
     GEN_DEF_READVECTOR(EraIndex_V17)
+}
+
+parser_error_t _readVecTupleCurrencyIdu128_V17(parser_context_t* c, pd_VecTupleCurrencyIdu128_V17_t* v) {
+    GEN_DEF_READVECTOR(TupleCurrencyIdu128_V17)
 }
 
 parser_error_t _readVecUnlockChunk_V17(parser_context_t* c, pd_VecUnlockChunk_V17_t* v) {
@@ -1003,6 +1231,80 @@ parser_error_t _readOptionTimepoint_V17(parser_context_t* c, pd_OptionTimepoint_
 ///////////////////////////////////
 ///////////////////////////////////
 ///////////////////////////////////
+
+parser_error_t _toStringAbstractFungible_V17(
+    const pd_AbstractFungible_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    // First measure number of pages
+    uint8_t pages[2] = { 0 };
+    CHECK_ERROR(_toStringBytes(&v->id, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringCompactu128(&v->amount, outValue, outValueLen, 0, &pages[1]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringBytes(&v->id, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringCompactu128(&v->amount, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
+}
+
+parser_error_t _toStringAbstractNonFungible_V17(
+    const pd_AbstractNonFungible_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    // First measure number of pages
+    uint8_t pages[2] = { 0 };
+    CHECK_ERROR(_toStringBytes(&v->_class, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringAssetInstance_V17(&v->instance, outValue, outValueLen, 0, &pages[1]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringBytes(&v->_class, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringAssetInstance_V17(&v->instance, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
+}
 
 parser_error_t _toStringAccountId32_V17(
     const pd_AccountId32_V17_t* v,
@@ -1125,6 +1427,121 @@ parser_error_t _toStringAccountKey20_V17(
     return parser_display_idx_out_of_range;
 }
 
+parser_error_t _toStringAccountVoteSplit_V17(
+    const pd_AccountVoteSplit_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    // First measure number of pages
+    uint8_t pages[3];
+
+    pages[0] = 1;
+    CHECK_ERROR(_toStringBalanceOf(&v->aye, outValue, outValueLen, 0, &pages[1]))
+    CHECK_ERROR(_toStringBalanceOf(&v->nay, outValue, outValueLen, 0, &pages[2]));
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx < pages[0]) {
+        snprintf(outValue, outValueLen, "Split");
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    /////////
+    /////////
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringBalanceOf(&v->aye, outValue, outValueLen, pageIdx, &pages[1]));
+        return parser_ok;
+    }
+    pageIdx -= pages[1];
+
+    /////////
+    /////////
+
+    if (pageIdx < pages[2]) {
+        CHECK_ERROR(_toStringBalanceOf(&v->nay, outValue, outValueLen, pageIdx, &pages[2]));
+        return parser_ok;
+    }
+
+    /////////
+    /////////
+
+    return parser_display_idx_out_of_range;
+}
+
+parser_error_t _toStringAccountVoteStandard_V17(
+    const pd_AccountVoteStandard_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    // First measure number of pages
+    uint8_t pages[3];
+
+    pages[0] = 1;
+    CHECK_ERROR(_toStringVote_V17(&v->vote, outValue, outValueLen, 0, &pages[1]))
+    CHECK_ERROR(_toStringBalanceOf(&v->balance, outValue, outValueLen, 0, &pages[2]));
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        snprintf(outValue, outValueLen, "Standard");
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringVote_V17(&v->vote, outValue, outValueLen, pageIdx, &pages[1]));
+        return parser_ok;
+    }
+    pageIdx -= pages[1];
+
+    if (pageIdx < pages[2]) {
+        CHECK_ERROR(_toStringBalanceOf(&v->balance, outValue, outValueLen, pageIdx, &pages[2]));
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
+}
+
+parser_error_t _toStringAccountVote_V17(
+    const pd_AccountVote_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    switch (v->value) {
+    case 0:
+        CHECK_ERROR(_toStringAccountVoteStandard_V17(&v->voteStandard, outValue, outValueLen, pageIdx, pageCount));
+        break;
+    case 1:
+        CHECK_ERROR(_toStringAccountVoteSplit_V17(&v->voteSplit, outValue, outValueLen, pageIdx, pageCount));
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+
+    return parser_ok;
+}
+
 parser_error_t _toStringAssetIdOfAssetIdOf_V17(
     const pd_AssetIdOfAssetIdOf_V17_t* v,
     char* outValue,
@@ -1180,6 +1597,50 @@ parser_error_t _toStringAssetIdOf_V17(
     uint8_t* pageCount)
 {
     return _toStringu32(&v->value, outValue, outValueLen, pageIdx, pageCount);
+}
+
+parser_error_t _toStringAssetInstance_V17(
+    const pd_AssetInstance_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    switch (v->value) {
+    case 0: // Undefined
+        *pageCount = 1;
+        snprintf(outValue, outValueLen, "Undefined");
+        break;
+    case 1: // Index
+        CHECK_ERROR(_toStringCompactu128(&v->index, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 2: // Array4
+    {
+        GEN_DEF_TOSTRING_ARRAY(4)
+    }
+    case 3: // Array8
+    {
+        GEN_DEF_TOSTRING_ARRAY(8)
+    }
+    case 4: // Array16
+    {
+        GEN_DEF_TOSTRING_ARRAY(16)
+    }
+    case 5: // Array32
+    {
+        GEN_DEF_TOSTRING_ARRAY(32)
+    }
+    case 6: // Blob
+    {
+        CHECK_ERROR(_toStringBytes(&v->blob, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    }
+    default:
+        return parser_not_supported;
+    }
+
+    return parser_ok;
 }
 
 parser_error_t _toStringBalanceOfBalanceOf_V17(
@@ -1284,6 +1745,72 @@ parser_error_t _toStringBodyPart_V17(
     default:
         return parser_unexpected_value;
     }
+    return parser_ok;
+}
+
+parser_error_t _toStringBonusConfigBalanceOfT_V17(
+    const pd_BonusConfigBalanceOfT_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    // First measure number of pages
+    uint8_t pages[3] = { 0 };
+    CHECK_ERROR(_toStringu128(&v->bonusPerToken, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringu64(&v->startTime, outValue, outValueLen, 0, &pages[1]))
+    CHECK_ERROR(_toStringu64(&v->endTime, outValue, outValueLen, 0, &pages[2]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringu128(&v->bonusPerToken, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringu64(&v->startTime, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+    pageIdx -= pages[1];
+
+    if (pageIdx < pages[2]) {
+        CHECK_ERROR(_toStringu64(&v->endTime, outValue, outValueLen, pageIdx, &pages[2]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
+}
+
+parser_error_t _toStringBoxVersionedMultiAsset_V17(
+    const pd_BoxVersionedMultiAsset_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    switch (v->value) {
+    case 0: // V0
+        CHECK_ERROR(_toStringMultiAssetV0_V17(&v->multiassetV0, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 1: // V1
+        CHECK_ERROR(_toStringMultiAssetV1_V17(&v->multiassetV1, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    default:
+        return parser_not_supported;
+    }
+
     return parser_ok;
 }
 
@@ -1474,6 +2001,80 @@ parser_error_t _toStringCompactAccountIndex_V17(
     return _toStringCompactInt(&v->value, 0, false, "", "", outValue, outValueLen, pageIdx, pageCount);
 }
 
+parser_error_t _toStringConcreteFungible_V17(
+    const pd_ConcreteFungible_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    // First measure number of pages
+    uint8_t pages[2] = { 0 };
+    CHECK_ERROR(_toStringMultiLocationV0_V17(&v->id, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringCompactBalance(&v->amount, outValue, outValueLen, 0, &pages[1]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringMultiLocationV0_V17(&v->id, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringCompactBalance(&v->amount, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
+}
+
+parser_error_t _toStringConcreteNonFungible_V17(
+    const pd_ConcreteNonFungible_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    // First measure number of pages
+    uint8_t pages[2] = { 0 };
+    CHECK_ERROR(_toStringMultiLocationV0_V17(&v->_class, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringAssetInstance_V17(&v->instance, outValue, outValueLen, 0, &pages[1]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringMultiLocationV0_V17(&v->_class, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringAssetInstance_V17(&v->instance, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
+}
+
 parser_error_t _toStringContributionStrategy_V17(
     const pd_ContributionStrategy_V17_t* v,
     char* outValue,
@@ -1650,6 +2251,28 @@ parser_error_t _toStringFraction_V17(
     }
 
     return parser_display_idx_out_of_range;
+}
+
+parser_error_t _toStringFungibility_V17(
+    const pd_Fungibility_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    switch (v->value) {
+    case 0: // Undefined
+        CHECK_ERROR(_toStringCompactu128(&v->fungible, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 1: // Index
+        CHECK_ERROR(_toStringAssetInstance_V17(&v->nonFungible, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    default:
+        return parser_not_supported;
+    }
+
+    return parser_ok;
 }
 
 parser_error_t _toStringInterestRateModel_V17(
@@ -2976,6 +3599,113 @@ parser_error_t _toStringMemberCount_V17(
     return _toStringu32(&v->value, outValue, outValueLen, pageIdx, pageCount);
 }
 
+parser_error_t _toStringMultiAssetId_V17(
+    const pd_MultiAssetId_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    switch (v->value) {
+    case 0: // Concrete
+        CHECK_ERROR(_toStringMultiLocationV1_V17(&v->concrete, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 1: // Abstract
+        CHECK_ERROR(_toStringBytes(&v->abstract, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    default:
+        return parser_not_supported;
+    }
+
+    return parser_ok;
+}
+
+parser_error_t _toStringMultiAssetV0_V17(
+    const pd_MultiAssetV0_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    *pageCount = 1;
+    switch (v->value) {
+    case 0: // None
+        snprintf(outValue, outValueLen, "None");
+        break;
+    case 1: // All
+        snprintf(outValue, outValueLen, "All");
+        break;
+    case 2: // AllFungible
+        snprintf(outValue, outValueLen, "AllFungible");
+        break;
+    case 3: // AllNonFungible
+        snprintf(outValue, outValueLen, "AllNonFungible");
+        break;
+    case 4: // AllAbstractFungible
+    case 5: // AllAbstractNonFungible
+        CHECK_ERROR(_toStringBytes(&v->abstract, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 6: // AllConcreteFungible
+    case 7: // AllConcreteNonFungible
+        CHECK_ERROR(_toStringMultiLocationV0_V17(&v->concrete, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 8: // AbstractFungible
+        CHECK_ERROR(_toStringAbstractFungible_V17(&v->abstractFungible, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 9: // AbstractNonFungible
+        CHECK_ERROR(_toStringAbstractNonFungible_V17(&v->abstractNonFungible, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 10: // ConcreteFungible
+        CHECK_ERROR(_toStringConcreteFungible_V17(&v->concreteFungible, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    case 11: // ConcreteNonFungible
+        CHECK_ERROR(_toStringConcreteNonFungible_V17(&v->concreteNonFungible, outValue, outValueLen, pageIdx, pageCount))
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
+}
+
+parser_error_t _toStringMultiAssetV1_V17(
+    const pd_MultiAssetV1_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    // First measure number of pages
+    uint8_t pages[2] = { 0 };
+    CHECK_ERROR(_toStringMultiAssetId_V17(&v->assetId, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringFungibility_V17(&v->fungibility, outValue, outValueLen, 0, &pages[1]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringMultiAssetId_V17(&v->assetId, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringFungibility_V17(&v->fungibility, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
+}
+
 parser_error_t _toStringMultiLocationV0_V17(
     const pd_MultiLocationV0_V17_t* v,
     char* outValue,
@@ -3391,6 +4121,43 @@ parser_error_t _toStringTimestamp_V17(
     return _toStringu64(&v->value, outValue, outValueLen, pageIdx, pageCount);
 }
 
+parser_error_t _toStringTupleCurrencyIdu128_V17(
+    const pd_TupleCurrencyIdu128_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+
+    // First measure number of pages
+    uint8_t pages[2] = { 0 };
+    CHECK_ERROR(_toStringCurrencyId_V17(&v->currencyid, outValue, outValueLen, 0, &pages[0]))
+    CHECK_ERROR(_toStringu128(&v->amount, outValue, outValueLen, 0, &pages[1]))
+
+    *pageCount = 0;
+    for (uint8_t i = 0; i < (uint8_t)sizeof(pages); i++) {
+        *pageCount += pages[i];
+    }
+
+    if (pageIdx > *pageCount) {
+        return parser_display_idx_out_of_range;
+    }
+
+    if (pageIdx < pages[0]) {
+        CHECK_ERROR(_toStringCurrencyId_V17(&v->currencyid, outValue, outValueLen, pageIdx, &pages[0]))
+        return parser_ok;
+    }
+    pageIdx -= pages[0];
+
+    if (pageIdx < pages[1]) {
+        CHECK_ERROR(_toStringu128(&v->amount, outValue, outValueLen, pageIdx, &pages[1]))
+        return parser_ok;
+    }
+
+    return parser_display_idx_out_of_range;
+}
+
 parser_error_t _toStringUnlockChunk_V17(
     const pd_UnlockChunk_V17_t* v,
     char* outValue,
@@ -3443,6 +4210,9 @@ parser_error_t _toStringUnstakeProvider_V17(
         break;
     case 1:
         snprintf(outValue, outValueLen, "Loans");
+        break;
+    case 2:
+        snprintf(outValue, outValueLen, "MatchingPool");
         break;
     default:
         return parser_unexpected_value;
@@ -3499,6 +4269,46 @@ parser_error_t _toStringVestingScheduleOf_V17(
     }
 
     return parser_display_idx_out_of_range;
+}
+
+parser_error_t _toStringVote_V17(
+    const pd_Vote_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    CLEAN_AND_CHECK()
+    *pageCount = 1;
+    const uint8_t conviction = v->value & 0x0F;
+
+    switch (v->value & 0xF0) {
+    case 0x80:
+        snprintf(outValue, outValueLen, "Aye - ");
+        break;
+    case 0x00:
+        snprintf(outValue, outValueLen, "Nay - ");
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+
+    switch (conviction) {
+    case 0:
+        snprintf(outValue + 6, outValueLen - 6, "None");
+        break;
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+        snprintf(outValue + 6, outValueLen - 6, "Locked%dx", conviction);
+        break;
+    default:
+        return parser_unexpected_value;
+    }
+    return parser_ok;
 }
 
 parser_error_t _toStringWeight_V17(
@@ -3640,6 +4450,16 @@ parser_error_t _toStringVecEraIndex_V17(
     uint8_t* pageCount)
 {
     GEN_DEF_TOSTRING_VECTOR(EraIndex_V17);
+}
+
+parser_error_t _toStringVecTupleCurrencyIdu128_V17(
+    const pd_VecTupleCurrencyIdu128_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount)
+{
+    GEN_DEF_TOSTRING_VECTOR(TupleCurrencyIdu128_V17);
 }
 
 parser_error_t _toStringVecUnlockChunk_V17(

@@ -18,6 +18,9 @@
 #include "substrate_strings.h"
 #include "zxmacros.h"
 #include <stdint.h>
+#ifdef LEDGER_SPECIFIC
+#include "bolos_target.h"
+#endif
 
 __Z_INLINE parser_error_t _readMethod_utility_batch_V17(
     parser_context_t* c, pd_utility_batch_V17_t* m)
@@ -88,6 +91,34 @@ __Z_INLINE parser_error_t _readMethod_session_purge_keys_V17(
 }
 
 #ifdef SUBSTRATE_PARSER_FULL
+#ifndef TARGET_NANOS
+__Z_INLINE parser_error_t _readMethod_xtokens_transfer_V17(
+    parser_context_t* c, pd_xtokens_transfer_V17_t* m)
+{
+    CHECK_ERROR(_readCurrencyId_V17(c, &m->currency_id))
+    CHECK_ERROR(_readu128(c, &m->amount))
+    CHECK_ERROR(_readBoxVersionedMultiLocation_V17(c, &m->dest))
+    CHECK_ERROR(_readWeight_V17(c, &m->dest_weight))
+    return parser_ok;
+}
+__Z_INLINE parser_error_t _readMethod_xtokens_transfer_multiasset_V17(
+    parser_context_t* c, pd_xtokens_transfer_multiasset_V17_t* m)
+{
+    CHECK_ERROR(_readBoxVersionedMultiAsset_V17(c, &m->asset))
+    CHECK_ERROR(_readBoxVersionedMultiLocation_V17(c, &m->dest))
+    CHECK_ERROR(_readWeight_V17(c, &m->dest_weight))
+    return parser_ok;
+}
+__Z_INLINE parser_error_t _readMethod_xtokens_transfer_multicurrencies_V17(
+    parser_context_t* c, pd_xtokens_transfer_multicurrencies_V17_t* m)
+{
+    CHECK_ERROR(_readVecTupleCurrencyIdu128_V17(c, &m->currencies))
+    CHECK_ERROR(_readu32(c, &m->fee_item))
+    CHECK_ERROR(_readBoxVersionedMultiLocation_V17(c, &m->dest))
+    CHECK_ERROR(_readWeight_V17(c, &m->dest_weight))
+    return parser_ok;
+}
+#endif
 __Z_INLINE parser_error_t _readMethod_system_fill_block_V17(
     parser_context_t* c, pd_system_fill_block_V17_t* m)
 {
@@ -583,6 +614,14 @@ __Z_INLINE parser_error_t _readMethod_democracy_second_V17(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_democracy_vote_V17(
+    parser_context_t* c, pd_democracy_vote_V17_t* m)
+{
+    CHECK_ERROR(_readCompactu32(c, &m->ref_index))
+    CHECK_ERROR(_readAccountVote_V17(c, &m->vote))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_democracy_emergency_cancel_V17(
     parser_context_t* c, pd_democracy_emergency_cancel_V17_t* m)
 {
@@ -1007,16 +1046,6 @@ __Z_INLINE parser_error_t _readMethod_collatorselection_leave_intent_V17(
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_xtokens_transfer_V17(
-    parser_context_t* c, pd_xtokens_transfer_V17_t* m)
-{
-    CHECK_ERROR(_readCurrencyId_V17(c, &m->currency_id))
-    CHECK_ERROR(_readu128(c, &m->amount))
-    CHECK_ERROR(_readBoxVersionedMultiLocation_V17(c, &m->dest))
-    CHECK_ERROR(_readWeight_V17(c, &m->dest_weight))
-    return parser_ok;
-}
-
 __Z_INLINE parser_error_t _readMethod_vesting_claim_V17(
     parser_context_t* c, pd_vesting_claim_V17_t* m)
 {
@@ -1423,6 +1452,15 @@ __Z_INLINE parser_error_t _readMethod_crowdloans_update_proxy_V17(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_crowdloans_update_leases_bonus_V17(
+    parser_context_t* c, pd_crowdloans_update_leases_bonus_V17_t* m)
+{
+    CHECK_ERROR(_readLeasePeriod_V17(c, &m->lease_start))
+    CHECK_ERROR(_readLeasePeriod_V17(c, &m->lease_end))
+    CHECK_ERROR(_readBonusConfigBalanceOfT_V17(c, &m->bonus_config))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_liquidstaking_stake_V17(
     parser_context_t* c, pd_liquidstaking_stake_V17_t* m)
 {
@@ -1572,6 +1610,20 @@ __Z_INLINE parser_error_t _readMethod_liquidstaking_cancel_unstake_V17(
     parser_context_t* c, pd_liquidstaking_cancel_unstake_V17_t* m)
 {
     CHECK_ERROR(_readCompactu128(c, &m->amount))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_liquidstaking_update_commission_rate_V17(
+    parser_context_t* c, pd_liquidstaking_update_commission_rate_V17_t* m)
+{
+    CHECK_ERROR(_readRate_V17(c, &m->commission_rate))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_liquidstaking_fast_match_unstake_V17(
+    parser_context_t* c, pd_liquidstaking_fast_match_unstake_V17_t* m)
+{
+    CHECK_ERROR(_readVecAccountId_V17(c, &m->unstaker_list))
     return parser_ok;
 }
 
@@ -1896,6 +1948,20 @@ __Z_INLINE parser_error_t _readMethod_amm_create_pool_V17(
     return parser_ok;
 }
 
+__Z_INLINE parser_error_t _readMethod_amm_update_protocol_fee_V17(
+    parser_context_t* c, pd_amm_update_protocol_fee_V17_t* m)
+{
+    CHECK_ERROR(_readRatio_V17(c, &m->protocol_fee))
+    return parser_ok;
+}
+
+__Z_INLINE parser_error_t _readMethod_amm_update_protocol_fee_receiver_V17(
+    parser_context_t* c, pd_amm_update_protocol_fee_receiver_V17_t* m)
+{
+    CHECK_ERROR(_readAccountId_V17(c, &m->protocol_fee_receiver))
+    return parser_ok;
+}
+
 __Z_INLINE parser_error_t _readMethod_ammroute_swap_exact_tokens_for_tokens_V17(
     parser_context_t* c, pd_ammroute_swap_exact_tokens_for_tokens_V17_t* m)
 {
@@ -2162,20 +2228,6 @@ __Z_INLINE parser_error_t _readMethod_streaming_set_minimum_deposit_V17(
     return parser_ok;
 }
 
-__Z_INLINE parser_error_t _readMethod_parachainsystem_authorize_upgrade_V17(
-    parser_context_t* c, pd_parachainsystem_authorize_upgrade_V17_t* m)
-{
-    CHECK_ERROR(_readHash(c, &m->code_hash))
-    return parser_ok;
-}
-
-__Z_INLINE parser_error_t _readMethod_parachainsystem_enact_authorized_upgrade_V17(
-    parser_context_t* c, pd_parachainsystem_enact_authorized_upgrade_V17_t* m)
-{
-    CHECK_ERROR(_readVecu8(c, &m->code))
-    return parser_ok;
-}
-
 #endif
 
 parser_error_t _readMethod_V17(
@@ -2217,6 +2269,17 @@ parser_error_t _readMethod_V17(
         break;
 
 #ifdef SUBSTRATE_PARSER_FULL
+#ifndef TARGET_NANOS
+    case 11008: /* module 43 call 0 */
+        CHECK_ERROR(_readMethod_xtokens_transfer_V17(c, &method->basic.xtokens_transfer_V17))
+        break;
+    case 11009: /* module 43 call 1 */
+        CHECK_ERROR(_readMethod_xtokens_transfer_multiasset_V17(c, &method->basic.xtokens_transfer_multiasset_V17))
+        break;
+    case 11012: /* module 43 call 4 */
+        CHECK_ERROR(_readMethod_xtokens_transfer_multicurrencies_V17(c, &method->basic.xtokens_transfer_multicurrencies_V17))
+        break;
+#endif
     case 0: /* module 0 call 0 */
         CHECK_ERROR(_readMethod_system_fill_block_V17(c, &method->nested.system_fill_block_V17))
         break;
@@ -2394,6 +2457,9 @@ parser_error_t _readMethod_V17(
     case 2817: /* module 11 call 1 */
         CHECK_ERROR(_readMethod_democracy_second_V17(c, &method->basic.democracy_second_V17))
         break;
+    case 2818: /* module 11 call 2 */
+        CHECK_ERROR(_readMethod_democracy_vote_V17(c, &method->basic.democracy_vote_V17))
+        break;
     case 2819: /* module 11 call 3 */
         CHECK_ERROR(_readMethod_democracy_emergency_cancel_V17(c, &method->basic.democracy_emergency_cancel_V17))
         break;
@@ -2565,9 +2631,6 @@ parser_error_t _readMethod_V17(
     case 7940: /* module 31 call 4 */
         CHECK_ERROR(_readMethod_collatorselection_leave_intent_V17(c, &method->basic.collatorselection_leave_intent_V17))
         break;
-    case 11008: /* module 43 call 0 */
-        CHECK_ERROR(_readMethod_xtokens_transfer_V17(c, &method->basic.xtokens_transfer_V17))
-        break;
     case 11776: /* module 46 call 0 */
         CHECK_ERROR(_readMethod_vesting_claim_V17(c, &method->basic.vesting_claim_V17))
         break;
@@ -2715,6 +2778,9 @@ parser_error_t _readMethod_V17(
     case 13332: /* module 52 call 20 */
         CHECK_ERROR(_readMethod_crowdloans_update_proxy_V17(c, &method->basic.crowdloans_update_proxy_V17))
         break;
+    case 13333: /* module 52 call 21 */
+        CHECK_ERROR(_readMethod_crowdloans_update_leases_bonus_V17(c, &method->basic.crowdloans_update_leases_bonus_V17))
+        break;
     case 15360: /* module 60 call 0 */
         CHECK_ERROR(_readMethod_liquidstaking_stake_V17(c, &method->nested.liquidstaking_stake_V17))
         break;
@@ -2774,6 +2840,12 @@ parser_error_t _readMethod_V17(
         break;
     case 15380: /* module 60 call 20 */
         CHECK_ERROR(_readMethod_liquidstaking_cancel_unstake_V17(c, &method->nested.liquidstaking_cancel_unstake_V17))
+        break;
+    case 15381: /* module 60 call 21 */
+        CHECK_ERROR(_readMethod_liquidstaking_update_commission_rate_V17(c, &method->basic.liquidstaking_update_commission_rate_V17))
+        break;
+    case 15382: /* module 60 call 22 */
+        CHECK_ERROR(_readMethod_liquidstaking_fast_match_unstake_V17(c, &method->basic.liquidstaking_fast_match_unstake_V17))
         break;
     case 17920: /* module 70 call 0 */
         CHECK_ERROR(_readMethod_generalcouncilmembership_add_member_V17(c, &method->basic.generalcouncilmembership_add_member_V17))
@@ -2910,6 +2982,12 @@ parser_error_t _readMethod_V17(
     case 20482: /* module 80 call 2 */
         CHECK_ERROR(_readMethod_amm_create_pool_V17(c, &method->basic.amm_create_pool_V17))
         break;
+    case 20483: /* module 80 call 3 */
+        CHECK_ERROR(_readMethod_amm_update_protocol_fee_V17(c, &method->basic.amm_update_protocol_fee_V17))
+        break;
+    case 20484: /* module 80 call 4 */
+        CHECK_ERROR(_readMethod_amm_update_protocol_fee_receiver_V17(c, &method->basic.amm_update_protocol_fee_receiver_V17))
+        break;
     case 20736: /* module 81 call 0 */
         CHECK_ERROR(_readMethod_ammroute_swap_exact_tokens_for_tokens_V17(c, &method->basic.ammroute_swap_exact_tokens_for_tokens_V17))
         break;
@@ -3000,12 +3078,6 @@ parser_error_t _readMethod_V17(
     case 24067: /* module 94 call 3 */
         CHECK_ERROR(_readMethod_streaming_set_minimum_deposit_V17(c, &method->basic.streaming_set_minimum_deposit_V17))
         break;
-    case 5122: /* module 20 call 2 */
-        CHECK_ERROR(_readMethod_parachainsystem_authorize_upgrade_V17(c, &method->basic.parachainsystem_authorize_upgrade_V17))
-        break;
-    case 5123: /* module 20 call 3 */
-        CHECK_ERROR(_readMethod_parachainsystem_enact_authorized_upgrade_V17(c, &method->basic.parachainsystem_enact_authorized_upgrade_V17))
-        break;
 #endif
     default:
         return parser_unexpected_callIndex;
@@ -3029,6 +3101,10 @@ const char* _getMethod_ModuleName_V17(uint8_t moduleIdx)
     case 32:
         return STR_MO_SESSION;
 #ifdef SUBSTRATE_PARSER_FULL
+#ifndef TARGET_NANOS
+    case 43:
+        return STR_MO_XTOKENS;
+#endif
     case 0:
         return STR_MO_SYSTEM;
     case 1:
@@ -3057,8 +3133,6 @@ const char* _getMethod_ModuleName_V17(uint8_t moduleIdx)
         return STR_MO_DMPQUEUE;
     case 31:
         return STR_MO_COLLATORSELECTION;
-    case 43:
-        return STR_MO_XTOKENS;
     case 46:
         return STR_MO_VESTING;
     case 50:
@@ -3097,8 +3171,6 @@ const char* _getMethod_ModuleName_V17(uint8_t moduleIdx)
         return STR_MO_XCMHELPER;
     case 94:
         return STR_MO_STREAMING;
-    case 20:
-        return STR_MO_PARACHAINSYSTEM;
 #endif
     default:
         return NULL;
@@ -3141,6 +3213,14 @@ const char* _getMethod_Name_V17_ParserFull(uint16_t callPrivIdx)
 {
     switch (callPrivIdx) {
 #ifdef SUBSTRATE_PARSER_FULL
+#ifndef TARGET_NANOS
+    case 11008: /* module 43 call 0 */
+        return STR_ME_TRANSFER;
+    case 11009: /* module 43 call 1 */
+        return STR_ME_TRANSFER_MULTIASSET;
+    case 11012: /* module 43 call 4 */
+        return STR_ME_TRANSFER_MULTICURRENCIES;
+#endif
     case 0: /* module 0 call 0 */
         return STR_ME_FILL_BLOCK;
     case 1: /* module 0 call 1 */
@@ -3259,6 +3339,8 @@ const char* _getMethod_Name_V17_ParserFull(uint16_t callPrivIdx)
         return STR_ME_PROPOSE;
     case 2817: /* module 11 call 1 */
         return STR_ME_SECOND;
+    case 2818: /* module 11 call 2 */
+        return STR_ME_VOTE;
     case 2819: /* module 11 call 3 */
         return STR_ME_EMERGENCY_CANCEL;
     case 2820: /* module 11 call 4 */
@@ -3373,8 +3455,6 @@ const char* _getMethod_Name_V17_ParserFull(uint16_t callPrivIdx)
         return STR_ME_REGISTER_AS_CANDIDATE;
     case 7940: /* module 31 call 4 */
         return STR_ME_LEAVE_INTENT;
-    case 11008: /* module 43 call 0 */
-        return STR_ME_TRANSFER;
     case 11776: /* module 46 call 0 */
         return STR_ME_CLAIM;
     case 11777: /* module 46 call 1 */
@@ -3473,6 +3553,8 @@ const char* _getMethod_Name_V17_ParserFull(uint16_t callPrivIdx)
         return STR_ME_REFUND_FOR;
     case 13332: /* module 52 call 20 */
         return STR_ME_UPDATE_PROXY;
+    case 13333: /* module 52 call 21 */
+        return STR_ME_UPDATE_LEASES_BONUS;
     case 15360: /* module 60 call 0 */
         return STR_ME_STAKE;
     case 15361: /* module 60 call 1 */
@@ -3513,6 +3595,10 @@ const char* _getMethod_Name_V17_ParserFull(uint16_t callPrivIdx)
         return STR_ME_REDUCE_RESERVES;
     case 15380: /* module 60 call 20 */
         return STR_ME_CANCEL_UNSTAKE;
+    case 15381: /* module 60 call 21 */
+        return STR_ME_UPDATE_COMMISSION_RATE;
+    case 15382: /* module 60 call 22 */
+        return STR_ME_FAST_MATCH_UNSTAKE;
     case 17920: /* module 70 call 0 */
         return STR_ME_ADD_MEMBER;
     case 17921: /* module 70 call 1 */
@@ -3603,6 +3689,10 @@ const char* _getMethod_Name_V17_ParserFull(uint16_t callPrivIdx)
         return STR_ME_REMOVE_LIQUIDITY;
     case 20482: /* module 80 call 2 */
         return STR_ME_CREATE_POOL;
+    case 20483: /* module 80 call 3 */
+        return STR_ME_UPDATE_PROTOCOL_FEE;
+    case 20484: /* module 80 call 4 */
+        return STR_ME_UPDATE_PROTOCOL_FEE_RECEIVER;
     case 20736: /* module 81 call 0 */
         return STR_ME_SWAP_EXACT_TOKENS_FOR_TOKENS;
     case 20737: /* module 81 call 1 */
@@ -3663,10 +3753,6 @@ const char* _getMethod_Name_V17_ParserFull(uint16_t callPrivIdx)
         return STR_ME_WITHDRAW;
     case 24067: /* module 94 call 3 */
         return STR_ME_SET_MINIMUM_DEPOSIT;
-    case 5122: /* module 20 call 2 */
-        return STR_ME_AUTHORIZE_UPGRADE;
-    case 5123: /* module 20 call 3 */
-        return STR_ME_ENACT_AUTHORIZED_UPGRADE;
 #endif
     default:
         return NULL;
@@ -3699,6 +3785,14 @@ uint8_t _getMethod_NumItems_V17(uint8_t moduleIdx, uint8_t callIdx)
     case 8193: /* module 32 call 1 */
         return 0;
 #ifdef SUBSTRATE_PARSER_FULL
+#ifndef TARGET_NANOS
+    case 11008: /* module 43 call 0 */
+        return 4;
+    case 11009: /* module 43 call 1 */
+        return 3;
+    case 11012: /* module 43 call 4 */
+        return 4;
+#endif
     case 0: /* module 0 call 0 */
         return 1;
     case 1: /* module 0 call 1 */
@@ -3817,6 +3911,8 @@ uint8_t _getMethod_NumItems_V17(uint8_t moduleIdx, uint8_t callIdx)
         return 2;
     case 2817: /* module 11 call 1 */
         return 2;
+    case 2818: /* module 11 call 2 */
+        return 2;
     case 2819: /* module 11 call 3 */
         return 1;
     case 2820: /* module 11 call 4 */
@@ -3931,8 +4027,6 @@ uint8_t _getMethod_NumItems_V17(uint8_t moduleIdx, uint8_t callIdx)
         return 0;
     case 7940: /* module 31 call 4 */
         return 0;
-    case 11008: /* module 43 call 0 */
-        return 4;
     case 11776: /* module 46 call 0 */
         return 0;
     case 11777: /* module 46 call 1 */
@@ -4031,6 +4125,8 @@ uint8_t _getMethod_NumItems_V17(uint8_t moduleIdx, uint8_t callIdx)
         return 6;
     case 13332: /* module 52 call 20 */
         return 1;
+    case 13333: /* module 52 call 21 */
+        return 3;
     case 15360: /* module 60 call 0 */
         return 1;
     case 15361: /* module 60 call 1 */
@@ -4070,6 +4166,10 @@ uint8_t _getMethod_NumItems_V17(uint8_t moduleIdx, uint8_t callIdx)
     case 15379: /* module 60 call 19 */
         return 2;
     case 15380: /* module 60 call 20 */
+        return 1;
+    case 15381: /* module 60 call 21 */
+        return 1;
+    case 15382: /* module 60 call 22 */
         return 1;
     case 17920: /* module 70 call 0 */
         return 1;
@@ -4161,6 +4261,10 @@ uint8_t _getMethod_NumItems_V17(uint8_t moduleIdx, uint8_t callIdx)
         return 2;
     case 20482: /* module 80 call 2 */
         return 4;
+    case 20483: /* module 80 call 3 */
+        return 1;
+    case 20484: /* module 80 call 4 */
+        return 1;
     case 20736: /* module 81 call 0 */
         return 3;
     case 20737: /* module 81 call 1 */
@@ -4221,10 +4325,6 @@ uint8_t _getMethod_NumItems_V17(uint8_t moduleIdx, uint8_t callIdx)
         return 2;
     case 24067: /* module 94 call 3 */
         return 2;
-    case 5122: /* module 20 call 2 */
-        return 1;
-    case 5123: /* module 20 call 3 */
-        return 1;
 #endif
     default:
         return 0;
@@ -4312,6 +4412,45 @@ const char* _getMethod_ItemName_V17(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
             return NULL;
         }
 #ifdef SUBSTRATE_PARSER_FULL
+#ifndef TARGET_NANOS
+    case 11008: /* module 43 call 0 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_currency_id;
+        case 1:
+            return STR_IT_amount;
+        case 2:
+            return STR_IT_dest;
+        case 3:
+            return STR_IT_dest_weight;
+        default:
+            return NULL;
+        }
+    case 11009: /* module 43 call 1 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_asset;
+        case 1:
+            return STR_IT_dest;
+        case 2:
+            return STR_IT_dest_weight;
+        default:
+            return NULL;
+        }
+    case 11012: /* module 43 call 4 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_currencies;
+        case 1:
+            return STR_IT_fee_item;
+        case 2:
+            return STR_IT_dest;
+        case 3:
+            return STR_IT_dest_weight;
+        default:
+            return NULL;
+        }
+#endif
     case 0: /* module 0 call 0 */
         switch (itemIdx) {
         case 0:
@@ -4889,6 +5028,15 @@ const char* _getMethod_ItemName_V17(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         default:
             return NULL;
         }
+    case 2818: /* module 11 call 2 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_ref_index;
+        case 1:
+            return STR_IT_vote;
+        default:
+            return NULL;
+        }
     case 2819: /* module 11 call 3 */
         switch (itemIdx) {
         case 0:
@@ -5335,19 +5483,6 @@ const char* _getMethod_ItemName_V17(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         }
     case 7940: /* module 31 call 4 */
         switch (itemIdx) {
-        default:
-            return NULL;
-        }
-    case 11008: /* module 43 call 0 */
-        switch (itemIdx) {
-        case 0:
-            return STR_IT_currency_id;
-        case 1:
-            return STR_IT_amount;
-        case 2:
-            return STR_IT_dest;
-        case 3:
-            return STR_IT_dest_weight;
         default:
             return NULL;
         }
@@ -5820,6 +5955,17 @@ const char* _getMethod_ItemName_V17(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         default:
             return NULL;
         }
+    case 13333: /* module 52 call 21 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_lease_start;
+        case 1:
+            return STR_IT_lease_end;
+        case 2:
+            return STR_IT_bonus_config;
+        default:
+            return NULL;
+        }
     case 15360: /* module 60 call 0 */
         switch (itemIdx) {
         case 0:
@@ -5981,6 +6127,20 @@ const char* _getMethod_ItemName_V17(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         switch (itemIdx) {
         case 0:
             return STR_IT_amount;
+        default:
+            return NULL;
+        }
+    case 15381: /* module 60 call 21 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_commission_rate;
+        default:
+            return NULL;
+        }
+    case 15382: /* module 60 call 22 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_unstaker_list;
         default:
             return NULL;
         }
@@ -6311,6 +6471,20 @@ const char* _getMethod_ItemName_V17(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         default:
             return NULL;
         }
+    case 20483: /* module 80 call 3 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_protocol_fee;
+        default:
+            return NULL;
+        }
+    case 20484: /* module 80 call 4 */
+        switch (itemIdx) {
+        case 0:
+            return STR_IT_protocol_fee_receiver;
+        default:
+            return NULL;
+        }
     case 20736: /* module 81 call 0 */
         switch (itemIdx) {
         case 0:
@@ -6633,20 +6807,6 @@ const char* _getMethod_ItemName_V17(uint8_t moduleIdx, uint8_t callIdx, uint8_t 
         default:
             return NULL;
         }
-    case 5122: /* module 20 call 2 */
-        switch (itemIdx) {
-        case 0:
-            return STR_IT_code_hash;
-        default:
-            return NULL;
-        }
-    case 5123: /* module 20 call 3 */
-        switch (itemIdx) {
-        case 0:
-            return STR_IT_code;
-        default:
-            return NULL;
-        }
 #endif
     default:
         return NULL;
@@ -6780,6 +6940,78 @@ parser_error_t _getMethod_ItemValue_V17(
             return parser_no_data;
         }
 #ifdef SUBSTRATE_PARSER_FULL
+#ifndef TARGET_NANOS
+    case 11008: /* module 43 call 0 */
+        switch (itemIdx) {
+        case 0: /* xtokens_transfer_V17 - currency_id */;
+            return _toStringCurrencyId_V17(
+                &m->basic.xtokens_transfer_V17.currency_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* xtokens_transfer_V17 - amount */;
+            return _toStringu128(
+                &m->basic.xtokens_transfer_V17.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* xtokens_transfer_V17 - dest */;
+            return _toStringBoxVersionedMultiLocation_V17(
+                &m->basic.xtokens_transfer_V17.dest,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* xtokens_transfer_V17 - dest_weight */;
+            return _toStringWeight_V17(
+                &m->basic.xtokens_transfer_V17.dest_weight,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 11009: /* module 43 call 1 */
+        switch (itemIdx) {
+        case 0: /* xtokens_transfer_multiasset_V17 - asset */;
+            return _toStringBoxVersionedMultiAsset_V17(
+                &m->basic.xtokens_transfer_multiasset_V17.asset,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* xtokens_transfer_multiasset_V17 - dest */;
+            return _toStringBoxVersionedMultiLocation_V17(
+                &m->basic.xtokens_transfer_multiasset_V17.dest,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* xtokens_transfer_multiasset_V17 - dest_weight */;
+            return _toStringWeight_V17(
+                &m->basic.xtokens_transfer_multiasset_V17.dest_weight,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 11012: /* module 43 call 4 */
+        switch (itemIdx) {
+        case 0: /* xtokens_transfer_multicurrencies_V17 - currencies */;
+            return _toStringVecTupleCurrencyIdu128_V17(
+                &m->basic.xtokens_transfer_multicurrencies_V17.currencies,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* xtokens_transfer_multicurrencies_V17 - fee_item */;
+            return _toStringu32(
+                &m->basic.xtokens_transfer_multicurrencies_V17.fee_item,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* xtokens_transfer_multicurrencies_V17 - dest */;
+            return _toStringBoxVersionedMultiLocation_V17(
+                &m->basic.xtokens_transfer_multicurrencies_V17.dest,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 3: /* xtokens_transfer_multicurrencies_V17 - dest_weight */;
+            return _toStringWeight_V17(
+                &m->basic.xtokens_transfer_multicurrencies_V17.dest_weight,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+#endif
     case 0: /* module 0 call 0 */
         switch (itemIdx) {
         case 0: /* system_fill_block_V17 - ratio */;
@@ -7780,6 +8012,21 @@ parser_error_t _getMethod_ItemValue_V17(
         default:
             return parser_no_data;
         }
+    case 2818: /* module 11 call 2 */
+        switch (itemIdx) {
+        case 0: /* democracy_vote_V17 - ref_index */;
+            return _toStringCompactu32(
+                &m->basic.democracy_vote_V17.ref_index,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* democracy_vote_V17 - vote */;
+            return _toStringAccountVote_V17(
+                &m->basic.democracy_vote_V17.vote,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 2819: /* module 11 call 3 */
         switch (itemIdx) {
         case 0: /* democracy_emergency_cancel_V17 - ref_index */;
@@ -8472,31 +8719,6 @@ parser_error_t _getMethod_ItemValue_V17(
         }
     case 7940: /* module 31 call 4 */
         switch (itemIdx) {
-        default:
-            return parser_no_data;
-        }
-    case 11008: /* module 43 call 0 */
-        switch (itemIdx) {
-        case 0: /* xtokens_transfer_V17 - currency_id */;
-            return _toStringCurrencyId_V17(
-                &m->basic.xtokens_transfer_V17.currency_id,
-                outValue, outValueLen,
-                pageIdx, pageCount);
-        case 1: /* xtokens_transfer_V17 - amount */;
-            return _toStringu128(
-                &m->basic.xtokens_transfer_V17.amount,
-                outValue, outValueLen,
-                pageIdx, pageCount);
-        case 2: /* xtokens_transfer_V17 - dest */;
-            return _toStringBoxVersionedMultiLocation_V17(
-                &m->basic.xtokens_transfer_V17.dest,
-                outValue, outValueLen,
-                pageIdx, pageCount);
-        case 3: /* xtokens_transfer_V17 - dest_weight */;
-            return _toStringWeight_V17(
-                &m->basic.xtokens_transfer_V17.dest_weight,
-                outValue, outValueLen,
-                pageIdx, pageCount);
         default:
             return parser_no_data;
         }
@@ -9305,6 +9527,26 @@ parser_error_t _getMethod_ItemValue_V17(
         default:
             return parser_no_data;
         }
+    case 13333: /* module 52 call 21 */
+        switch (itemIdx) {
+        case 0: /* crowdloans_update_leases_bonus_V17 - lease_start */;
+            return _toStringLeasePeriod_V17(
+                &m->basic.crowdloans_update_leases_bonus_V17.lease_start,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 1: /* crowdloans_update_leases_bonus_V17 - lease_end */;
+            return _toStringLeasePeriod_V17(
+                &m->basic.crowdloans_update_leases_bonus_V17.lease_end,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        case 2: /* crowdloans_update_leases_bonus_V17 - bonus_config */;
+            return _toStringBonusConfigBalanceOfT_V17(
+                &m->basic.crowdloans_update_leases_bonus_V17.bonus_config,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
     case 15360: /* module 60 call 0 */
         switch (itemIdx) {
         case 0: /* liquidstaking_stake_V17 - amount */;
@@ -9560,6 +9802,26 @@ parser_error_t _getMethod_ItemValue_V17(
         case 0: /* liquidstaking_cancel_unstake_V17 - amount */;
             return _toStringCompactu128(
                 &m->nested.liquidstaking_cancel_unstake_V17.amount,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 15381: /* module 60 call 21 */
+        switch (itemIdx) {
+        case 0: /* liquidstaking_update_commission_rate_V17 - commission_rate */;
+            return _toStringRate_V17(
+                &m->basic.liquidstaking_update_commission_rate_V17.commission_rate,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 15382: /* module 60 call 22 */
+        switch (itemIdx) {
+        case 0: /* liquidstaking_fast_match_unstake_V17 - unstaker_list */;
+            return _toStringVecAccountId_V17(
+                &m->basic.liquidstaking_fast_match_unstake_V17.unstaker_list,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -10040,6 +10302,26 @@ parser_error_t _getMethod_ItemValue_V17(
         case 3: /* amm_create_pool_V17 - lp_token_id */;
             return _toStringAssetIdOf_V17(
                 &m->basic.amm_create_pool_V17.lp_token_id,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 20483: /* module 80 call 3 */
+        switch (itemIdx) {
+        case 0: /* amm_update_protocol_fee_V17 - protocol_fee */;
+            return _toStringRatio_V17(
+                &m->basic.amm_update_protocol_fee_V17.protocol_fee,
+                outValue, outValueLen,
+                pageIdx, pageCount);
+        default:
+            return parser_no_data;
+        }
+    case 20484: /* module 80 call 4 */
+        switch (itemIdx) {
+        case 0: /* amm_update_protocol_fee_receiver_V17 - protocol_fee_receiver */;
+            return _toStringAccountId_V17(
+                &m->basic.amm_update_protocol_fee_receiver_V17.protocol_fee_receiver,
                 outValue, outValueLen,
                 pageIdx, pageCount);
         default:
@@ -10625,26 +10907,6 @@ parser_error_t _getMethod_ItemValue_V17(
         default:
             return parser_no_data;
         }
-    case 5122: /* module 20 call 2 */
-        switch (itemIdx) {
-        case 0: /* parachainsystem_authorize_upgrade_V17 - code_hash */;
-            return _toStringHash(
-                &m->basic.parachainsystem_authorize_upgrade_V17.code_hash,
-                outValue, outValueLen,
-                pageIdx, pageCount);
-        default:
-            return parser_no_data;
-        }
-    case 5123: /* module 20 call 3 */
-        switch (itemIdx) {
-        case 0: /* parachainsystem_enact_authorized_upgrade_V17 - code */;
-            return _toStringVecu8(
-                &m->basic.parachainsystem_enact_authorized_upgrade_V17.code,
-                outValue, outValueLen,
-                pageIdx, pageCount);
-        default:
-            return parser_no_data;
-        }
 #endif
     default:
         return parser_ok;
@@ -10720,6 +10982,7 @@ bool _getMethod_IsNestingSupported_V17(uint8_t moduleIdx, uint8_t callIdx)
     case 2062: // Identity:Quit sub
     case 2816: // Democracy:Propose
     case 2817: // Democracy:Second
+    case 2818: // Democracy:Vote
     case 2819: // Democracy:Emergency cancel
     case 2820: // Democracy:External propose
     case 2821: // Democracy:External propose majority
@@ -10780,6 +11043,8 @@ bool _getMethod_IsNestingSupported_V17(uint8_t moduleIdx, uint8_t callIdx)
     case 8192: // Session:Set keys
     case 8193: // Session:Purge keys
     case 11008: // XTokens:Transfer
+    case 11009: // XTokens:Transfer multiasset
+    case 11012: // XTokens:Transfer multicurrencies
     case 11776: // Vesting:Claim
     case 11777: // Vesting:Vested transfer
     case 11778: // Vesting:Update vesting schedules
@@ -10807,6 +11072,9 @@ bool _getMethod_IsNestingSupported_V17(uint8_t moduleIdx, uint8_t callIdx)
     case 13330: // Crowdloans:Dissolve vault
     case 13331: // Crowdloans:Refund for
     case 13332: // Crowdloans:Update proxy
+    case 13333: // Crowdloans:Update leases bonus
+    case 15381: // LiquidStaking:Update commission rate
+    case 15382: // LiquidStaking:Fast match unstake
     case 17920: // GeneralCouncilMembership:Add member
     case 17921: // GeneralCouncilMembership:Remove member
     case 17922: // GeneralCouncilMembership:Swap member
@@ -10852,6 +11120,8 @@ bool _getMethod_IsNestingSupported_V17(uint8_t moduleIdx, uint8_t callIdx)
     case 20480: // AMM:Add liquidity
     case 20481: // AMM:Remove liquidity
     case 20482: // AMM:Create pool
+    case 20483: // AMM:Update protocol fee
+    case 20484: // AMM:Update protocol fee receiver
     case 20736: // AMMRoute:Swap exact tokens for tokens
     case 20737: // AMMRoute:Swap tokens for exact tokens
     case 20992: // CurrencyAdapter:Force set lock
@@ -10882,8 +11152,6 @@ bool _getMethod_IsNestingSupported_V17(uint8_t moduleIdx, uint8_t callIdx)
     case 24065: // Streaming:Cancel
     case 24066: // Streaming:Withdraw
     case 24067: // Streaming:Set minimum deposit
-    case 5122: // ParachainSystem:Authorize upgrade
-    case 5123: // ParachainSystem:Enact authorized upgrade
         return false;
     default:
         return true;

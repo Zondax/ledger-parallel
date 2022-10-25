@@ -100,6 +100,10 @@ typedef struct {
 } pd_Balance_t;
 
 typedef struct {
+    pd_Balance_t value;
+} pd_BalanceOf_t;
+
+typedef struct {
     pd_CallIndex_t callIndex;
     const uint32_t* _txVerPtr;
     pd_NestCallIdx_t nestCallIdx;

@@ -25,6 +25,9 @@ extern "C" {
 #include "substrate_types_V17.h"
 #include <stddef.h>
 #include <stdint.h>
+#ifdef LEDGER_SPECIFIC
+#include "bolos_target.h"
+#endif
 
 #define PD_CALL_SYSTEM_V17 0
 #define PD_CALL_TIMESTAMP_V17 1
@@ -63,7 +66,6 @@ extern "C" {
 #define PD_CALL_FARMING_V17 92
 #define PD_CALL_XCMHELPER_V17 93
 #define PD_CALL_STREAMING_V17 94
-#define PD_CALL_PARACHAINSYSTEM_V17 20
 
 #define PD_CALL_UTILITY_BATCH_V17 0
 typedef struct {
@@ -97,6 +99,28 @@ typedef struct {
 } pd_session_purge_keys_V17_t;
 
 #ifdef SUBSTRATE_PARSER_FULL
+#ifndef TARGET_NANOS
+#define PD_CALL_XTOKENS_TRANSFER_V17 0
+typedef struct {
+    pd_CurrencyId_V17_t currency_id;
+    pd_u128_t amount;
+    pd_BoxVersionedMultiLocation_V17_t dest;
+    pd_Weight_V17_t dest_weight;
+} pd_xtokens_transfer_V17_t;
+#define PD_CALL_XTOKENS_TRANSFER_MULTIASSET_V17 1
+typedef struct {
+    pd_BoxVersionedMultiAsset_V17_t asset;
+    pd_BoxVersionedMultiLocation_V17_t dest;
+    pd_Weight_V17_t dest_weight;
+} pd_xtokens_transfer_multiasset_V17_t;
+#define PD_CALL_XTOKENS_TRANSFER_MULTICURRENCIES_V17 4
+typedef struct {
+    pd_VecTupleCurrencyIdu128_V17_t currencies;
+    pd_u32_t fee_item;
+    pd_BoxVersionedMultiLocation_V17_t dest;
+    pd_Weight_V17_t dest_weight;
+} pd_xtokens_transfer_multicurrencies_V17_t;
+#endif
 
 #define PD_CALL_TIMESTAMP_SET_V17 0
 typedef struct {
@@ -397,6 +421,12 @@ typedef struct {
     pd_Compactu32_t proposal;
     pd_Compactu32_t seconds_upper_bound;
 } pd_democracy_second_V17_t;
+
+#define PD_CALL_DEMOCRACY_VOTE_V17 2
+typedef struct {
+    pd_Compactu32_t ref_index;
+    pd_AccountVote_V17_t vote;
+} pd_democracy_vote_V17_t;
 
 #define PD_CALL_DEMOCRACY_EMERGENCY_CANCEL_V17 3
 typedef struct {
@@ -708,14 +738,6 @@ typedef struct {
 typedef struct {
 } pd_collatorselection_leave_intent_V17_t;
 
-#define PD_CALL_XTOKENS_TRANSFER_V17 0
-typedef struct {
-    pd_CurrencyId_V17_t currency_id;
-    pd_u128_t amount;
-    pd_BoxVersionedMultiLocation_V17_t dest;
-    pd_Weight_V17_t dest_weight;
-} pd_xtokens_transfer_V17_t;
-
 #define PD_CALL_VESTING_CLAIM_V17 0
 typedef struct {
 } pd_vesting_claim_V17_t;
@@ -886,6 +908,23 @@ typedef struct {
 typedef struct {
     pd_AccountId_V17_t proxy_address;
 } pd_crowdloans_update_proxy_V17_t;
+
+#define PD_CALL_CROWDLOANS_UPDATE_LEASES_BONUS_V17 21
+typedef struct {
+    pd_LeasePeriod_V17_t lease_start;
+    pd_LeasePeriod_V17_t lease_end;
+    pd_BonusConfigBalanceOfT_V17_t bonus_config;
+} pd_crowdloans_update_leases_bonus_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_UPDATE_COMMISSION_RATE_V17 21
+typedef struct {
+    pd_Rate_V17_t commission_rate;
+} pd_liquidstaking_update_commission_rate_V17_t;
+
+#define PD_CALL_LIQUIDSTAKING_FAST_MATCH_UNSTAKE_V17 22
+typedef struct {
+    pd_VecAccountId_V17_t unstaker_list;
+} pd_liquidstaking_fast_match_unstake_V17_t;
 
 #define PD_CALL_GENERALCOUNCILMEMBERSHIP_ADD_MEMBER_V17 0
 typedef struct {
@@ -1118,6 +1157,16 @@ typedef struct {
     pd_AssetIdOf_V17_t lp_token_id;
 } pd_amm_create_pool_V17_t;
 
+#define PD_CALL_AMM_UPDATE_PROTOCOL_FEE_V17 3
+typedef struct {
+    pd_Ratio_V17_t protocol_fee;
+} pd_amm_update_protocol_fee_V17_t;
+
+#define PD_CALL_AMM_UPDATE_PROTOCOL_FEE_RECEIVER_V17 4
+typedef struct {
+    pd_AccountId_V17_t protocol_fee_receiver;
+} pd_amm_update_protocol_fee_receiver_V17_t;
+
 #define PD_CALL_AMMROUTE_SWAP_EXACT_TOKENS_FOR_TOKENS_V17 0
 typedef struct {
     pd_VecAssetIdOf_V17_t route;
@@ -1324,16 +1373,6 @@ typedef struct {
     pd_Balance_t minimum_deposit;
 } pd_streaming_set_minimum_deposit_V17_t;
 
-#define PD_CALL_PARACHAINSYSTEM_AUTHORIZE_UPGRADE_V17 2
-typedef struct {
-    pd_Hash_t code_hash;
-} pd_parachainsystem_authorize_upgrade_V17_t;
-
-#define PD_CALL_PARACHAINSYSTEM_ENACT_AUTHORIZED_UPGRADE_V17 3
-typedef struct {
-    pd_Vecu8_t code;
-} pd_parachainsystem_enact_authorized_upgrade_V17_t;
-
 #endif
 
 typedef union {
@@ -1344,6 +1383,11 @@ typedef union {
     pd_session_set_keys_V17_t session_set_keys_V17;
     pd_session_purge_keys_V17_t session_purge_keys_V17;
 #ifdef SUBSTRATE_PARSER_FULL
+#ifndef TARGET_NANOS
+    pd_xtokens_transfer_V17_t xtokens_transfer_V17;
+    pd_xtokens_transfer_multiasset_V17_t xtokens_transfer_multiasset_V17;
+    pd_xtokens_transfer_multicurrencies_V17_t xtokens_transfer_multicurrencies_V17;
+#endif
     pd_timestamp_set_V17_t timestamp_set_V17;
     pd_balances_force_unreserve_V17_t balances_force_unreserve_V17;
     pd_assets_create_V17_t assets_create_V17;
@@ -1391,6 +1435,7 @@ typedef union {
     pd_identity_quit_sub_V17_t identity_quit_sub_V17;
     pd_democracy_propose_V17_t democracy_propose_V17;
     pd_democracy_second_V17_t democracy_second_V17;
+    pd_democracy_vote_V17_t democracy_vote_V17;
     pd_democracy_emergency_cancel_V17_t democracy_emergency_cancel_V17;
     pd_democracy_external_propose_V17_t democracy_external_propose_V17;
     pd_democracy_external_propose_majority_V17_t democracy_external_propose_majority_V17;
@@ -1448,7 +1493,6 @@ typedef union {
     pd_collatorselection_set_candidacy_bond_V17_t collatorselection_set_candidacy_bond_V17;
     pd_collatorselection_register_as_candidate_V17_t collatorselection_register_as_candidate_V17;
     pd_collatorselection_leave_intent_V17_t collatorselection_leave_intent_V17;
-    pd_xtokens_transfer_V17_t xtokens_transfer_V17;
     pd_vesting_claim_V17_t vesting_claim_V17;
     pd_vesting_vested_transfer_V17_t vesting_vested_transfer_V17;
     pd_vesting_update_vesting_schedules_V17_t vesting_update_vesting_schedules_V17;
@@ -1476,6 +1520,9 @@ typedef union {
     pd_crowdloans_dissolve_vault_V17_t crowdloans_dissolve_vault_V17;
     pd_crowdloans_refund_for_V17_t crowdloans_refund_for_V17;
     pd_crowdloans_update_proxy_V17_t crowdloans_update_proxy_V17;
+    pd_crowdloans_update_leases_bonus_V17_t crowdloans_update_leases_bonus_V17;
+    pd_liquidstaking_update_commission_rate_V17_t liquidstaking_update_commission_rate_V17;
+    pd_liquidstaking_fast_match_unstake_V17_t liquidstaking_fast_match_unstake_V17;
     pd_generalcouncilmembership_add_member_V17_t generalcouncilmembership_add_member_V17;
     pd_generalcouncilmembership_remove_member_V17_t generalcouncilmembership_remove_member_V17;
     pd_generalcouncilmembership_swap_member_V17_t generalcouncilmembership_swap_member_V17;
@@ -1521,6 +1568,8 @@ typedef union {
     pd_amm_add_liquidity_V17_t amm_add_liquidity_V17;
     pd_amm_remove_liquidity_V17_t amm_remove_liquidity_V17;
     pd_amm_create_pool_V17_t amm_create_pool_V17;
+    pd_amm_update_protocol_fee_V17_t amm_update_protocol_fee_V17;
+    pd_amm_update_protocol_fee_receiver_V17_t amm_update_protocol_fee_receiver_V17;
     pd_ammroute_swap_exact_tokens_for_tokens_V17_t ammroute_swap_exact_tokens_for_tokens_V17;
     pd_ammroute_swap_tokens_for_exact_tokens_V17_t ammroute_swap_tokens_for_exact_tokens_V17;
     pd_currencyadapter_force_set_lock_V17_t currencyadapter_force_set_lock_V17;
@@ -1551,8 +1600,6 @@ typedef union {
     pd_streaming_cancel_V17_t streaming_cancel_V17;
     pd_streaming_withdraw_V17_t streaming_withdraw_V17;
     pd_streaming_set_minimum_deposit_V17_t streaming_set_minimum_deposit_V17;
-    pd_parachainsystem_authorize_upgrade_V17_t parachainsystem_authorize_upgrade_V17;
-    pd_parachainsystem_enact_authorized_upgrade_V17_t parachainsystem_enact_authorized_upgrade_V17;
 #endif
 } pd_MethodBasic_V17_t;
 
@@ -1576,6 +1623,8 @@ typedef struct {
 } pd_balances_transfer_keep_alive_V17_t;
 
 #ifdef SUBSTRATE_PARSER_FULL
+#ifndef TARGET_NANOS
+#endif
 #define PD_CALL_SYSTEM_FILL_BLOCK_V17 0
 typedef struct {
     pd_Perbill_V17_t ratio;
@@ -1909,6 +1958,8 @@ typedef union {
     pd_balances_force_transfer_V17_t balances_force_transfer_V17;
     pd_balances_transfer_keep_alive_V17_t balances_transfer_keep_alive_V17;
 #ifdef SUBSTRATE_PARSER_FULL
+#ifndef TARGET_NANOS
+#endif
     pd_system_fill_block_V17_t system_fill_block_V17;
     pd_system_remark_V17_t system_remark_V17;
     pd_system_set_heap_pages_V17_t system_set_heap_pages_V17;

@@ -225,29 +225,6 @@ typedef struct {
 } pd_JunctionV1X8_V17_t;
 
 typedef struct {
-    pd_u128_t value;
-} pd_Rate_V17_t;
-
-typedef struct {
-    uint32_t value;
-} pd_Ratio_V17_t;
-
-typedef struct {
-    pd_Rate_V17_t baseRate;
-} pd_CurveModel_V17_t;
-
-typedef struct {
-    uint32_t value;
-} pd_EraIndex_V17_t;
-
-typedef struct {
-    pd_Rate_V17_t baseRate;
-    pd_Rate_V17_t jumpRate;
-    pd_Rate_V17_t fullRate;
-    pd_Ratio_V17_t jumpUtilization;
-} pd_JumpModel_V17_t;
-
-typedef struct {
     uint8_t value;
     union {
         pd_JunctionV0X1_V17_t x1;
@@ -280,13 +257,108 @@ typedef struct {
 } pd_JunctionsV1_V17_t;
 
 typedef struct {
+    uint8_t value;
+    union {
+        const uint8_t* _ptr;
+        pd_Compactu128_t index;
+        pd_Bytes_t blob;
+    };
+} pd_AssetInstance_V17_t;
+
+typedef struct {
+    pd_JunctionsV0_V17_t junctions;
+} pd_MultiLocationV0_V17_t;
+
+typedef struct {
+    uint8_t parents;
+    pd_JunctionsV1_V17_t interior;
+} pd_MultiLocationV1_V17_t;
+
+typedef struct {
+    pd_u128_t value;
+} pd_Rate_V17_t;
+
+typedef struct {
+    uint32_t value;
+} pd_Ratio_V17_t;
+
+typedef struct {
+    pd_Bytes_t id;
+    pd_Compactu128_t amount;
+} pd_AbstractFungible_V17_t;
+
+typedef struct {
+    pd_Bytes_t _class;
+    pd_AssetInstance_V17_t instance;
+} pd_AbstractNonFungible_V17_t;
+
+typedef struct {
+    pd_MultiLocationV0_V17_t id;
+    pd_CompactBalance_t amount;
+} pd_ConcreteFungible_V17_t;
+
+typedef struct {
+    pd_MultiLocationV0_V17_t _class;
+    pd_AssetInstance_V17_t instance;
+} pd_ConcreteNonFungible_V17_t;
+
+typedef struct {
+    uint32_t value;
+} pd_CurrencyId_V17_t;
+
+typedef struct {
+    pd_Rate_V17_t baseRate;
+} pd_CurveModel_V17_t;
+
+typedef struct {
+    uint32_t value;
+} pd_EraIndex_V17_t;
+
+typedef struct {
+    uint8_t value;
+    union {
+        pd_Compactu128_t fungible;
+        pd_AssetInstance_V17_t nonFungible;
+    };
+} pd_Fungibility_V17_t;
+
+typedef struct {
+    pd_Rate_V17_t baseRate;
+    pd_Rate_V17_t jumpRate;
+    pd_Rate_V17_t fullRate;
+    pd_Ratio_V17_t jumpUtilization;
+} pd_JumpModel_V17_t;
+
+typedef struct {
+    uint8_t value;
+    union {
+        pd_MultiLocationV1_V17_t concrete;
+        pd_Bytes_t abstract;
+    };
+} pd_MultiAssetId_V17_t;
+
+typedef struct {
     pd_Compactu128_t value;
     pd_Compactu32_t era;
 } pd_UnlockChunk_V17_t;
 
 typedef struct {
+    uint8_t value;
+} pd_Vote_V17_t;
+
+typedef struct {
     const uint8_t* _ptr;
 } pd_AccountId_V17_t;
+
+typedef struct {
+    pd_BalanceOf_t aye;
+    pd_BalanceOf_t nay;
+} pd_AccountVoteSplit_V17_t;
+
+typedef struct {
+    pd_Vote_V17_t vote;
+    pd_BalanceOf_t balance;
+} pd_AccountVoteStandard_V17_t;
 
 typedef struct {
     uint32_t value;
@@ -301,10 +373,6 @@ typedef struct {
 } pd_ContributionStrategy_V17_t;
 
 typedef struct {
-    uint32_t value;
-} pd_CurrencyId_V17_t;
-
-typedef struct {
     uint8_t value;
     union {
         pd_JumpModel_V17_t jump;
@@ -317,13 +385,21 @@ typedef struct {
 } pd_MarketState_V17_t;
 
 typedef struct {
-    pd_JunctionsV0_V17_t junctions;
-} pd_MultiLocationV0_V17_t;
+    uint8_t value;
+    union {
+        pd_Bytes_t abstract;
+        pd_MultiLocationV0_V17_t concrete;
+        pd_AbstractFungible_V17_t abstractFungible;
+        pd_AbstractNonFungible_V17_t abstractNonFungible;
+        pd_ConcreteFungible_V17_t concreteFungible;
+        pd_ConcreteNonFungible_V17_t concreteNonFungible;
+    };
+} pd_MultiAssetV0_V17_t;
 
 typedef struct {
-    uint8_t parents;
-    pd_JunctionsV1_V17_t interior;
-} pd_MultiLocationV1_V17_t;
+    pd_MultiAssetId_V17_t assetId;
+    pd_Fungibility_V17_t fungibility;
+} pd_MultiAssetV1_V17_t;
 
 typedef struct {
     uint8_t value;
@@ -333,6 +409,11 @@ typedef struct {
     pd_BlockNumber_t height;
     uint32_t index;
 } pd_Timepoint_V17_t;
+
+typedef struct {
+    pd_CurrencyId_V17_t currencyid;
+    pd_u128_t amount;
+} pd_TupleCurrencyIdu128_V17_t;
 
 typedef struct {
     uint64_t _len;
@@ -354,6 +435,14 @@ typedef struct {
 } pd_VestingScheduleOf_V17_t;
 
 typedef struct {
+    uint8_t value;
+    union {
+        pd_AccountVoteStandard_V17_t voteStandard;
+        pd_AccountVoteSplit_V17_t voteSplit;
+    };
+} pd_AccountVote_V17_t;
+
+typedef struct {
     pd_AssetIdOf_V17_t assetid1;
     pd_AssetIdOf_V17_t assetid2;
 } pd_AssetIdOfAssetIdOf_V17_t;
@@ -362,6 +451,20 @@ typedef struct {
     pd_u128_t balance1;
     pd_u128_t balance2;
 } pd_BalanceOfBalanceOf_V17_t;
+
+typedef struct {
+    pd_u128_t bonusPerToken;
+    uint64_t startTime;
+    uint64_t endTime;
+} pd_BonusConfigBalanceOfT_V17_t;
+
+typedef struct {
+    uint8_t value;
+    union {
+        pd_MultiAssetV0_V17_t multiassetV0;
+        pd_MultiAssetV1_V17_t multiassetV1;
+    };
+} pd_BoxVersionedMultiAsset_V17_t;
 
 typedef struct {
     uint8_t value;
@@ -450,6 +553,12 @@ typedef struct {
 typedef struct {
     pd_Vecu8_t value;
 } pd_TeleAccount_V17_t;
+
+typedef struct {
+    uint64_t _len;
+    const uint8_t* _ptr;
+    uint64_t _lenBuffer;
+} pd_VecTupleCurrencyIdu128_V17_t;
 
 typedef struct {
     uint64_t _len;
