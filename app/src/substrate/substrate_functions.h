@@ -39,6 +39,7 @@ parser_error_t _readu8_array_20(parser_context_t* c, pd_u8_array_20_t* v);
 parser_error_t _readCompactu128(parser_context_t* c, pd_Compactu128_t* v);
 parser_error_t _readu128(parser_context_t* c, pd_u128_t* v);
 parser_error_t _readBalance(parser_context_t* c, pd_Balance_t* v);
+parser_error_t _readBalanceOf(parser_context_t* c, pd_BalanceOf_t* v);
 parser_error_t _readCall(parser_context_t* c, pd_Call_t* v);
 parser_error_t _readVecu8(parser_context_t* c, pd_Vecu8_t* v);
 parser_error_t _readProposal(parser_context_t* c, pd_Proposal_t* v);
@@ -137,6 +138,13 @@ parser_error_t _toStringu128(
 
 parser_error_t _toStringBalance(
     const pd_Balance_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringBalanceOf(
+    const pd_BalanceOf_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,

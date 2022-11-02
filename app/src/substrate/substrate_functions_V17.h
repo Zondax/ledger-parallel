@@ -26,16 +26,24 @@ extern "C" {
 #include <stdint.h>
 
 // Read functions
+parser_error_t _readAbstractFungible_V17(parser_context_t* c, pd_AbstractFungible_V17_t* v);
+parser_error_t _readAbstractNonFungible_V17(parser_context_t* c, pd_AbstractNonFungible_V17_t* v);
 parser_error_t _readAccountId32_V17(parser_context_t* c, pd_AccountId32_V17_t* v);
 parser_error_t _readAccountId_V17(parser_context_t* c, pd_AccountId_V17_t* v);
 parser_error_t _readAccountIndex64_V17(parser_context_t* c, pd_AccountIndex64_V17_t* v);
 parser_error_t _readAccountKey20_V17(parser_context_t* c, pd_AccountKey20_V17_t* v);
+parser_error_t _readAccountVoteSplit_V17(parser_context_t* c, pd_AccountVoteSplit_V17_t* v);
+parser_error_t _readAccountVoteStandard_V17(parser_context_t* c, pd_AccountVoteStandard_V17_t* v);
+parser_error_t _readAccountVote_V17(parser_context_t* c, pd_AccountVote_V17_t* v);
 parser_error_t _readAssetIdOfAssetIdOf_V17(parser_context_t* c, pd_AssetIdOfAssetIdOf_V17_t* v);
 parser_error_t _readAssetIdOfT_V17(parser_context_t* c, pd_AssetIdOfT_V17_t* v);
 parser_error_t _readAssetIdOf_V17(parser_context_t* c, pd_AssetIdOf_V17_t* v);
+parser_error_t _readAssetInstance_V17(parser_context_t* c, pd_AssetInstance_V17_t* v);
 parser_error_t _readBalanceOfBalanceOf_V17(parser_context_t* c, pd_BalanceOfBalanceOf_V17_t* v);
 parser_error_t _readBodyId_V17(parser_context_t* c, pd_BodyId_V17_t* v);
 parser_error_t _readBodyPart_V17(parser_context_t* c, pd_BodyPart_V17_t* v);
+parser_error_t _readBonusConfigBalanceOfT_V17(parser_context_t* c, pd_BonusConfigBalanceOfT_V17_t* v);
+parser_error_t _readBoxVersionedMultiAsset_V17(parser_context_t* c, pd_BoxVersionedMultiAsset_V17_t* v);
 parser_error_t _readBoxVersionedMultiLocation_V17(parser_context_t* c, pd_BoxVersionedMultiLocation_V17_t* v);
 parser_error_t _readBridgeToken_V17(parser_context_t* c, pd_BridgeToken_V17_t* v);
 parser_error_t _readBridgeType_V17(parser_context_t* c, pd_BridgeType_V17_t* v);
@@ -44,6 +52,8 @@ parser_error_t _readChainId_V17(parser_context_t* c, pd_ChainId_V17_t* v);
 parser_error_t _readChainNonce_V17(parser_context_t* c, pd_ChainNonce_V17_t* v);
 parser_error_t _readChildStorageKind_V17(parser_context_t* c, pd_ChildStorageKind_V17_t* v);
 parser_error_t _readCompactAccountIndex_V17(parser_context_t* c, pd_CompactAccountIndex_V17_t* v);
+parser_error_t _readConcreteFungible_V17(parser_context_t* c, pd_ConcreteFungible_V17_t* v);
+parser_error_t _readConcreteNonFungible_V17(parser_context_t* c, pd_ConcreteNonFungible_V17_t* v);
 parser_error_t _readContributionStrategy_V17(parser_context_t* c, pd_ContributionStrategy_V17_t* v);
 parser_error_t _readConviction_V17(parser_context_t* c, pd_Conviction_V17_t* v);
 parser_error_t _readCurrencyId_V17(parser_context_t* c, pd_CurrencyId_V17_t* v);
@@ -52,6 +62,7 @@ parser_error_t _readDerivativeIndex_V17(parser_context_t* c, pd_DerivativeIndex_
 parser_error_t _readDestroyWitness_V17(parser_context_t* c, pd_DestroyWitness_V17_t* v);
 parser_error_t _readEraIndex_V17(parser_context_t* c, pd_EraIndex_V17_t* v);
 parser_error_t _readFraction_V17(parser_context_t* c, pd_Fraction_V17_t* v);
+parser_error_t _readFungibility_V17(parser_context_t* c, pd_Fungibility_V17_t* v);
 parser_error_t _readInterestRateModel_V17(parser_context_t* c, pd_InterestRateModel_V17_t* v);
 parser_error_t _readJumpModel_V17(parser_context_t* c, pd_JumpModel_V17_t* v);
 parser_error_t _readJunctionV0X1_V17(parser_context_t* c, pd_JunctionV0X1_V17_t* v);
@@ -80,6 +91,9 @@ parser_error_t _readLookupasStaticLookupSource_V17(parser_context_t* c, pd_Looku
 parser_error_t _readMarketBalanceOfT_V17(parser_context_t* c, pd_MarketBalanceOfT_V17_t* v);
 parser_error_t _readMarketState_V17(parser_context_t* c, pd_MarketState_V17_t* v);
 parser_error_t _readMemberCount_V17(parser_context_t* c, pd_MemberCount_V17_t* v);
+parser_error_t _readMultiAssetId_V17(parser_context_t* c, pd_MultiAssetId_V17_t* v);
+parser_error_t _readMultiAssetV0_V17(parser_context_t* c, pd_MultiAssetV0_V17_t* v);
+parser_error_t _readMultiAssetV1_V17(parser_context_t* c, pd_MultiAssetV1_V17_t* v);
 parser_error_t _readMultiLocationV0_V17(parser_context_t* c, pd_MultiLocationV0_V17_t* v);
 parser_error_t _readMultiLocationV1_V17(parser_context_t* c, pd_MultiLocationV1_V17_t* v);
 parser_error_t _readNetworkId_V17(parser_context_t* c, pd_NetworkId_V17_t* v);
@@ -106,20 +120,37 @@ parser_error_t _readStreamId_V17(parser_context_t* c, pd_StreamId_V17_t* v);
 parser_error_t _readTeleAccount_V17(parser_context_t* c, pd_TeleAccount_V17_t* v);
 parser_error_t _readTimepoint_V17(parser_context_t* c, pd_Timepoint_V17_t* v);
 parser_error_t _readTimestamp_V17(parser_context_t* c, pd_Timestamp_V17_t* v);
+parser_error_t _readTupleCurrencyIdu128_V17(parser_context_t* c, pd_TupleCurrencyIdu128_V17_t* v);
 parser_error_t _readUnlockChunk_V17(parser_context_t* c, pd_UnlockChunk_V17_t* v);
 parser_error_t _readUnstakeProvider_V17(parser_context_t* c, pd_UnstakeProvider_V17_t* v);
 parser_error_t _readVecAccountId_V17(parser_context_t* c, pd_VecAccountId_V17_t* v);
 parser_error_t _readVecAssetIdOf_V17(parser_context_t* c, pd_VecAssetIdOf_V17_t* v);
 parser_error_t _readVecEraIndex_V17(parser_context_t* c, pd_VecEraIndex_V17_t* v);
+parser_error_t _readVecTupleCurrencyIdu128_V17(parser_context_t* c, pd_VecTupleCurrencyIdu128_V17_t* v);
 parser_error_t _readVecUnlockChunk_V17(parser_context_t* c, pd_VecUnlockChunk_V17_t* v);
 parser_error_t _readVecVestingScheduleOf_V17(parser_context_t* c, pd_VecVestingScheduleOf_V17_t* v);
 parser_error_t _readVestingScheduleOf_V17(parser_context_t* c, pd_VestingScheduleOf_V17_t* v);
+parser_error_t _readVote_V17(parser_context_t* c, pd_Vote_V17_t* v);
 parser_error_t _readWeight_V17(parser_context_t* c, pd_Weight_V17_t* v);
 parser_error_t _readXcmCall_V17(parser_context_t* c, pd_XcmCall_V17_t* v);
 parser_error_t _readXcmWeightFeeMiscWeightBalanceOfT_V17(parser_context_t* c, pd_XcmWeightFeeMiscWeightBalanceOfT_V17_t* v);
 parser_error_t _readu8_array_32_V17(parser_context_t* c, pd_u8_array_32_V17_t* v);
 
 // toString functions
+parser_error_t _toStringAbstractFungible_V17(
+    const pd_AbstractFungible_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringAbstractNonFungible_V17(
+    const pd_AbstractNonFungible_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringAccountId32_V17(
     const pd_AccountId32_V17_t* v,
     char* outValue,
@@ -148,6 +179,27 @@ parser_error_t _toStringAccountKey20_V17(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
+parser_error_t _toStringAccountVoteSplit_V17(
+    const pd_AccountVoteSplit_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringAccountVoteStandard_V17(
+    const pd_AccountVoteStandard_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringAccountVote_V17(
+    const pd_AccountVote_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringAssetIdOfAssetIdOf_V17(
     const pd_AssetIdOfAssetIdOf_V17_t* v,
     char* outValue,
@@ -169,6 +221,13 @@ parser_error_t _toStringAssetIdOf_V17(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
+parser_error_t _toStringAssetInstance_V17(
+    const pd_AssetInstance_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringBalanceOfBalanceOf_V17(
     const pd_BalanceOfBalanceOf_V17_t* v,
     char* outValue,
@@ -185,6 +244,20 @@ parser_error_t _toStringBodyId_V17(
 
 parser_error_t _toStringBodyPart_V17(
     const pd_BodyPart_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringBonusConfigBalanceOfT_V17(
+    const pd_BonusConfigBalanceOfT_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringBoxVersionedMultiAsset_V17(
+    const pd_BoxVersionedMultiAsset_V17_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -246,6 +319,20 @@ parser_error_t _toStringCompactAccountIndex_V17(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
+parser_error_t _toStringConcreteFungible_V17(
+    const pd_ConcreteFungible_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringConcreteNonFungible_V17(
+    const pd_ConcreteNonFungible_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringContributionStrategy_V17(
     const pd_ContributionStrategy_V17_t* v,
     char* outValue,
@@ -297,6 +384,13 @@ parser_error_t _toStringEraIndex_V17(
 
 parser_error_t _toStringFraction_V17(
     const pd_Fraction_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringFungibility_V17(
+    const pd_Fungibility_V17_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
@@ -498,6 +592,27 @@ parser_error_t _toStringMemberCount_V17(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
+parser_error_t _toStringMultiAssetId_V17(
+    const pd_MultiAssetId_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringMultiAssetV0_V17(
+    const pd_MultiAssetV0_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringMultiAssetV1_V17(
+    const pd_MultiAssetV1_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringMultiLocationV0_V17(
     const pd_MultiLocationV0_V17_t* v,
     char* outValue,
@@ -680,6 +795,13 @@ parser_error_t _toStringTimestamp_V17(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
+parser_error_t _toStringTupleCurrencyIdu128_V17(
+    const pd_TupleCurrencyIdu128_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringUnlockChunk_V17(
     const pd_UnlockChunk_V17_t* v,
     char* outValue,
@@ -715,6 +837,13 @@ parser_error_t _toStringVecEraIndex_V17(
     uint8_t pageIdx,
     uint8_t* pageCount);
 
+parser_error_t _toStringVecTupleCurrencyIdu128_V17(
+    const pd_VecTupleCurrencyIdu128_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
 parser_error_t _toStringVecUnlockChunk_V17(
     const pd_VecUnlockChunk_V17_t* v,
     char* outValue,
@@ -731,6 +860,13 @@ parser_error_t _toStringVecVestingScheduleOf_V17(
 
 parser_error_t _toStringVestingScheduleOf_V17(
     const pd_VestingScheduleOf_V17_t* v,
+    char* outValue,
+    uint16_t outValueLen,
+    uint8_t pageIdx,
+    uint8_t* pageCount);
+
+parser_error_t _toStringVote_V17(
+    const pd_Vote_V17_t* v,
     char* outValue,
     uint16_t outValueLen,
     uint8_t pageIdx,
